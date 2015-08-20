@@ -1,0 +1,12 @@
+class bulbClass{
+  
+//Constructor
+bulbClass(){
+  
+}
+ 
+ 
+ 
+ 
+  
+}
