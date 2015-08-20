@@ -1,14 +1,23 @@
 import org.puredata.processing.PureData;
-//BULLSHIT CHANGE
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+
+//import processing.sound.*;
+//SoundFile file;
+
+//Playing Audio File
+Minim minim;
+AudioPlayer player;
+
 //Shared Variables
 
 //Office Screen
-//int canX = 1650;
-//int canY = 600;
+int canX = 1650;
+int canY = 600;
 
 //Mac
-int canX = 600;
-int canY = 200;
+//int canX = 600;
+//int canY = 200;
 
 boolean first, second;
 int backCount = 0;
@@ -67,11 +76,20 @@ PureData pd;
 
 void setup() {
 
+  minim = new Minim(this);
+  //PC
+  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(1).mp3");
+  player.play();
+//  file = new SoundFile(this, "C:/Users/lt669/Desktop/music/music(verb).mp3");
+//  file.play();
+  
   //Setup PD patch
-  pd = new PureData(this, 44100, 0, 2); //6 outputs
-  //  pd.openPatch("/Users/Lewis/Developer/Lights_Project/Lights/Main/Main/patch.pd");  
-  pd.openPatch("patch.pd");
-  pd.start();
+//  pd = new PureData(this, 44100, 0, 2); //6 outputs
+//  //  pd.openPatch("/Users/Lewis/Developer/Lights_Project/Lights/Main/Main/patch.pd");  
+//  pd.openPatch("patch.pd");
+//  pd.start();
+  
+  
 
   //Load .txt files to singer classes
   PART1 = new textFileReader("Part1.txt");
@@ -125,7 +143,7 @@ void setup() {
   //  sq6.setRange(PART6.getMinPitch(), PART6.getMaxPitch(), PART6.getMinDuration(), PART6.getMaxDuration());
 
   //Send start bang to PD
-  pd.sendFloat("bang",startBang);
+ // pd.sendFloat("bang",startBang);
 
   size(canX, canY);
   colorMode(HSB, 360, 100, 100);
@@ -171,13 +189,13 @@ void draw() {
   runSquigleClass();
 
   //Run PD function
-  PD();
+  //PD();
 }
 
 void mousePressed() {
   check = 1;
   redraw();
-  pd.sendFloat("stopBang",stopBang);
+//  pd.sendFloat("stopBang",stopBang);
 }
 
 void mouseReleased() {
