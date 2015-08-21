@@ -17,6 +17,7 @@ class squigleClass {
   int divide = 16;
   int randomDiameter;
   int lowerD;
+  int noteON;
 
   boolean m;
   boolean n;
@@ -51,9 +52,10 @@ class squigleClass {
     yDirection = posY;
   }
 
-  void calcShape(int inputPoints) {
+  void calcShape(int inputPoints, int lvl) {
 //    println("inputPoints: ", inputPoints);
-    points = round(map(inputPoints, minDuration, maxDuration, 0, 10)); //Make the chain longer
+    points = round(map(inputPoints, minDuration, maxDuration, 10, 70)); //Make the chain longer
+    noteON = lvl;
     numberOfPoints[1] = numberOfPoints[0];
     numberOfPoints[0] = points;
     //After ever 100 counts, randomise movement
@@ -67,12 +69,12 @@ class squigleClass {
     }
 
     //Calculate the direction the 'head' will be moving in
-    if (check == 0) {
+    if (noteON == 0) {
       //Random number to slightly move the hovering circle
       float p = random(lowerD, randomDiameter);
       xDirection += cos(TWO_PI*count/10)*p; 
       yDirection += sin(TWO_PI*count/10)*p;
-    } else if (check == 1) {
+    } else if (noteON == 1) {
 
       if (randMove ==0) {
         float p = random(-5, 5);
@@ -287,8 +289,8 @@ class squigleClass {
       endShape();
     } else if (choice == 5) {
       stroke(xDirection, yDirection, 100); 
-      strokeWeight(2);
-      beginShape(TRIANGLES); 
+      strokeWeight(10);
+      beginShape(POINTS); 
       if (largerUsed == true) {
         for (int i=0; i<xArray.length; i++) {
           vertex(xArray[i], yArray[i]);
@@ -324,7 +326,7 @@ class squigleClass {
         }
       }
       endShape();
-    } else if (choice == 7) {
+    } else if (choice == 7 || choice == 8) {
       backCount = 0;
       int xColour = round(map(xDirection, 0, canX, 0, 360));
       noStroke();
@@ -363,12 +365,28 @@ class squigleClass {
       xDirection = 0;
     } else if (yDirection <= 0) {
       yDirection = 0;
-    } else if ( xDirection >= canX)
+    } else if ( xDirection >= squigleCanX)
     {
-      xDirection = canX;
-    } else if (yDirection >= canY) {
-      yDirection = canY;
+      xDirection = squigleCanX;
+    } else if (yDirection >= squigleCanY) {
+      yDirection = squigleCanY;
     }
+    
+//        //Calculate whether the points have 'gone through a wall'
+//     if(xDirection > canX){
+//      xDirection -= canX; 
+//     } else if (xDirection < 0){
+//      xDirection += canX; 
+//     }
+//     
+//     if(yDirection > canY){
+//       yDirection -= canY;
+//     } else if (yDirection < 0){
+//       yDirection += canY;
+//     }
+    
+    
+    
   }
 
   void setRange(int MinPitch, int MaxPitch, int MinDuration, int MaxDuration) {

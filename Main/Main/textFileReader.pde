@@ -24,7 +24,7 @@ class textFileReader {
 
   void read() {
     text = loadStrings(file); 
-    println("text: ", text.length);
+//    println("text: ", text.length);
     singerInfo = new int[3][text.length]; //1.Start time 2.Frequency 3.Note duration ms
 
     for (int i=0; i< (text.length/3); i++) {

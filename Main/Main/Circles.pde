@@ -25,8 +25,8 @@ class Cir {
   int minDuration;
   int maxDuration;
 
-  int movement = 1;
-  int sizeMultiplier = 5;
+  int movement;
+  int sizeMultiplier;
 
   boolean w;
 
@@ -40,9 +40,39 @@ class Cir {
 
   void drawCir() {
 
+    float incX = 0;
+    float incY = 0;
+
+    if (select == 3 || select == 4) {
+      movement = 2;
+      sizeMultiplier = 1;
+      incX = random(-(size*sizeMultiplier)*movement, (size*sizeMultiplier)*movement);
+      incY = random(-(size*sizeMultiplier)*movement, (size*sizeMultiplier)*movement);
+    } else if (select == 5) {
+      movement = 1;
+      sizeMultiplier = 1;
+      incX = random(-(size)*movement, size*movement);
+      incY = random(-(size)*movement, size*movement);
+    } else if (select == 6) {
+      int randomMovement = round(random(3));
+
+      if (randomMovement == 0) {
+        incX = size*sizeMultiplier;
+        incY = size*sizeMultiplier;
+      } else if (randomMovement == 1) {
+        incX = -size*sizeMultiplier;
+        incY = size*sizeMultiplier;
+      } else if (randomMovement == 2) {
+        incX = size*sizeMultiplier;
+        incY = -size*sizeMultiplier;
+      } else if (randomMovement == 3) {
+        incX = -size*sizeMultiplier;
+        incY = -size*sizeMultiplier;
+      }
+    }
+
     //Random movement variables
-    float incX = random(-size*movement, size*movement);
-    float incY = random(-size*movement, size*movement);
+
 
     //Update position
     posX += incX;
@@ -68,8 +98,8 @@ class Cir {
     } else if (DONE != true && secondPassed == true) { //If its maximum size is not reached, increase size
       size++;
     } else if (DONE == true && size != 0 || size > maxSize) {
-     // size = abs(size-1);
-     size--;
+      // size = abs(size-1);
+      size--;
     }
 
     //Check if ready for the next value in the array
@@ -81,7 +111,7 @@ class Cir {
       NEXT = false;
     }
 
-  //  println("DONE: "+DONE+ " size: "+size+" maxSize: "+maxSize);
+    //  println("DONE: "+DONE+ " size: "+size+" maxSize: "+maxSize);
     //Draw Line
     //  stroke(250,250,250);
     //  line(canX/2,canY/2,posX,posY);
@@ -104,9 +134,11 @@ class Cir {
       //      println("bright: " + bright + " - Saturation: " + Saturation + " - Brightness: " + Brightness);
 
       // stroke(bright,Saturation, Brightness);
-      noStroke();
-      fill(bright, Saturation, Brightness, bright/2);
-      ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
+      Circles.beginDraw();
+      Circles.noStroke();
+      Circles.fill(bright, Saturation, Brightness, bright/2);
+      Circles.ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
+      Circles.endDraw();
     } else if (choice == 2) {
 
       colorMode(HSB, 360, 100, 100);
@@ -122,9 +154,9 @@ class Cir {
       //     // stroke((255 - bright),(255 - bright), (255 - bright), (255 - bright));
       //      fill(bright, 0, 0, bright);
       //      ellipse(posX, posY, size*5, size*5);
-    } else if (choice == 3) {
+    } else if (choice == 3 || choice == 8) {
       colorMode(HSB, 360, 100, 100);
-      map(bright, 0, 12, 0, 360);
+      // map(bright, 0, 12, 0, 360);
       stroke(bright, Saturation, Brightness, bright);
       fill(0, 0, BGbri, Saturation); //Setting last value to 0 makes the circles centres transparent 
       ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
@@ -146,14 +178,14 @@ class Cir {
 
   void setSize(int SIZE) {
     maxSize = int(map(SIZE, minDuration, maxDuration, 0, 10));
-  //  println("SIZE: "+ SIZE + " minD: " + minDuration + " maxD: " + maxDuration + " maxSize: "+maxSize);
+    //  println("SIZE: "+ SIZE + " minD: " + minDuration + " maxD: " + maxDuration + " maxSize: "+maxSize);
   }
 
   void setBright(int BRIGHT) {
     //  bright = BRIGHT;
     bright = round(map(BRIGHT, minPitch, maxPitch, 0, 360)); 
-    Saturation = round(map(BRIGHT, 0, 12, 0, 100));
-    Brightness = round(map(BRIGHT, 0, 12, 0, 70));
+    Saturation = round(map(BRIGHT, minPitch, maxPitch, 0, 100));
+    Brightness = round(map(BRIGHT, minPitch, maxPitch, 0, 70));
   }
 
   void setSecondPassed(boolean second) {
