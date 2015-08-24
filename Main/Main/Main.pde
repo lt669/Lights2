@@ -15,8 +15,8 @@ AudioPlayer player;
 int canX = 1650;
 int canY = 600;
 
-int squigleCanX = canX/2;
-int squigleCanY = canY/2;
+int squigleCanX = canX;
+int squigleCanY = canY;
 
 //Mac
 //int canX = 600;
@@ -204,24 +204,27 @@ void draw() {
   PART5.timer();
   PART6.timer();
 
-  //Depending on which key is pressed, select an object
-  Circles.beginDraw();
-  background(-1);
   runCircleClass();
-  Circles.endDraw();
-
-  Squigles.beginDraw();
   runSquigleClass();
-  //  fill(255);
-  //  rect(0,0,canX/2,canY/2);
-  Squigles.endDraw();
 
-  if (choice<4) {
-    image(Circles, 0, x);
-    x++;
-  } else {
-    image(Squigles, canX/2, canY/2);
-  }
+  //Depending on which key is pressed, select an object
+//  Circles.beginDraw();
+//  background(-1);
+//  runCircleClass();
+//  Circles.endDraw();
+//
+//  Squigles.beginDraw();
+//  runSquigleClass();
+//  //  fill(255);
+//  //  rect(0,0,canX/2,canY/2);
+//  Squigles.endDraw();
+//
+//  if (choice<4) {
+//    image(Circles, 0, x);
+//    x++;
+//  } else {
+//    image(Squigles, canX/2, canY/2);
+//  }
   //Run PD function
   //PD();
 }
