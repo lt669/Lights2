@@ -127,7 +127,6 @@ class textFileReader {
   
   int getLvl(){
    if(millis() >= (singerInfo[0][z] + singerInfo[2][z])){
-     println("GOT ZERO");
     return 0;
    } else
    return 1;

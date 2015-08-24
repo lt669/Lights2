@@ -29,6 +29,7 @@ int BGsat = 0;
 int BGbri = 100;
 int colorBright; //graphics brightness variable
 int select; //Bckground colour changer and other variables)
+
 //Cicles Variables
 Table table;
 int dur = 0;
@@ -38,6 +39,12 @@ char circleKey;
 char squigleKey;
 int choice = 0;
 //char choice;
+int circles1X;
+int circles1Y;
+int circles2X;
+int circles2Y;
+int circles3X;
+int circles3Y;
 
 //Squigle Variables
 float check = 0;
@@ -53,6 +60,8 @@ float startBang = 1.0;
 float stopBang = 1.0;
 
 int x =0;
+
+int moveCanvas;
 
 //Set up classes
 squigleClass sq1;
@@ -84,12 +93,18 @@ textFileReader PART6;
 PureData pd;
 
 PGraphics Circles;
+PGraphics Circles1;
+PGraphics Circles2;
+PGraphics Circles3;
 PGraphics Squigles;
 
 void setup() {
 
   //Create PGraphics
   Circles = createGraphics(canX, canY);
+  Circles1 = createGraphics(canX, canY);
+  Circles2 = createGraphics(canX, canY);
+  Circles3 = createGraphics(canX, canY);
   Squigles = createGraphics(squigleCanX, squigleCanY);
 
   minim = new Minim(this);
@@ -165,6 +180,8 @@ void setup() {
   //Send start bang to PD
   // pd.sendFloat("bang",startBang);
 
+
+
   size(canX, canY);
   colorMode(HSB, 360, 100, 100);
   background(0, 0, 100);
@@ -180,22 +197,22 @@ void draw() {
   //  }
   //  backCount++;
 
-  if (pressed == true) {
-    background(BGhue, BGsat, BGbri);
-  }
-
-  if (choice < 4 || choice == 6) {
-    //Fades out parts of the screen
-    noStroke();
-    fill(BGhue, BGsat, BGbri, 10);
-    rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
-  } else if (choice == 7 || choice == 8) {
-    noStroke();
-    fill(BGhue, BGsat, BGbri, 5);
-    rect(0, 0, canX, canY);
-  } else {
-    background(BGhue, BGsat, BGbri);
-  }
+  //  if (pressed == true) {
+  //    background(BGhue, BGsat, BGbri);
+  //  }
+  //
+  //  if (choice < 4 || choice == 6) {
+  //    //Fades out parts of the screen
+  //    noStroke();
+  //    fill(BGhue, BGsat, BGbri, 10);
+  //    rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
+  //  } else if (choice == 7 || choice == 8) {
+  //    noStroke();
+  //    fill(BGhue, BGsat, BGbri, 5);
+  //    rect(0, 0, canX, canY);
+  //  } else {
+  //    background(BGhue, BGsat, BGbri);
+  //  }
 
   PART1.timer();
   PART2.timer();
@@ -204,27 +221,51 @@ void draw() {
   PART5.timer();
   PART6.timer();
 
+  //Draw all Circles  canvas' onto a mina Circle canvas
+  Circles.beginDraw();
+  Circles.colorMode(HSB, 360, 100, 100);
+  Circles.background(BGhue, BGsat, BGbri);
+  Circles.endDraw();
+  image(Circles, 0, 0);
+
+
+
+
+  moveCanvas();
   runCircleClass();
+
   runSquigleClass();
 
+
+  //  Circles.beginDraw();
+  //  
+  //  Circles.colorMode(HSB,360,100,100);
+  //  Circles.noStroke();
+  //  Circles.fill(BGhue, BGsat, BGbri, 10);
+  //  Circles.rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
+  //  runCircleClass();
+  //  Circles.endDraw();
+
+  //image(Circles, 0, 0);
+
   //Depending on which key is pressed, select an object
-//  Circles.beginDraw();
-//  background(-1);
-//  runCircleClass();
-//  Circles.endDraw();
-//
-//  Squigles.beginDraw();
-//  runSquigleClass();
-//  //  fill(255);
-//  //  rect(0,0,canX/2,canY/2);
-//  Squigles.endDraw();
-//
-//  if (choice<4) {
-//    image(Circles, 0, x);
-//    x++;
-//  } else {
-//    image(Squigles, canX/2, canY/2);
-//  }
+  //  Circles.beginDraw();
+  //  background(-1);
+  //  runCircleClass();
+  //  Circles.endDraw();
+  //
+  //  Squigles.beginDraw();
+  //  runSquigleClass();
+  //  //  fill(255);
+  //  //  rect(0,0,canX/2,canY/2);
+  //  Squigles.endDraw();
+
+  //  if (choice<4) {
+  //    image(Circles, 0, x);
+  //    x++;
+  //  } else {
+  //    image(Squigles, canX/2, canY/2);
+  //  }
   //Run PD function
   //PD();
 }
@@ -240,7 +281,9 @@ void mouseReleased() {
 }
 
 void keyPressed() {
+  println("choice: ", choice);
   select = Character.digit(key, 10);
+  backCount = 0;
   if (select == 1) {
     choice++;
   } else if (select == 2) {
@@ -338,6 +381,41 @@ void runSquigleClass() {
   sq6.calcShape(PART6.getDuration(), PART6.getLvl());
   sq6.drawShape();
   sq6.edgeCheck();
+}
+
+void moveCanvas() {
+
+  int canInc = 20;
+  //Initialise canvas locations
+  circles1X = circles1X;
+  circles1Y = circles1Y;
+  circles2X = circles1X;
+  circles2Y = circles1Y + canY;
+  circles3X = circles1X;
+  circles3Y = circles1Y + 2*canY;
+
+  if (choice == 1) {
+    println("circles1Y: ", circles1Y);
+    if (circles1Y < 0) {
+      circles1Y += canInc;
+    } else if (circles1Y > 0) {
+      circles1Y -= canInc;
+    }
+  } else if (choice == 2) {
+    println("circles2Y: ", circles2Y);
+    if (circles2Y < 0) {
+      circles1Y += canInc;
+    } else if (circles2Y > 0) {
+      circles1Y -= canInc;
+    }
+  } else if (choice == 3) {
+    println("circles3Y: ", circles3Y);
+    if (circles3Y < 0) {
+      circles1Y += canInc;
+    } else if (circles3Y > 0) {
+      circles1Y -= canInc;
+    }
+  }
 }
 
 void PD() {

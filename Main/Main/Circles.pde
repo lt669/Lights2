@@ -128,42 +128,80 @@ class Cir {
     //    size = 0;
     //  }
 
-    if (choice == 1) {
-      colorMode(HSB, 360, 100, 100);
-
-      //      println("bright: " + bright + " - Saturation: " + Saturation + " - Brightness: " + Brightness);
-
-      // stroke(bright,Saturation, Brightness);
-      Circles.beginDraw();
-      Circles.noStroke();
-      Circles.fill(bright, Saturation, Brightness, bright/2);
-      Circles.ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
-      Circles.endDraw();
-    } else if (choice == 2) {
-
-      colorMode(HSB, 360, 100, 100);
-      float invert = 100 - Brightness;
-      stroke(0, 0, bright);
-      fill(0, bright, bright, invert);
-      ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
-
-      //      bright = round(map(bright, 0, 360, 0, 255));
-      //      println("bight: ",bright);
-      //      colorMode(RGB,255,255,255);
-      //      stroke(bright, bright, bright);
-      //     // stroke((255 - bright),(255 - bright), (255 - bright), (255 - bright));
-      //      fill(bright, 0, 0, bright);
-      //      ellipse(posX, posY, size*5, size*5);
-    } else if (choice == 3 || choice == 8) {
-      colorMode(HSB, 360, 100, 100);
-      // map(bright, 0, 12, 0, 360);
-      stroke(bright, Saturation, Brightness, bright);
-      fill(0, 0, BGbri, Saturation); //Setting last value to 0 makes the circles centres transparent 
-      ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
+    if (choice == 1 || circles1Y > 0 - canY && circles1Y < canY) {
+      Circles1.beginDraw();
+      //Draw Circles
+      Circles1.colorMode(HSB, 360, 100, 100, 100);
+      if (backCount == 0) {
+        Circles1.background(0, 0, 100, 0);
+      }
+      backCount++;
+      Circles1.smooth();
+      Circles1.noStroke();
+      Circles1.fill(bright, Saturation, Brightness, bright/2);
+      Circles1.ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
+      //Fading Rectangles
+      Circles1.noStroke();
+      Circles1.fill(BGhue, BGsat, BGbri, 10);
+      Circles1.rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
+      Circles1.endDraw();
+      image(Circles1, circles1X, circles1Y);
     }
 
-    //  println("DONE: " + DONE + " - Seconds: " + seconds + " - maxSize: " + maxSize + " - Size: " + size + " - Bright: " + bright + " - Saturation: " + Saturation + " - Key: " + pressedKey);
+    float invert = 100 - Brightness;
+    if (choice == 2 || circles2Y > 0 - canY && circles2Y < canY) {
+      Circles2.beginDraw();
+      if (backCount == 0) {
+        Circles2.background(0, 0, 100, 0);
+      }
+      backCount++;
+      Circles2.colorMode(HSB, 360, 100, 100);
+      Circles2.smooth();
+      Circles2.stroke(0, 0, bright);
+      Circles2.fill(0, bright, bright, invert);
+      Circles2.ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
+      Circles2.endDraw();
+      image(Circles2, circles2X, circles2Y);
+    }
+
+
+    //      bright = round(map(bright, 0, 360, 0, 255));
+    //      println("bight: ",bright);
+    //      colorMode(RGB,255,255,255);
+    //      stroke(bright, bright, bright);
+    //     // stroke((255 - bright),(255 - bright), (255 - bright), (255 - bright));
+    //      fill(bright, 0, 0, bright);
+    //      ellipse(posX, posY, size*5, size*5);
+
+    colorMode(HSB, 360, 100, 100);
+    if (choice == 3 || circles3Y > 0 - canY && circles3Y < canY) {
+      Circles3.beginDraw();
+      if (backCount == 0) {
+        Circles3.background(0, 0, 100, 0);
+      }
+      backCount++;
+      Circles3.colorMode(HSB, 360, 100, 100, 100);
+      if (backCount == 0) {
+        Circles3.background(0, 0, 0, 0);
+      }
+      backCount++;
+      Circles3.smooth();
+      Circles3.stroke(bright, Saturation, Brightness, bright);
+      Circles3.fill(0, 0, BGbri, Saturation); //Setting last value to 0 makes the circles centres transparent 
+      Circles3.ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
+      Circles3.endDraw();
+
+      Circles3.noStroke();
+      Circles3.fill(BGhue, BGsat, BGbri, 10);
+      Circles3.rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
+      Circles3.endDraw();
+      image(Circles3, circles3X, circles3Y);
+    }
   }
+
+
+  //  println("DONE: " + DONE + " - Seconds: " + seconds + " - maxSize: " + maxSize + " - Size: " + size + " - Bright: " + bright + " - Saturation: " + Saturation + " - Key: " + pressedKey);
+
 
   boolean getNext() {
     return NEXT;
