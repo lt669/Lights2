@@ -53,7 +53,7 @@ class squigleClass {
   }
 
   void calcShape(int inputPoints, int lvl) {
-//    println("inputPoints: ", inputPoints);
+    //    println("inputPoints: ", inputPoints);
     points = round(map(inputPoints, minDuration, maxDuration, 10, 70)); //Make the chain longer
     noteON = lvl;
     numberOfPoints[1] = numberOfPoints[0];
@@ -130,7 +130,7 @@ class squigleClass {
   void largerArray() {
     //Increase number of points in array
 
-    //If the last array used was the smaller one, copy data to new array
+      //If the last array used was the smaller one, copy data to new array
     if (smallerUsed == true) {
       xArray = new float[points +1]; 
       yArray = new float[points +1]; 
@@ -266,88 +266,91 @@ class squigleClass {
     } else if (colorBright == 2) {
       colorMode(HSB, 360, 100, 100);
     }
-  //  println("colorBright ", colorBright);
-    if (choice == 4) {
-      //      map(xDirection, 0, canX, 0, 360);
-      //      map(yDirection, 0, canX, 0, 360);
-      stroke(xDirection, yDirection, 100);
-      strokeWeight(2);
-      beginShape(); 
+    if (choice == 4 || squigles1Y > 0 - canY && squigles1Y < canY) {
+      Squigles1.beginDraw();
+      if (colorBright == 1) {
+        Squigles1.colorMode(HSB, 360);
+      } else if (colorBright == 2) {
+        Squigles1.colorMode(HSB, 360, 100, 100);
+      }
+      Squigles1.stroke(xDirection, yDirection, 100);
+      Squigles1.strokeWeight(2);
+      Squigles1.beginShape(); 
       if (largerUsed == true) {
         for (int i=0; i<xArray.length; i++) {
-          curveVertex(xArray[i], yArray[i]);
+          Squigles1.curveVertex(xArray[i], yArray[i]);
         }
       } else if (smallerUsed == true) {
         for (int x=0; x<newXArray.length; x++) {
-          curveVertex(newXArray[x], newYArray[x]);
+          Squigles1.curveVertex(newXArray[x], newYArray[x]);
         }
       } else {
         for (int i=0; i<xArray.length; i++) {
-          curveVertex(xArray[i], yArray[i]);
+          Squigles1.curveVertex(xArray[i], yArray[i]);
         }
       }
-      endShape();
+      Squigles1.endShape();
+      Squigles1.endDraw();
+      image(Squigles1, squigles1X, squigles1Y);
     } else if (choice == 5) {
-      stroke(xDirection, yDirection, 100); 
-      strokeWeight(10);
-      beginShape(POINTS); 
-      if (largerUsed == true) {
-        for (int i=0; i<xArray.length; i++) {
-          vertex(xArray[i], yArray[i]);
-        }
-      } else if (smallerUsed == true) {
-        for (int x=0; x<newXArray.length; x++) {
-          vertex(newXArray[x], newYArray[x]);
-        }
-      } else {
-        for (int i=0; i<xArray.length; i++) {
-          vertex(xArray[i], yArray[i]);
-        }
+      if (colorBright == 1) {
+        Squigles2.colorMode(HSB, 360);
+      } else if (colorBright == 2) {
+        Squigles2.colorMode(HSB, 360, 100, 100);
       }
-      endShape();
-    } else if (choice == 6) {
+      Squigles2.beginDraw();
       backCount = 0;
       int xColour = round(map(xDirection, 0, canX, 0, 360));
-      stroke(xColour, xColour, 100); 
-      strokeWeight(2);
+      Squigles2.stroke(xColour, xColour, 100); 
+      Squigles2.strokeWeight(2);
       // fill(xDirection,yDirection,100);
-      beginShape(); 
+      Squigles2.beginShape(); 
       if (largerUsed == true) {
         for (int i=0; i<xArray.length; i++) {
-          curveVertex(xArray[i], yArray[i]);
+          Squigles2.curveVertex(xArray[i], yArray[i]);
         }
       } else if (smallerUsed == true) {
         for (int x=0; x<newXArray.length; x++) {
-          curveVertex(newXArray[x], newYArray[x]);
+          Squigles2.curveVertex(newXArray[x], newYArray[x]);
         }
       } else {
         for (int i=0; i<xArray.length; i++) {
-          curveVertex(xArray[i], yArray[i]);
+          Squigles2.curveVertex(xArray[i], yArray[i]);
         }
       }
-      endShape();
-    } else if (choice == 7 || choice == 8) {
+      Squigles2.endShape();
+      Squigles2.endDraw();
+      image(Squigles2, squigles2X, squigles2Y);
+    } else if (choice == 6 || choice == 8) {
+      Squigles3.beginDraw();
+      if (colorBright == 1) {
+        Squigles3.colorMode(HSB, 360);
+      } else if (colorBright == 2) {
+        Squigles3.colorMode(HSB, 360, 100, 100);
+      }
       backCount = 0;
       int xColour = round(map(xDirection, 0, canX, 0, 360));
-      noStroke();
+      Squigles3.noStroke();
       //stroke(xColour, xColour, 100); 
       //strokeWeight(2);
-      fill(xColour, 100, 100, 50);
-      beginShape(); 
+      Squigles3.fill(xColour, 100, 100, 50);
+      Squigles3.beginShape(); 
       if (largerUsed == true) {
         for (int i=0; i<xArray.length; i++) {
-          curveVertex(xArray[i], yArray[i]);
+          Squigles3.curveVertex(xArray[i], yArray[i]);
         }
       } else if (smallerUsed == true) {
         for (int x=0; x<newXArray.length; x++) {
-          curveVertex(newXArray[x], newYArray[x]);
+          Squigles3.curveVertex(newXArray[x], newYArray[x]);
         }
       } else {
         for (int i=0; i<xArray.length; i++) {
-          curveVertex(xArray[i], yArray[i]);
+          Squigles3.curveVertex(xArray[i], yArray[i]);
         }
       }
-      endShape();
+      Squigles3.endShape();
+      Squigles3.endDraw();
+      image(Squigles3, squigles3X, squigles3Y);
     }
   }
 
@@ -371,22 +374,19 @@ class squigleClass {
     } else if (yDirection >= squigleCanY) {
       yDirection = squigleCanY;
     }
-    
-//        //Calculate whether the points have 'gone through a wall'
-//     if(xDirection > canX){
-//      xDirection -= canX; 
-//     } else if (xDirection < 0){
-//      xDirection += canX; 
-//     }
-//     
-//     if(yDirection > canY){
-//       yDirection -= canY;
-//     } else if (yDirection < 0){
-//       yDirection += canY;
-//     }
-    
-    
-    
+
+    //        //Calculate whether the points have 'gone through a wall'
+    //     if(xDirection > canX){
+    //      xDirection -= canX; 
+    //     } else if (xDirection < 0){
+    //      xDirection += canX; 
+    //     }
+    //     
+    //     if(yDirection > canY){
+    //       yDirection -= canY;
+    //     } else if (yDirection < 0){
+    //       yDirection += canY;
+    //     }
   }
 
   void setRange(int MinPitch, int MaxPitch, int MinDuration, int MaxDuration) {

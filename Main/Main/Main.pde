@@ -56,6 +56,16 @@ int input;
 boolean pressed;
 float move;
 
+int canInc = 25;
+int canOriginX;
+int canOriginY;
+
+int squigles1X, squigles1Y;
+int squigles2X, squigles2Y;
+int squigles3X, squigles3Y;
+int squigles4X, squigles4Y;
+
+//PD variables
 float startBang = 1.0;
 float stopBang = 1.0;
 
@@ -97,6 +107,10 @@ PGraphics Circles1;
 PGraphics Circles2;
 PGraphics Circles3;
 PGraphics Squigles;
+PGraphics Squigles1;
+PGraphics Squigles2;
+PGraphics Squigles3;
+
 
 void setup() {
 
@@ -106,6 +120,9 @@ void setup() {
   Circles2 = createGraphics(canX, canY);
   Circles3 = createGraphics(canX, canY);
   Squigles = createGraphics(squigleCanX, squigleCanY);
+  Squigles1 = createGraphics(canX, canY);
+  Squigles2 = createGraphics(canX, canY);
+  Squigles3 = createGraphics(canX, canY);
 
   minim = new Minim(this);
   //PC
@@ -384,8 +401,6 @@ void runSquigleClass() {
 }
 
 void moveCanvas() {
-
-  int canInc = 20;
   //Initialise canvas locations
   circles1X = circles1X;
   circles1Y = circles1Y;
@@ -394,27 +409,90 @@ void moveCanvas() {
   circles3X = circles1X;
   circles3Y = circles1Y + 2*canY;
 
+  squigles1X = circles1X - canX;
+  squigles1Y = circles1Y;
+  squigles2X = squigles1X;
+  squigles2Y = squigles1Y + canY;
+  squigles3X = squigles1X;
+  squigles3Y = squigles1Y + 2*canY;
+  squigles4X = squigles4X;
+  squigles4Y = squigles4Y + 3*canY;
+
+  //  if (choice == 1) {
+  //    canOriginX = circles1X;
+  //    canOriginY = circles1Y;
+  //  } else if (choice == 2) {
+  //    canOriginX = circles2X;
+  //    canOriginY = circles2Y;
+  //  } else if (choice == 3) {
+  //    canOriginX = circles3X;
+  //    canOriginY = circles3Y;
+  //  } else if (choice == 4) {
+  //    canOriginX = squigles1X;
+  //    canOriginY = squigles1Y;
+  //  } else if (choice == 5) {
+  //    canOriginX = squigles2X;
+  //    canOriginY = squigles2X;
+  //  } else if (choice == 6) {
+  //    canOriginX = squigles3X;
+  //    canOriginY = squigles3X;
+  //  } else if (choice == 7) {
+  //    canOriginX = squigles4X;
+  //    canOriginY = squigles4X;
+  //  } 
+  //
+  //
+  //  if (canOriginX < 0) {
+  //    canOriginX += canInc;
+  //  } else if (canOriginX > 0) {
+  //    canOriginX -= canInc;
+  //  }
+  //
+  //  if (canOriginY < 0) {
+  //    canOriginY += canInc;
+  //  } else if (canOriginY > 0) {
+  //    canOriginY -= canInc;
+  //  }
+
   if (choice == 1) {
     println("circles1Y: ", circles1Y);
-    if (circles1Y < 0) {
-      circles1Y += canInc;
-    } else if (circles1Y > 0) {
-      circles1Y -= canInc;
-    }
+    moveYCoordinates(circles1Y);
+    moveXCoordinates(circles1X);
   } else if (choice == 2) {
     println("circles2Y: ", circles2Y);
-    if (circles2Y < 0) {
-      circles1Y += canInc;
-    } else if (circles2Y > 0) {
-      circles1Y -= canInc;
-    }
+    moveYCoordinates(circles2Y);
+    moveXCoordinates(circles2X);
   } else if (choice == 3) {
     println("circles3Y: ", circles3Y);
-    if (circles3Y < 0) {
-      circles1Y += canInc;
-    } else if (circles3Y > 0) {
-      circles1Y -= canInc;
-    }
+    moveYCoordinates(circles3Y);
+    moveXCoordinates(circles3X);
+  } else if (choice == 4) {
+    moveYCoordinates(squigles1Y);
+    moveXCoordinates(squigles1X);
+  } else if (choice == 5) {
+    moveYCoordinates(squigles2Y);
+    moveXCoordinates(squigles2X);
+  } else if (choice == 6) {
+    moveYCoordinates(squigles3Y);
+    moveXCoordinates(squigles3X);
+  }
+}
+
+void moveYCoordinates(int type) {
+  if (type < 0) {
+    circles1Y += canInc;
+  } else if (type > 0) {
+    circles1Y -= canInc;
+  } else {
+  }
+}
+
+void moveXCoordinates(int type) {
+  if (type < 0) {
+    circles1X += canInc;
+  } else if (type > 0) {
+    circles1X -= canInc;
+  } else {
   }
 }
 
