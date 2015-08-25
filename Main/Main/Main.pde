@@ -12,15 +12,15 @@ AudioPlayer player;
 //Shared Variables
 
 //Office Screen
-int canX = 1650;
-int canY = 600;
+//int canX = 1650;
+//int canY = 600;
+
+//Mac
+int canX = 600;
+int canY = 200;
 
 int squigleCanX = canX;
 int squigleCanY = canY;
-
-//Mac
-//int canX = 600;
-//int canY = 200;
 
 boolean first, second;
 boolean backGroundChange;
@@ -126,7 +126,7 @@ void setup() {
 
   minim = new Minim(this);
   //PC
-  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(1).mp3");
+  //player = minim.loadFile("C:/Users/lt669/Desktop/music/music(1).mp3");
   //player.play();
   
 
@@ -285,7 +285,7 @@ void draw() {
   //    image(Squigles, canX/2, canY/2);
   //  }
   //Run PD function
-  //PD();
+  PD();
 }
 
 void mousePressed() {
@@ -344,31 +344,34 @@ void runCircleClass() {
   singer1.setBright(PART1.getPitch());
   singer1.setSize(PART1.getDuration());
   singer1.setSecondPassed(PART1.getSecondPassed());
+  singer1.setNext(PART1.getNext());
   singer1.drawCir();
 
-  singer2.setBright(PART2.getPitch());
-  singer2.setSize(PART2.getDuration());
-  singer2.setSecondPassed(PART2.getSecondPassed());
-  singer2.drawCir();
-
-  singer3.setBright(PART3.getPitch());
-  singer3.setSize(PART3.getDuration());
-  singer3.setSecondPassed(PART3.getSecondPassed());
-  singer3.drawCir();
-
-  singer4.setBright(PART4.getPitch());
-  singer4.setSize(PART4.getDuration());
-  singer4.setSecondPassed(PART4.getSecondPassed());
-  singer4.drawCir();
-
-  singer5.setBright(PART5.getPitch());
-  singer5.setSize(PART5.getDuration());
-  singer5.setSecondPassed(PART5.getSecondPassed());
-  singer5.drawCir();
-
+//  singer2.setBright(PART2.getPitch());
+//  singer2.setSize(PART2.getDuration());
+//  singer2.setSecondPassed(PART2.getSecondPassed());
+//  singer2.setNext(PART2.getNext());
+//  singer2.drawCir();
+//
+//  singer3.setBright(PART3.getPitch());
+//  singer3.setSize(PART3.getDuration());
+//  singer3.setSecondPassed(PART3.getSecondPassed());
+//  singer3.drawCir();
+//
+//  singer4.setBright(PART4.getPitch());
+//  singer4.setSize(PART4.getDuration());
+//  singer4.setSecondPassed(PART4.getSecondPassed());
+//  singer4.drawCir();
+//
+//  singer5.setBright(PART5.getPitch());
+//  singer5.setSize(PART5.getDuration());
+//  singer5.setSecondPassed(PART5.getSecondPassed());
+//  singer5.drawCir();
+//
   singer6.setBright(PART6.getPitch());
   singer6.setSize(PART6.getDuration());
   singer6.setSecondPassed(PART6.getSecondPassed());
+  singer6.setNext(PART6.getNext());
   singer6.drawCir();
 
   //  float imgX = random(-5, 5);
@@ -479,7 +482,7 @@ void PD() {
 //  pd.sendFloat("frequency5", (float)PART5.getPitch());
 //  pd.sendFloat("lvl5", PART5.getLvl());
 //
-//  pd.sendFloat("frequency6", (float)PART6.getPitch());
-//  pd.sendFloat("lvl6", PART6.getLvl());
+  pd.sendFloat("frequency6", (float)PART6.getPitch());
+  pd.sendFloat("lvl6", PART6.getLvl());
 }
 

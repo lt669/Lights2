@@ -24,7 +24,7 @@ class Cir {
   int maxPitch;
   int minDuration;
   int maxDuration;
-  
+
   int durationInMS;
 
   int movement;
@@ -97,7 +97,7 @@ class Cir {
     //New Alter Circle Size
     float increaseTime = durationInMS/(maxSize + 1);
     float currentTime = millis() - last;
-    
+
 
     //Alter circle size
     if (size == maxSize && DONE != true) { //Once circle has reached maxSize, DONE
@@ -110,8 +110,11 @@ class Cir {
       // size = abs(size-1);
       size--;
     }
-    println("size: "+size+" currentTime: " + currentTime + " increaseTime: "+increaseTime);
+    println("DONE: "+DONE+" size: "+size+" maxSize: "+maxSize+" currentTime: " + currentTime + " increaseTime: "+increaseTime);
 
+    if (NEXT == true) {
+      DONE = false;
+    }
 
     //    //Alter circle size
     //    if (size == maxSize && DONE != true) { //Once circle has reached maxSize, DONE
@@ -125,13 +128,13 @@ class Cir {
     //    }
 
     //Check if ready for the next value in the array
-    if (size <= 0 && DONE == true) {//Once circle has shurnk, get the next value
-      NEXT = true;
-      DONE = false;
-      //print("\n NEXT");
-    } else {
-      NEXT = false;
-    }
+    //    if (size <= 0 && DONE == true) {//Once circle has shurnk, get the next value
+    //      NEXT = true;
+    //      DONE = false;
+    //      //print("\n NEXT");
+    //    } else {
+    //      NEXT = false;
+    //    }
 
     //  println("DONE: "+DONE+ " size: "+size+" maxSize: "+maxSize);
     //Draw Line
@@ -221,8 +224,8 @@ class Cir {
   //  println("DONE: " + DONE + " - Seconds: " + seconds + " - maxSize: " + maxSize + " - Size: " + size + " - Bright: " + bright + " - Saturation: " + Saturation + " - Key: " + pressedKey);
 
 
-  boolean getNext() {
-    return NEXT;
+  void setNext(boolean n) {
+    NEXT = n;
   }
 
   void setRange(int MinPitch, int MaxPitch, int MinDuration, int MaxDuration) {
@@ -234,8 +237,8 @@ class Cir {
 
   void setSize(int SIZE) {
     durationInMS = SIZE;
-    println("durationInMS: ",durationInMS);
-    maxSize = int(map(SIZE, minDuration, maxDuration, 0, 10));
+    println("durationInMS: ", durationInMS);
+    maxSize = int(map(SIZE, minDuration, maxDuration, 0, 20));
     //  println("SIZE: "+ SIZE + " minD: " + minDuration + " maxD: " + maxDuration + " maxSize: "+maxSize);
   }
 
