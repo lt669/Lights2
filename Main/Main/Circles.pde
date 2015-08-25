@@ -52,13 +52,23 @@ class Cir {
       incX = random(-(size*sizeMultiplier)*movement, (size*sizeMultiplier)*movement);
       incY = random(-(size*sizeMultiplier)*movement, (size*sizeMultiplier)*movement);
     } else if (select == 5) {
-      movement = 1;
+      movement = 20;
       sizeMultiplier = 1;
       //      incX = random(-size*movement, size*movement);
       //      incY = random(-size*movement, size*movement);
 
-      incX = random(-(movement/(size+1)), movement/(size+1));
-      incY = random(-(movement/(size+1)), movement/(size+1));
+//      incX = random(-(movement/(size+1)), movement/(size+1));
+//      incY = random(-(movement/(size+1)), movement/(size+1));
+//      
+//      incX = random(-10,10);
+//      incY = random(-10,10);
+//      
+      float ranMultX = random(-2,2);
+      float ranMultY = random(-2,2);
+      
+      incX = ranMultX*(size/2);
+      incY = ranMultY*(size/2);
+      
     } else if (select == 6) {
       int randomMovement = round(random(3));
 
@@ -110,7 +120,7 @@ class Cir {
       // size = abs(size-1);
       size--;
     }
-    println("DONE: "+DONE+" size: "+size+" maxSize: "+maxSize+" currentTime: " + currentTime + " increaseTime: "+increaseTime);
+  //  println("DONE: "+DONE+" size: "+size+" maxSize: "+maxSize+" currentTime: " + currentTime + " increaseTime: "+increaseTime);
 
     if (NEXT == true) {
       DONE = false;
@@ -237,7 +247,6 @@ class Cir {
 
   void setSize(int SIZE) {
     durationInMS = SIZE;
-    println("durationInMS: ", durationInMS);
     maxSize = int(map(SIZE, minDuration, maxDuration, 0, 20));
     //  println("SIZE: "+ SIZE + " minD: " + minDuration + " maxD: " + maxDuration + " maxSize: "+maxSize);
   }

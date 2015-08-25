@@ -12,12 +12,12 @@ AudioPlayer player;
 //Shared Variables
 
 //Office Screen
-//int canX = 1650;
-//int canY = 600;
+int canX = 1650;
+int canY = 600;
 
 //Mac
-int canX = 600;
-int canY = 200;
+//int canX = 600;
+//int canY = 200;
 
 int squigleCanX = canX;
 int squigleCanY = canY;
@@ -126,15 +126,15 @@ void setup() {
 
   minim = new Minim(this);
   //PC
-  //player = minim.loadFile("C:/Users/lt669/Desktop/music/music(1).mp3");
-  //player.play();
-  
+  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(1).mp3");
+  player.play();
+
 
   //Setup PD patch
-  pd = new PureData(this, 44100, 0, 2); //6 outputs
-  //  pd.openPatch("/Users/Lewis/Developer/Lights_Project/Lights/Main/Main/patch.pd");  
-  pd.openPatch("patch.pd");
-  pd.start();
+//  pd = new PureData(this, 44100, 0, 2); //6 outputs
+//  //  pd.openPatch("/Users/Lewis/Developer/Lights_Project/Lights/Main/Main/patch.pd");  
+//  pd.openPatch("patch.pd");
+//  pd.start();
 
 
 
@@ -194,7 +194,7 @@ void setup() {
   sq6.setRange(PART6.getMinPitch(), PART6.getMaxPitch(), PART6.getMinDuration(), PART6.getMaxDuration());
 
   //Send start bang to PD
-   pd.sendFloat("bang",startBang);
+  //pd.sendFloat("bang", startBang);
 
 
 
@@ -238,21 +238,21 @@ void draw() {
   PART6.timer();
 
   //Draw all Circles  canvas' onto a main Circle canvas
-//  Circles.beginDraw();
-//  Circles.colorMode(HSB, 360, 100, 100);
-//  Circles.background(BGhue, BGsat, BGbri);
-//  Circles.endDraw();
-//  image(Circles, 0, 0);
+  //  Circles.beginDraw();
+  //  Circles.colorMode(HSB, 360, 100, 100);
+  //  Circles.background(BGhue, BGsat, BGbri);
+  //  Circles.endDraw();
+  //  image(Circles, 0, 0);
 
 
 
 
   moveCanvas();
-  if(choice < 4){
-  runCircleClass();
+  if (choice < 4) {
+    runCircleClass();
   }
-  if(choice > 3){
-  runSquigleClass();
+  if (choice > 3) {
+    runSquigleClass();
   }
 
   //  Circles.beginDraw();
@@ -285,7 +285,7 @@ void draw() {
   //    image(Squigles, canX/2, canY/2);
   //  }
   //Run PD function
-  PD();
+ // PD();
 }
 
 void mousePressed() {
@@ -347,27 +347,30 @@ void runCircleClass() {
   singer1.setNext(PART1.getNext());
   singer1.drawCir();
 
-//  singer2.setBright(PART2.getPitch());
-//  singer2.setSize(PART2.getDuration());
-//  singer2.setSecondPassed(PART2.getSecondPassed());
-//  singer2.setNext(PART2.getNext());
-//  singer2.drawCir();
-//
-//  singer3.setBright(PART3.getPitch());
-//  singer3.setSize(PART3.getDuration());
-//  singer3.setSecondPassed(PART3.getSecondPassed());
-//  singer3.drawCir();
-//
-//  singer4.setBright(PART4.getPitch());
-//  singer4.setSize(PART4.getDuration());
-//  singer4.setSecondPassed(PART4.getSecondPassed());
-//  singer4.drawCir();
-//
-//  singer5.setBright(PART5.getPitch());
-//  singer5.setSize(PART5.getDuration());
-//  singer5.setSecondPassed(PART5.getSecondPassed());
-//  singer5.drawCir();
-//
+  singer2.setBright(PART2.getPitch());
+  singer2.setSize(PART2.getDuration());
+  singer2.setSecondPassed(PART2.getSecondPassed());
+  singer2.setNext(PART2.getNext());
+  singer2.drawCir();
+
+  singer3.setBright(PART3.getPitch());
+  singer3.setSize(PART3.getDuration());
+  singer3.setSecondPassed(PART3.getSecondPassed());
+  singer3.setNext(PART3.getNext());
+  singer3.drawCir();
+
+  singer4.setBright(PART4.getPitch());
+  singer4.setSize(PART4.getDuration());
+  singer4.setSecondPassed(PART4.getSecondPassed());
+  singer4.setNext(PART4.getNext());
+  singer4.drawCir();
+
+  singer5.setBright(PART5.getPitch());
+  singer5.setSize(PART5.getDuration());
+  singer5.setSecondPassed(PART5.getSecondPassed());
+  singer5.setNext(PART5.getNext());
+  singer5.drawCir();
+
   singer6.setBright(PART6.getPitch());
   singer6.setSize(PART6.getDuration());
   singer6.setSecondPassed(PART6.getSecondPassed());
@@ -470,18 +473,18 @@ void PD() {
   pd.sendFloat("frequency1", (float)PART1.getPitch());
   pd.sendFloat("lvl1", PART1.getLvl());
 
-//  pd.sendFloat("frequency2", (float)PART2.getPitch());
-//  pd.sendFloat("lvl2", PART2.getLvl());
-//
-//  pd.sendFloat("frequency3", (float)PART3.getPitch());
-//  pd.sendFloat("lvl3", PART3.getLvl());
-//
-//  pd.sendFloat("frequency4", (float)PART4.getPitch());
-//  pd.sendFloat("lvl4", PART4.getLvl());
-//
-//  pd.sendFloat("frequency5", (float)PART5.getPitch());
-//  pd.sendFloat("lvl5", PART5.getLvl());
-//
+  //  pd.sendFloat("frequency2", (float)PART2.getPitch());
+  //  pd.sendFloat("lvl2", PART2.getLvl());
+  //
+  //  pd.sendFloat("frequency3", (float)PART3.getPitch());
+  //  pd.sendFloat("lvl3", PART3.getLvl());
+  //
+  //  pd.sendFloat("frequency4", (float)PART4.getPitch());
+  //  pd.sendFloat("lvl4", PART4.getLvl());
+  //
+  //  pd.sendFloat("frequency5", (float)PART5.getPitch());
+  //  pd.sendFloat("lvl5", PART5.getLvl());
+  //
   pd.sendFloat("frequency6", (float)PART6.getPitch());
   pd.sendFloat("lvl6", PART6.getLvl());
 }
