@@ -259,14 +259,17 @@ class squigleClass {
     newYArray[0] = yDirection;
   }
 
-  //THIS ONES PRETTY SICK BRO with black background
+
   void drawShape() {
-    if (colorBright == 1) {
+
+    if (colorBright == 1) { //May not need this section anymore
       colorMode(HSB, 360);
     } else if (colorBright == 2) {
       colorMode(HSB, 360, 100, 100);
     }
-    if (choice == 4 || squigles1Y > 0 - canY && squigles1Y < canY) {
+
+    if (choice == 4 || squigles1Y > 0 - canY && squigles1Y < canY && squigles1X > 0 - canX && squigles1X < 0) {
+      println("Running SQUIGLE 1");
       Squigles1.beginDraw();
       if (colorBright == 1) {
         Squigles1.colorMode(HSB, 360);
@@ -292,18 +295,25 @@ class squigleClass {
       Squigles1.endShape();
       Squigles1.endDraw();
       image(Squigles1, squigles1X, squigles1Y);
-    } else if (choice == 5) {
+    } else if (choice == 5 || squigles2Y > 0 - canY && squigles2Y < canY  && squigles2X > 0 - canX && squigles2X < 0) {
+      println("Running SQUIGLE 2");
+      Squigles2.beginDraw();
+
       if (colorBright == 1) {
         Squigles2.colorMode(HSB, 360);
       } else if (colorBright == 2) {
         Squigles2.colorMode(HSB, 360, 100, 100);
       }
-      Squigles2.beginDraw();
-      backCount = 0;
+      //Reset background colour
+      if (backGroundChange == true) {
+        Squigles2.background(0, 0, 100, 0);
+      }
+
       int xColour = round(map(xDirection, 0, canX, 0, 360));
+      Squigles2.smooth(2);
       Squigles2.stroke(xColour, xColour, 100); 
       Squigles2.strokeWeight(2);
-      // fill(xDirection,yDirection,100);
+      Squigles2.fill(0, 0, 0, 0);
       Squigles2.beginShape(); 
       if (largerUsed == true) {
         for (int i=0; i<xArray.length; i++) {
@@ -319,16 +329,30 @@ class squigleClass {
         }
       }
       Squigles2.endShape();
+
+      //Fading Rectangles
+      Squigles2.colorMode(HSB, 360, 100, 100); //Must reset the color mode for the rectangles
+      Squigles2.noStroke();
+      Squigles2.fill(BGhue, BGsat, BGbri, 10);
+      Squigles2.rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
       Squigles2.endDraw();
+
       image(Squigles2, squigles2X, squigles2Y);
     } else if (choice == 6 || choice == 8) {
+      println("Running SQUIGLE 3");
       Squigles3.beginDraw();
       if (colorBright == 1) {
         Squigles3.colorMode(HSB, 360);
       } else if (colorBright == 2) {
         Squigles3.colorMode(HSB, 360, 100, 100);
       }
-      backCount = 0;
+
+      //Reset background colour
+      if (backGroundChange == true) {
+        Squigles3.background(0, 0, 100, 0);
+      }
+
+
       int xColour = round(map(xDirection, 0, canX, 0, 360));
       Squigles3.noStroke();
       //stroke(xColour, xColour, 100); 
@@ -349,6 +373,14 @@ class squigleClass {
         }
       }
       Squigles3.endShape();
+
+      //Fading Rectangles
+
+      Squigles3.colorMode(HSB, 360, 100, 100); //Must reset the color mode for the rectangles
+      Squigles3.noStroke();
+      Squigles3.fill(BGhue, BGsat, BGbri, 5);
+      Squigles3.rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
+
       Squigles3.endDraw();
       image(Squigles3, squigles3X, squigles3Y);
     }

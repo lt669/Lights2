@@ -24,6 +24,8 @@ class Cir {
   int maxPitch;
   int minDuration;
   int maxDuration;
+  
+  int durationInMS;
 
   int movement;
   int sizeMultiplier;
@@ -43,7 +45,8 @@ class Cir {
     float incX = 0;
     float incY = 0;
 
-    if (select == 3 || select == 4) {
+    //    if (select == 3 || select == 4)
+    if (select <= 4) {
       movement = 2;
       sizeMultiplier = 1;
       incX = random(-(size*sizeMultiplier)*movement, (size*sizeMultiplier)*movement);
@@ -51,8 +54,11 @@ class Cir {
     } else if (select == 5) {
       movement = 1;
       sizeMultiplier = 1;
-      incX = random(-(size)*movement, size*movement);
-      incY = random(-(size)*movement, size*movement);
+      //      incX = random(-size*movement, size*movement);
+      //      incY = random(-size*movement, size*movement);
+
+      incX = random(-(movement/(size+1)), movement/(size+1));
+      incY = random(-(movement/(size+1)), movement/(size+1));
     } else if (select == 6) {
       int randomMovement = round(random(3));
 
@@ -71,9 +77,6 @@ class Cir {
       }
     }
 
-    //Random movement variables
-
-
     //Update position
     posX += incX;
     posY += incY;
@@ -91,16 +94,35 @@ class Cir {
       posY -= canY;
     }
 
+    //New Alter Circle Size
+    float increaseTime = durationInMS/(maxSize + 1);
+    float currentTime = millis() - last;
+    
+
     //Alter circle size
     if (size == maxSize && DONE != true) { //Once circle has reached maxSize, DONE
       DONE = true;
       //      print("\n DONE");
-    } else if (DONE != true && secondPassed == true) { //If its maximum size is not reached, increase size
+    } else if (DONE != true && currentTime >= increaseTime) { //If its maximum size is not reached, increase size
       size++;
+      last = millis();
     } else if (DONE == true && size != 0 || size > maxSize) {
       // size = abs(size-1);
       size--;
     }
+    println("size: "+size+" currentTime: " + currentTime + " increaseTime: "+increaseTime);
+
+
+    //    //Alter circle size
+    //    if (size == maxSize && DONE != true) { //Once circle has reached maxSize, DONE
+    //      DONE = true;
+    //      //      print("\n DONE");
+    //    } else if (DONE != true && secondPassed == true) { //If its maximum size is not reached, increase size
+    //      size++;
+    //    } else if (DONE == true && size != 0 || size > maxSize) {
+    //      // size = abs(size-1);
+    //      size--;
+    //    }
 
     //Check if ready for the next value in the array
     if (size <= 0 && DONE == true) {//Once circle has shurnk, get the next value
@@ -128,14 +150,13 @@ class Cir {
     //    size = 0;
     //  }
 
-    if (choice == 1 || circles1Y > 0 - canY && circles1Y < canY) {
+    if (choice == 1 || circles1Y > 0 - canY && circles1Y < canY  && circles1X > 0 && circles1X < canX) {
+      println("Running CIRCLE 1");
       Circles1.beginDraw();
-      //Draw Circles
       Circles1.colorMode(HSB, 360, 100, 100, 100);
-      if (backCount == 0) {
+      if (backGroundChange == true) {
         Circles1.background(0, 0, 100, 0);
       }
-      backCount++;
       Circles1.smooth();
       Circles1.noStroke();
       Circles1.fill(bright, Saturation, Brightness, bright/2);
@@ -149,12 +170,12 @@ class Cir {
     }
 
     float invert = 100 - Brightness;
-    if (choice == 2 || circles2Y > 0 - canY && circles2Y < canY) {
+    if (choice == 2 || circles2Y > 0 - canY && circles2Y < canY && circles2X > 0 && circles2X < canX) {
+      println("Running CIRCLE 2");
       Circles2.beginDraw();
-      if (backCount == 0) {
+      if (backGroundChange == true) {
         Circles2.background(0, 0, 100, 0);
       }
-      backCount++;
       Circles2.colorMode(HSB, 360, 100, 100);
       Circles2.smooth();
       Circles2.stroke(0, 0, bright);
@@ -175,18 +196,15 @@ class Cir {
 
     colorMode(HSB, 360, 100, 100);
     if (choice == 3 || circles3Y > 0 - canY && circles3Y < canY) {
+      println("Running CIRCLE 3");
       Circles3.beginDraw();
-      if (backCount == 0) {
+      Circles3.colorMode(HSB, 360, 100, 100, 100);
+      if (backGroundChange == true) {
         Circles3.background(0, 0, 100, 0);
       }
-      backCount++;
-      Circles3.colorMode(HSB, 360, 100, 100, 100);
-      if (backCount == 0) {
-        Circles3.background(0, 0, 0, 0);
-      }
-      backCount++;
       Circles3.smooth();
-      Circles3.stroke(bright, Saturation, Brightness, bright);
+      Circles3.stroke(bright, Saturation, Brightness, 100 - Brightness);
+      println("bright", Brightness);
       Circles3.fill(0, 0, BGbri, Saturation); //Setting last value to 0 makes the circles centres transparent 
       Circles3.ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
       Circles3.endDraw();
@@ -215,6 +233,8 @@ class Cir {
   }
 
   void setSize(int SIZE) {
+    durationInMS = SIZE;
+    println("durationInMS: ",durationInMS);
     maxSize = int(map(SIZE, minDuration, maxDuration, 0, 10));
     //  println("SIZE: "+ SIZE + " minD: " + minDuration + " maxD: " + maxDuration + " maxSize: "+maxSize);
   }
