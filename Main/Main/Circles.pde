@@ -57,18 +57,17 @@ class Cir {
       //      incX = random(-size*movement, size*movement);
       //      incY = random(-size*movement, size*movement);
 
-//      incX = random(-(movement/(size+1)), movement/(size+1));
-//      incY = random(-(movement/(size+1)), movement/(size+1));
-//      
-//      incX = random(-10,10);
-//      incY = random(-10,10);
-//      
-      float ranMultX = random(-2,2);
-      float ranMultY = random(-2,2);
-      
+      //      incX = random(-(movement/(size+1)), movement/(size+1));
+      //      incY = random(-(movement/(size+1)), movement/(size+1));
+      //      
+      //      incX = random(-10,10);
+      //      incY = random(-10,10);
+      //      
+      float ranMultX = random(-2, 2);
+      float ranMultY = random(-2, 2);
+
       incX = ranMultX*(size/2);
       incY = ranMultY*(size/2);
-      
     } else if (select == 6) {
       int randomMovement = round(random(3));
 
@@ -120,7 +119,7 @@ class Cir {
       // size = abs(size-1);
       size--;
     }
-  //  println("DONE: "+DONE+" size: "+size+" maxSize: "+maxSize+" currentTime: " + currentTime + " increaseTime: "+increaseTime);
+    //  println("DONE: "+DONE+" size: "+size+" maxSize: "+maxSize+" currentTime: " + currentTime + " increaseTime: "+increaseTime);
 
     if (NEXT == true) {
       DONE = false;
@@ -165,6 +164,7 @@ class Cir {
 
     if (choice == 1 || circles1Y > 0 - canY && circles1Y < canY  && circles1X > 0 && circles1X < canX) {
       println("Running CIRCLE 1");
+      float sizeBri = map(size, 0, maxSize, 0, 100);
       Circles1.beginDraw();
       Circles1.colorMode(HSB, 360, 100, 100, 100);
       if (backGroundChange == true) {
@@ -172,7 +172,8 @@ class Cir {
       }
       Circles1.smooth();
       Circles1.noStroke();
-      Circles1.fill(bright, Saturation, Brightness, bright/2);
+      //      Circles1.fill(bright, Saturation, Brightness, bright/2);
+      Circles1.fill(bright, sizeBri, Brightness, Brightness);
       Circles1.ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
       //Fading Rectangles
       Circles1.noStroke();

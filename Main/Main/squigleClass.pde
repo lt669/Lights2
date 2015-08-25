@@ -69,12 +69,12 @@ class squigleClass {
     }
 
     //Calculate the direction the 'head' will be moving in
-    if (noteON == 0) {
+    if (noteON == 1) {
       //Random number to slightly move the hovering circle
       float p = random(lowerD, randomDiameter);
       xDirection += cos(TWO_PI*count/10)*p; 
       yDirection += sin(TWO_PI*count/10)*p;
-    } else if (noteON == 1) {
+    } else if (noteON == 0) {
 
       if (randMove ==0) {
         float p = random(-5, 5);
@@ -344,7 +344,7 @@ class squigleClass {
       if (colorBright == 1) {
         Squigles3.colorMode(HSB, 360);
       } else if (colorBright == 2) {
-        Squigles3.colorMode(HSB, 360, 100, 100);
+        Squigles3.colorMode(HSB, 360, 100, 100, 100);
       }
 
       //Reset background colour
@@ -357,7 +357,7 @@ class squigleClass {
       Squigles3.noStroke();
       //stroke(xColour, xColour, 100); 
       //strokeWeight(2);
-      Squigles3.fill(xColour, 100, 100, 50);
+      Squigles3.fill(xColour, 100, 100, random(0,100));
       Squigles3.beginShape(); 
       if (largerUsed == true) {
         for (int i=0; i<xArray.length; i++) {
@@ -378,7 +378,7 @@ class squigleClass {
 
       Squigles3.colorMode(HSB, 360, 100, 100); //Must reset the color mode for the rectangles
       Squigles3.noStroke();
-      Squigles3.fill(BGhue, BGsat, BGbri, 5);
+      Squigles3.fill(BGhue, BGsat, BGbri, 10);
       Squigles3.rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
 
       Squigles3.endDraw();
