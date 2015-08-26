@@ -313,7 +313,7 @@ class squigleClass {
       //Fading Rectangles
       noStroke();
       fill(BGhue, BGsat, BGbri, 10);
-      rect(random((0-canX/4), canX), random(0-canY/4), canY, canX/4, canY/4);
+      rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
     }
   }
 
