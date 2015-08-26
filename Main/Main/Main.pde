@@ -86,6 +86,11 @@ PureData pd;
 PGraphics Circles;
 PGraphics Squigles;
 
+int alpha;
+boolean alphaDONE;
+boolean just;
+float graphicChooser;
+
 void setup() {
 
   //Create PGraphics
@@ -94,15 +99,15 @@ void setup() {
 
   minim = new Minim(this);
   //PC
-//  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(verb).mp3");
-//  player.play();
+  //  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(verb).mp3");
+  //  player.play();
 
-//Mac
-  player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
-  player.play();
-  
-  
-  
+  //Mac
+  //  player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
+  //  player.play();
+
+
+
   //  file = new SoundFile(this, "C:/Users/lt669/Desktop/music/music(verb).mp3");
   //  file.play();
 
@@ -178,28 +183,21 @@ void setup() {
 }
 
 void draw() {
-  colorMode(HSB, 360, 100, 100);
+  colorMode(HSB, 360, 100, 100, 100);
 
-  //  if (backCount == 0) {
-  //    colorMode(HSB, 360, 100, 100);
-  //    background(360);
-  //    // println("BG: ", BGCol);
-  //  }
-  //  backCount++;
-
-  if (pressed == true) {
+  if (alphaDONE == true) {
     background(BGhue, BGsat, BGbri);
   }
 
-  if (choice < 4 || choice == 6) {
+  if (choice < 4) {
     //Fades out parts of the screen
     noStroke();
     fill(BGhue, BGsat, BGbri, 10);
     rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
-  } else if (choice == 7 || choice == 8) {
-    noStroke();
-    fill(BGhue, BGsat, BGbri, 5);
-    rect(0, 0, canX, canY);
+  } else if (choice == 4 || choice == 5) {
+//    noStroke();
+//    fill(BGhue, BGsat, BGbri, 5);
+//    rect(0, 0, canX, canY);
   } else {
     background(BGhue, BGsat, BGbri);
   }
@@ -211,32 +209,56 @@ void draw() {
   PART5.timer();
   PART6.timer();
 
+  graphicChoice();
   runCircleClass();
   runSquigleClass();
 
-  //Depending on which key is pressed, select an object
-//  Circles.beginDraw();
-//  background(-1);
-//  runCircleClass();
-//  Circles.endDraw();
-//
-//  Squigles.beginDraw();
-//  runSquigleClass();
-//  //  fill(255);
-//  //  rect(0,0,canX/2,canY/2);
-//  Squigles.endDraw();
-//
-//  if (choice<4) {
-//    image(Circles, 0, x);
-//    x++;
-//  } else {
-//    image(Squigles, canX/2, canY/2);
-//  }
+
+
+  if (check == 1) {
+    if (just == true) {
+      alpha = 1;
+    }
+    just = false;
+
+    if (alphaDONE == false) {
+      alpha++;
+    }
+
+    if (alpha >= 100) {
+      alphaDONE = true;
+      graphicChooser = round(random(1, 7));
+    }
+
+    if (alphaDONE == true) {
+      alpha--;
+    }
+
+    if (alpha < 0) {
+      alphaDONE = false;
+      alpha = -2;
+    }
+
+    println("just: ", just);
+    println("Alpha: ", alpha);
+    Circles.beginDraw();
+    Circles.colorMode(HSB, 360, 100, 100, 100);
+    Circles.background(0, 0, 0, 0);
+    Circles.fill(0, 0, 100, alpha);
+    Circles.noStroke();
+    Circles.rect(0, 0, canX, canY);
+    Circles.endDraw();
+    image(Circles, 0, 0, canX, canY);
+  }
+
+  println("graphicChooser: "+graphicChooser+" choice: "+choice+ " select: "+select);
+
   //Run PD function
   //PD();
 }
 
 void mousePressed() {
+  just = true;
   check = 1;
   redraw();
   //  pd.sendFloat("stopBang",stopBang);
@@ -244,6 +266,56 @@ void mousePressed() {
 
 void mouseReleased() {
   check = 0;
+}
+
+void graphicChoice() {
+  if (graphicChooser == 1) {
+    choice = 1;
+    select = 5;
+  } else if (graphicChooser == 2) {
+    println("SHOULD BE BLACK");
+    choice = 2;
+    select = 3;
+  } else if (graphicChooser == 3) {
+    choice = 3;
+    select = 5;
+  } else if (graphicChooser == 4) {
+    choice = 4;
+    select = 5;
+  } else if (graphicChooser == 5) {
+    choice = 4;
+    select = 4;
+  } else if (graphicChooser == 6) {
+    choice = 5;
+    select = 5;
+  } else if (graphicChooser == 7) {
+    choice = 5;
+    select = 4;
+  }
+
+
+
+  if (select == 3) { //Black BG, flat colours
+    BGhue = 0;
+    BGsat = 0;
+    BGbri = 0;
+    colorBright = 1;
+  } else if (select == 4) { //Black BG, bright colours
+    BGhue = 0;
+    BGsat = 0;
+    BGbri = 0;
+    colorBright = 2;
+  } else if (select == 5) { //White BG, flat colours
+    BGhue = 0;
+    BGsat = 0;
+    BGbri = 100;
+    colorBright = 1;
+  } else if (select == 6) { //White BG, bright colours
+    BGhue = 0;
+    BGsat = 0;
+    BGbri = 100;
+    colorBright = 2;
+  }
 }
 
 void keyPressed() {
@@ -289,31 +361,37 @@ void runCircleClass() {
   singer1.setBright(PART1.getPitch());
   singer1.setSize(PART1.getDuration());
   singer1.setSecondPassed(PART1.getSecondPassed());
+  singer1.setNext(PART1.getNext());
   singer1.drawCir();
 
   singer2.setBright(PART2.getPitch());
   singer2.setSize(PART2.getDuration());
   singer2.setSecondPassed(PART2.getSecondPassed());
+  singer2.setNext(PART2.getNext());
   singer2.drawCir();
 
   singer3.setBright(PART3.getPitch());
   singer3.setSize(PART3.getDuration());
   singer3.setSecondPassed(PART3.getSecondPassed());
+  singer3.setNext(PART3.getNext());
   singer3.drawCir();
 
   singer4.setBright(PART4.getPitch());
   singer4.setSize(PART4.getDuration());
   singer4.setSecondPassed(PART4.getSecondPassed());
+  singer4.setNext(PART4.getNext());
   singer4.drawCir();
 
   singer5.setBright(PART5.getPitch());
   singer5.setSize(PART5.getDuration());
   singer5.setSecondPassed(PART5.getSecondPassed());
+  singer5.setNext(PART5.getNext());
   singer5.drawCir();
 
   singer6.setBright(PART6.getPitch());
   singer6.setSize(PART6.getDuration());
   singer6.setSecondPassed(PART6.getSecondPassed());
+  singer6.setNext(PART6.getNext());
   singer6.drawCir();
 
   //  float imgX = random(-5, 5);

@@ -53,7 +53,7 @@ class squigleClass {
   }
 
   void calcShape(int inputPoints, int lvl) {
-//    println("inputPoints: ", inputPoints);
+    //    println("inputPoints: ", inputPoints);
     points = round(map(inputPoints, minDuration, maxDuration, 10, 70)); //Make the chain longer
     noteON = lvl;
     numberOfPoints[1] = numberOfPoints[0];
@@ -130,7 +130,7 @@ class squigleClass {
   void largerArray() {
     //Increase number of points in array
 
-    //If the last array used was the smaller one, copy data to new array
+      //If the last array used was the smaller one, copy data to new array
     if (smallerUsed == true) {
       xArray = new float[points +1]; 
       yArray = new float[points +1]; 
@@ -266,7 +266,7 @@ class squigleClass {
     } else if (colorBright == 2) {
       colorMode(HSB, 360, 100, 100);
     }
-  //  println("colorBright ", colorBright);
+    //  println("colorBright ", colorBright);
     if (choice == 4) {
       //      map(xDirection, 0, canX, 0, 360);
       //      map(yDirection, 0, canX, 0, 360);
@@ -288,45 +288,6 @@ class squigleClass {
       }
       endShape();
     } else if (choice == 5) {
-      stroke(xDirection, yDirection, 100); 
-      strokeWeight(10);
-      beginShape(POINTS); 
-      if (largerUsed == true) {
-        for (int i=0; i<xArray.length; i++) {
-          vertex(xArray[i], yArray[i]);
-        }
-      } else if (smallerUsed == true) {
-        for (int x=0; x<newXArray.length; x++) {
-          vertex(newXArray[x], newYArray[x]);
-        }
-      } else {
-        for (int i=0; i<xArray.length; i++) {
-          vertex(xArray[i], yArray[i]);
-        }
-      }
-      endShape();
-    } else if (choice == 6) {
-      backCount = 0;
-      int xColour = round(map(xDirection, 0, canX, 0, 360));
-      stroke(xColour, xColour, 100); 
-      strokeWeight(2);
-      // fill(xDirection,yDirection,100);
-      beginShape(); 
-      if (largerUsed == true) {
-        for (int i=0; i<xArray.length; i++) {
-          curveVertex(xArray[i], yArray[i]);
-        }
-      } else if (smallerUsed == true) {
-        for (int x=0; x<newXArray.length; x++) {
-          curveVertex(newXArray[x], newYArray[x]);
-        }
-      } else {
-        for (int i=0; i<xArray.length; i++) {
-          curveVertex(xArray[i], yArray[i]);
-        }
-      }
-      endShape();
-    } else if (choice == 7 || choice == 8) {
       backCount = 0;
       int xColour = round(map(xDirection, 0, canX, 0, 360));
       noStroke();
@@ -348,6 +309,11 @@ class squigleClass {
         }
       }
       endShape();
+
+      //Fading Rectangles
+      noStroke();
+      fill(BGhue, BGsat, BGbri, 10);
+      rect(random((0-canX/4), canX), random(0-canY/4), canY, canX/4, canY/4);
     }
   }
 
@@ -371,22 +337,19 @@ class squigleClass {
     } else if (yDirection >= squigleCanY) {
       yDirection = squigleCanY;
     }
-    
-//        //Calculate whether the points have 'gone through a wall'
-//     if(xDirection > canX){
-//      xDirection -= canX; 
-//     } else if (xDirection < 0){
-//      xDirection += canX; 
-//     }
-//     
-//     if(yDirection > canY){
-//       yDirection -= canY;
-//     } else if (yDirection < 0){
-//       yDirection += canY;
-//     }
-    
-    
-    
+
+    //        //Calculate whether the points have 'gone through a wall'
+    //     if(xDirection > canX){
+    //      xDirection -= canX; 
+    //     } else if (xDirection < 0){
+    //      xDirection += canX; 
+    //     }
+    //     
+    //     if(yDirection > canY){
+    //       yDirection -= canY;
+    //     } else if (yDirection < 0){
+    //       yDirection += canY;
+    //     }
   }
 
   void setRange(int MinPitch, int MaxPitch, int MinDuration, int MaxDuration) {

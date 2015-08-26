@@ -28,6 +28,8 @@ class Cir {
   int movement;
   int sizeMultiplier;
 
+  int durationInMS;
+
   boolean w;
 
   //Constructor
@@ -90,83 +92,48 @@ class Cir {
     } else if (posY >= canY) {
       posY -= canY;
     }
+    
+    //New Size Altering Algorithm
+    float increaseTime = durationInMS/(maxSize + 1);
+    float currentTime = millis() - last;
 
     //Alter circle size
     if (size == maxSize && DONE != true) { //Once circle has reached maxSize, DONE
       DONE = true;
       //      print("\n DONE");
-    } else if (DONE != true && secondPassed == true) { //If its maximum size is not reached, increase size
+    } else if (DONE != true && currentTime >= increaseTime) { //If its maximum size is not reached, increase size
       size++;
+      last = millis();
     } else if (DONE == true && size != 0 || size > maxSize) {
       // size = abs(size-1);
       size--;
     }
 
-    //Check if ready for the next value in the array
-    if (size <= 0 && DONE == true) {//Once circle has shurnk, get the next value
-      NEXT = true;
+    if(NEXT == true){
       DONE = false;
-      //print("\n NEXT");
-    } else {
-      NEXT = false;
     }
 
-    //  println("DONE: "+DONE+ " size: "+size+" maxSize: "+maxSize);
-    //Draw Line
-    //  stroke(250,250,250);
-    //  line(canX/2,canY/2,posX,posY);
-
-    // Draw ellipse
-    //  bright = 360 * 12/(bright+1);
-
-    //        stroke(255);
-    //        fill(255);
-    //        ellipse(posX, posY, size, size);
-    //        filter(BLUR, 1);
-
-    //  if(bright == 255*12){
-    //    size = 0;
-    //  }
+    
+    float sizeBri = map(size, 0, maxSize, 0, 100);
+    colorMode(HSB, 360, 100, 100);
 
     if (choice == 1) {
-      colorMode(HSB, 360, 100, 100);
-
-      //      println("bright: " + bright + " - Saturation: " + Saturation + " - Brightness: " + Brightness);
-
-      // stroke(bright,Saturation, Brightness);
-      Circles.beginDraw();
-      Circles.noStroke();
-      Circles.fill(bright, Saturation, Brightness, bright/2);
-      Circles.ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
-      Circles.endDraw();
-    } else if (choice == 2) {
-
-      colorMode(HSB, 360, 100, 100);
-      float invert = 100 - Brightness;
-      stroke(0, 0, bright);
-      fill(0, bright, bright, invert);
+      noStroke();
+      fill(bright, sizeBri, Brightness, Brightness);
       ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
-
-      //      bright = round(map(bright, 0, 360, 0, 255));
-      //      println("bight: ",bright);
-      //      colorMode(RGB,255,255,255);
-      //      stroke(bright, bright, bright);
-      //     // stroke((255 - bright),(255 - bright), (255 - bright), (255 - bright));
-      //      fill(bright, 0, 0, bright);
-      //      ellipse(posX, posY, size*5, size*5);
+    } else if (choice == 2) {
+      noStroke();
+      fill(bright, sizeBri, Brightness, Brightness);
+      ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
     } else if (choice == 3 || choice == 8) {
-      colorMode(HSB, 360, 100, 100);
-      // map(bright, 0, 12, 0, 360);
-      stroke(bright, Saturation, Brightness, bright);
+      stroke(bright, Saturation, Brightness, 100 - Brightness);
       fill(0, 0, BGbri, Saturation); //Setting last value to 0 makes the circles centres transparent 
       ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
     }
-
-    //  println("DONE: " + DONE + " - Seconds: " + seconds + " - maxSize: " + maxSize + " - Size: " + size + " - Bright: " + bright + " - Saturation: " + Saturation + " - Key: " + pressedKey);
   }
 
-  boolean getNext() {
-    return NEXT;
+  void setNext(boolean n) {
+    NEXT = n;
   }
 
   void setRange(int MinPitch, int MaxPitch, int MinDuration, int MaxDuration) {
