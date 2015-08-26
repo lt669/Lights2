@@ -94,8 +94,15 @@ void setup() {
 
   minim = new Minim(this);
   //PC
-  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(verb).mp3");
+//  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(verb).mp3");
+//  player.play();
+
+//Mac
+  player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
   player.play();
+  
+  
+  
   //  file = new SoundFile(this, "C:/Users/lt669/Desktop/music/music(verb).mp3");
   //  file.play();
 
