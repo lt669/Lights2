@@ -24,13 +24,13 @@ class textFileReader {
 
   void read() {
     text = loadStrings(file); 
-//    println("text: ", text.length);
+    //    println("text: ", text.length);
     singerInfo = new int[3][text.length]; //1.Start time 2.Frequency 3.Note duration ms
 
     for (int i=0; i< (text.length/3); i++) {
       for (int j=0; j<3; j++) {
         singerInfo[j][i] = int(text[x]);
-        x++; 
+        x++;
       }
     }
   }
@@ -85,13 +85,13 @@ class textFileReader {
       }
       //Min Duration
       if (singerInfo[2][i] < minDuration)
-       {
+      {
         minDuration = singerInfo[2][i];
       }
     }  
-//    println("(File) maxPitch: "+ maxPitch + " maxDuration: "+maxDuration);
+    //    println("(File) maxPitch: "+ maxPitch + " maxDuration: "+maxDuration);
   }
-  
+
   int getMinPitch() {
     return minPitch;
   }
@@ -124,17 +124,20 @@ class textFileReader {
     }
     return retDuration;
   }
-  
-  int getLvl(){
-   if(millis() >= (singerInfo[0][z] + singerInfo[2][z])){
-     println("GOT ZERO");
-    return 0;
-   } else
-   return 1;
+
+  boolean getNext() {
+    return NEXT;
   }
-  
-  int getNextStartTime(){
-   return singerInfo[0][z+1]; 
+
+  int getLvl() {
+    if (millis() >= (singerInfo[0][z] + singerInfo[2][z])) {
+      return 0;
+    } else
+      return 1;
+  }
+
+  int getNextStartTime() {
+    return singerInfo[0][z+1];
   }
 
   boolean getSecondPassed() {

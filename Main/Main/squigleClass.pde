@@ -53,7 +53,7 @@ class squigleClass {
   }
 
   void calcShape(int inputPoints, int lvl) {
-//    println("inputPoints: ", inputPoints);
+    //    println("inputPoints: ", inputPoints);
     points = round(map(inputPoints, minDuration, maxDuration, 10, 70)); //Make the chain longer
     noteON = lvl;
     numberOfPoints[1] = numberOfPoints[0];
@@ -69,12 +69,12 @@ class squigleClass {
     }
 
     //Calculate the direction the 'head' will be moving in
-    if (noteON == 0) {
+    if (noteON == 1) {
       //Random number to slightly move the hovering circle
       float p = random(lowerD, randomDiameter);
       xDirection += cos(TWO_PI*count/10)*p; 
       yDirection += sin(TWO_PI*count/10)*p;
-    } else if (noteON == 1) {
+    } else if (noteON == 0) {
 
       if (randMove ==0) {
         float p = random(-5, 5);
@@ -130,7 +130,7 @@ class squigleClass {
   void largerArray() {
     //Increase number of points in array
 
-    //If the last array used was the smaller one, copy data to new array
+      //If the last array used was the smaller one, copy data to new array
     if (smallerUsed == true) {
       xArray = new float[points +1]; 
       yArray = new float[points +1]; 
@@ -259,95 +259,130 @@ class squigleClass {
     newYArray[0] = yDirection;
   }
 
-  //THIS ONES PRETTY SICK BRO with black background
+
   void drawShape() {
-    if (colorBright == 1) {
+
+    if (colorBright == 1) { //May not need this section anymore
       colorMode(HSB, 360);
     } else if (colorBright == 2) {
       colorMode(HSB, 360, 100, 100);
     }
-  //  println("colorBright ", colorBright);
-    if (choice == 4) {
-      //      map(xDirection, 0, canX, 0, 360);
-      //      map(yDirection, 0, canX, 0, 360);
-      stroke(xDirection, yDirection, 100);
-      strokeWeight(2);
-      beginShape(); 
+
+    if (choice == 4 || squigles1Y > 0 - canY && squigles1Y < canY && squigles1X > 0 - canX && squigles1X < 0) {
+      println("Running SQUIGLE 1");
+      Squigles1.beginDraw();
+      if (colorBright == 1) {
+        Squigles1.colorMode(HSB, 360);
+      } else if (colorBright == 2) {
+        Squigles1.colorMode(HSB, 360, 100, 100);
+      }
+      Squigles1.stroke(xDirection, yDirection, 100);
+      Squigles1.strokeWeight(2);
+      Squigles1.beginShape(); 
       if (largerUsed == true) {
         for (int i=0; i<xArray.length; i++) {
-          curveVertex(xArray[i], yArray[i]);
+          Squigles1.curveVertex(xArray[i], yArray[i]);
         }
       } else if (smallerUsed == true) {
         for (int x=0; x<newXArray.length; x++) {
-          curveVertex(newXArray[x], newYArray[x]);
+          Squigles1.curveVertex(newXArray[x], newYArray[x]);
         }
       } else {
         for (int i=0; i<xArray.length; i++) {
-          curveVertex(xArray[i], yArray[i]);
+          Squigles1.curveVertex(xArray[i], yArray[i]);
         }
       }
-      endShape();
-    } else if (choice == 5) {
-      stroke(xDirection, yDirection, 100); 
-      strokeWeight(10);
-      beginShape(POINTS); 
-      if (largerUsed == true) {
-        for (int i=0; i<xArray.length; i++) {
-          vertex(xArray[i], yArray[i]);
-        }
-      } else if (smallerUsed == true) {
-        for (int x=0; x<newXArray.length; x++) {
-          vertex(newXArray[x], newYArray[x]);
-        }
-      } else {
-        for (int i=0; i<xArray.length; i++) {
-          vertex(xArray[i], yArray[i]);
-        }
+      Squigles1.endShape();
+      Squigles1.endDraw();
+      image(Squigles1, squigles1X, squigles1Y);
+    } else if (choice == 5 || squigles2Y > 0 - canY && squigles2Y < canY  && squigles2X > 0 - canX && squigles2X < 0) {
+      println("Running SQUIGLE 2");
+      Squigles2.beginDraw();
+
+      if (colorBright == 1) {
+        Squigles2.colorMode(HSB, 360);
+      } else if (colorBright == 2) {
+        Squigles2.colorMode(HSB, 360, 100, 100);
       }
-      endShape();
-    } else if (choice == 6) {
-      backCount = 0;
+      //Reset background colour
+      if (backGroundChange == true) {
+        Squigles2.background(0, 0, 100, 0);
+      }
+
       int xColour = round(map(xDirection, 0, canX, 0, 360));
-      stroke(xColour, xColour, 100); 
-      strokeWeight(2);
-      // fill(xDirection,yDirection,100);
-      beginShape(); 
+      Squigles2.smooth(2);
+      Squigles2.stroke(xColour, xColour, 100); 
+      Squigles2.strokeWeight(2);
+      Squigles2.fill(0, 0, 0, 0);
+      Squigles2.beginShape(); 
       if (largerUsed == true) {
         for (int i=0; i<xArray.length; i++) {
-          curveVertex(xArray[i], yArray[i]);
+          Squigles2.curveVertex(xArray[i], yArray[i]);
         }
       } else if (smallerUsed == true) {
         for (int x=0; x<newXArray.length; x++) {
-          curveVertex(newXArray[x], newYArray[x]);
+          Squigles2.curveVertex(newXArray[x], newYArray[x]);
         }
       } else {
         for (int i=0; i<xArray.length; i++) {
-          curveVertex(xArray[i], yArray[i]);
+          Squigles2.curveVertex(xArray[i], yArray[i]);
         }
       }
-      endShape();
-    } else if (choice == 7 || choice == 8) {
-      backCount = 0;
+      Squigles2.endShape();
+
+      //Fading Rectangles
+      Squigles2.colorMode(HSB, 360, 100, 100); //Must reset the color mode for the rectangles
+      Squigles2.noStroke();
+      Squigles2.fill(BGhue, BGsat, BGbri, 10);
+      Squigles2.rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
+      Squigles2.endDraw();
+
+      image(Squigles2, squigles2X, squigles2Y);
+    } else if (choice == 6 || choice == 8) {
+      println("Running SQUIGLE 3");
+      Squigles3.beginDraw();
+      if (colorBright == 1) {
+        Squigles3.colorMode(HSB, 360);
+      } else if (colorBright == 2) {
+        Squigles3.colorMode(HSB, 360, 100, 100, 100);
+      }
+
+      //Reset background colour
+      if (backGroundChange == true) {
+        Squigles3.background(0, 0, 100, 0);
+      }
+
+
       int xColour = round(map(xDirection, 0, canX, 0, 360));
-      noStroke();
+      Squigles3.noStroke();
       //stroke(xColour, xColour, 100); 
       //strokeWeight(2);
-      fill(xColour, 100, 100, 50);
-      beginShape(); 
+      Squigles3.fill(xColour, 100, 100, random(0,100));
+      Squigles3.beginShape(); 
       if (largerUsed == true) {
         for (int i=0; i<xArray.length; i++) {
-          curveVertex(xArray[i], yArray[i]);
+          Squigles3.curveVertex(xArray[i], yArray[i]);
         }
       } else if (smallerUsed == true) {
         for (int x=0; x<newXArray.length; x++) {
-          curveVertex(newXArray[x], newYArray[x]);
+          Squigles3.curveVertex(newXArray[x], newYArray[x]);
         }
       } else {
         for (int i=0; i<xArray.length; i++) {
-          curveVertex(xArray[i], yArray[i]);
+          Squigles3.curveVertex(xArray[i], yArray[i]);
         }
       }
-      endShape();
+      Squigles3.endShape();
+
+      //Fading Rectangles
+
+      Squigles3.colorMode(HSB, 360, 100, 100); //Must reset the color mode for the rectangles
+      Squigles3.noStroke();
+      Squigles3.fill(BGhue, BGsat, BGbri, 10);
+      Squigles3.rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
+
+      Squigles3.endDraw();
+      image(Squigles3, squigles3X, squigles3Y);
     }
   }
 
@@ -371,22 +406,19 @@ class squigleClass {
     } else if (yDirection >= squigleCanY) {
       yDirection = squigleCanY;
     }
-    
-//        //Calculate whether the points have 'gone through a wall'
-//     if(xDirection > canX){
-//      xDirection -= canX; 
-//     } else if (xDirection < 0){
-//      xDirection += canX; 
-//     }
-//     
-//     if(yDirection > canY){
-//       yDirection -= canY;
-//     } else if (yDirection < 0){
-//       yDirection += canY;
-//     }
-    
-    
-    
+
+    //        //Calculate whether the points have 'gone through a wall'
+    //     if(xDirection > canX){
+    //      xDirection -= canX; 
+    //     } else if (xDirection < 0){
+    //      xDirection += canX; 
+    //     }
+    //     
+    //     if(yDirection > canY){
+    //       yDirection -= canY;
+    //     } else if (yDirection < 0){
+    //       yDirection += canY;
+    //     }
   }
 
   void setRange(int MinPitch, int MaxPitch, int MinDuration, int MaxDuration) {

@@ -12,23 +12,24 @@ AudioPlayer player;
 //Shared Variables
 
 //Office Screen
-int canX = 1650;
-int canY = 600;
+//int canX = 1650;
+//int canY = 600;
+
+//Mac
+int canX = 1600;
+int canY = 900;
 
 int squigleCanX = canX;
 int squigleCanY = canY;
 
-//Mac
-//int canX = 600;
-//int canY = 200;
-
 boolean first, second;
-int backCount = 0;
+boolean backGroundChange;
 int BGhue = 0;
 int BGsat = 0;
 int BGbri = 100;
 int colorBright; //graphics brightness variable
-int select; //Bckground colour changer and other variables)
+int select; //Background colour changer and other variables)
+
 //Cicles Variables
 Table table;
 int dur = 0;
@@ -38,6 +39,12 @@ char circleKey;
 char squigleKey;
 int choice = 0;
 //char choice;
+int circles1X;
+int circles1Y;
+int circles2X;
+int circles2Y;
+int circles3X;
+int circles3Y;
 
 //Squigle Variables
 float check = 0;
@@ -49,10 +56,22 @@ int input;
 boolean pressed;
 float move;
 
+int canInc = 25;
+int canOriginX;
+int canOriginY;
+
+int squigles1X, squigles1Y;
+int squigles2X, squigles2Y;
+int squigles3X, squigles3Y;
+int squigles4X, squigles4Y;
+
+//PD variables
 float startBang = 1.0;
 float stopBang = 1.0;
 
 int x =0;
+
+int moveCanvas;
 
 //Set up classes
 squigleClass sq1;
@@ -84,20 +103,35 @@ textFileReader PART6;
 PureData pd;
 
 PGraphics Circles;
+PGraphics Circles1;
+PGraphics Circles2;
+PGraphics Circles3;
 PGraphics Squigles;
+PGraphics Squigles1;
+PGraphics Squigles2;
+PGraphics Squigles3;
+
 
 void setup() {
 
   //Create PGraphics
   Circles = createGraphics(canX, canY);
+  Circles1 = createGraphics(canX, canY);
+  Circles2 = createGraphics(canX, canY);
+  Circles3 = createGraphics(canX, canY);
   Squigles = createGraphics(squigleCanX, squigleCanY);
+  Squigles1 = createGraphics(canX, canY);
+  Squigles2 = createGraphics(canX, canY);
+  Squigles3 = createGraphics(canX, canY);
 
   minim = new Minim(this);
   //PC
-  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(verb).mp3");
+  //  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(1).mp3");
+  //  player.play();
+
+  player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
   player.play();
-  //  file = new SoundFile(this, "C:/Users/lt669/Desktop/music/music(verb).mp3");
-  //  file.play();
+
 
   //Setup PD patch
   //  pd = new PureData(this, 44100, 0, 2); //6 outputs
@@ -163,16 +197,18 @@ void setup() {
   sq6.setRange(PART6.getMinPitch(), PART6.getMaxPitch(), PART6.getMinDuration(), PART6.getMaxDuration());
 
   //Send start bang to PD
-  // pd.sendFloat("bang",startBang);
+  //pd.sendFloat("bang", startBang);
 
-  size(canX, canY);
+
+
+  size(canX, canY, OPENGL);
   colorMode(HSB, 360, 100, 100);
   background(0, 0, 100);
 }
 
 void draw() {
   colorMode(HSB, 360, 100, 100);
-
+  background(BGhue, BGsat, BGbri);
   //  if (backCount == 0) {
   //    colorMode(HSB, 360, 100, 100);
   //    background(360);
@@ -180,22 +216,22 @@ void draw() {
   //  }
   //  backCount++;
 
-  if (pressed == true) {
-    background(BGhue, BGsat, BGbri);
-  }
-
-  if (choice < 4 || choice == 6) {
-    //Fades out parts of the screen
-    noStroke();
-    fill(BGhue, BGsat, BGbri, 10);
-    rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
-  } else if (choice == 7 || choice == 8) {
-    noStroke();
-    fill(BGhue, BGsat, BGbri, 5);
-    rect(0, 0, canX, canY);
-  } else {
-    background(BGhue, BGsat, BGbri);
-  }
+  //  if (pressed == true) {
+  //    background(BGhue, BGsat, BGbri);
+  //  }
+  //
+  //  if (choice < 4 || choice == 6) {
+  //    //Fades out parts of the screen
+  //    noStroke();
+  //    fill(BGhue, BGsat, BGbri, 10);
+  //    rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
+  //  } else if (choice == 7 || choice == 8) {
+  //    noStroke();
+  //    fill(BGhue, BGsat, BGbri, 5);
+  //    rect(0, 0, canX, canY);
+  //  } else {
+  //    background(BGhue, BGsat, BGbri);
+  //  }
 
   PART1.timer();
   PART2.timer();
@@ -204,29 +240,55 @@ void draw() {
   PART5.timer();
   PART6.timer();
 
-  runCircleClass();
-  runSquigleClass();
+  //Draw all Circles  canvas' onto a main Circle canvas
+  //  Circles.beginDraw();
+  //  Circles.colorMode(HSB, 360, 100, 100);
+  //  Circles.background(BGhue, BGsat, BGbri);
+  //  Circles.endDraw();
+  //  image(Circles, 0, 0);
+
+
+
+
+  moveCanvas();
+  if (choice < 4) {
+    runCircleClass();
+  }
+  if (choice > 3) {
+    runSquigleClass();
+  }
+
+  //  Circles.beginDraw();
+  //  
+  //  Circles.colorMode(HSB,360,100,100);
+  //  Circles.noStroke();
+  //  Circles.fill(BGhue, BGsat, BGbri, 10);
+  //  Circles.rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
+  //  runCircleClass();
+  //  Circles.endDraw();
+
+  //image(Circles, 0, 0);
 
   //Depending on which key is pressed, select an object
-//  Circles.beginDraw();
-//  background(-1);
-//  runCircleClass();
-//  Circles.endDraw();
-//
-//  Squigles.beginDraw();
-//  runSquigleClass();
-//  //  fill(255);
-//  //  rect(0,0,canX/2,canY/2);
-//  Squigles.endDraw();
-//
-//  if (choice<4) {
-//    image(Circles, 0, x);
-//    x++;
-//  } else {
-//    image(Squigles, canX/2, canY/2);
-//  }
+  //  Circles.beginDraw();
+  //  background(-1);
+  //  runCircleClass();
+  //  Circles.endDraw();
+  //
+  //  Squigles.beginDraw();
+  //  runSquigleClass();
+  //  //  fill(255);
+  //  //  rect(0,0,canX/2,canY/2);
+  //  Squigles.endDraw();
+
+  //  if (choice<4) {
+  //    image(Circles, 0, x);
+  //    x++;
+  //  } else {
+  //    image(Squigles, canX/2, canY/2);
+  //  }
   //Run PD function
-  //PD();
+  // PD();
 }
 
 void mousePressed() {
@@ -240,7 +302,9 @@ void mouseReleased() {
 }
 
 void keyPressed() {
+  println("choice: ", choice);
   select = Character.digit(key, 10);
+  backGroundChange = true;
   if (select == 1) {
     choice++;
   } else if (select == 2) {
@@ -273,6 +337,7 @@ void keyPressed() {
 
 void keyReleased() {
   pressed = false;
+  backGroundChange = false;
 }
 
 void runCircleClass() {
@@ -282,31 +347,37 @@ void runCircleClass() {
   singer1.setBright(PART1.getPitch());
   singer1.setSize(PART1.getDuration());
   singer1.setSecondPassed(PART1.getSecondPassed());
+  singer1.setNext(PART1.getNext());
   singer1.drawCir();
 
   singer2.setBright(PART2.getPitch());
   singer2.setSize(PART2.getDuration());
   singer2.setSecondPassed(PART2.getSecondPassed());
+  singer2.setNext(PART2.getNext());
   singer2.drawCir();
 
   singer3.setBright(PART3.getPitch());
   singer3.setSize(PART3.getDuration());
   singer3.setSecondPassed(PART3.getSecondPassed());
+  singer3.setNext(PART3.getNext());
   singer3.drawCir();
 
   singer4.setBright(PART4.getPitch());
   singer4.setSize(PART4.getDuration());
   singer4.setSecondPassed(PART4.getSecondPassed());
+  singer4.setNext(PART4.getNext());
   singer4.drawCir();
 
   singer5.setBright(PART5.getPitch());
   singer5.setSize(PART5.getDuration());
   singer5.setSecondPassed(PART5.getSecondPassed());
+  singer5.setNext(PART5.getNext());
   singer5.drawCir();
 
   singer6.setBright(PART6.getPitch());
   singer6.setSize(PART6.getDuration());
   singer6.setSecondPassed(PART6.getSecondPassed());
+  singer6.setNext(PART6.getNext());
   singer6.drawCir();
 
   //  float imgX = random(-5, 5);
@@ -340,23 +411,83 @@ void runSquigleClass() {
   sq6.edgeCheck();
 }
 
+void moveCanvas() {
+  //Initialise canvas locations
+  circles1X = circles1X;
+  circles1Y = circles1Y;
+  circles2X = circles1X;
+  circles2Y = circles1Y + canY;
+  circles3X = circles1X;
+  circles3Y = circles1Y + 2*canY;
+
+  squigles1X = circles1X - canX;
+  squigles1Y = circles1Y;
+  squigles2X = squigles1X;
+  squigles2Y = squigles1Y + canY;
+  squigles3X = squigles1X;
+  squigles3Y = squigles1Y + 2*canY;
+  squigles4X = squigles4X;
+  squigles4Y = squigles4Y + 3*canY;
+
+  if (choice == 1) {
+    println("circles1Y: ", circles1Y);
+    moveYCoordinates(circles1Y);
+    moveXCoordinates(circles1X);
+  } else if (choice == 2) {
+    println("circles2Y: ", circles2Y);
+    moveYCoordinates(circles2Y);
+    moveXCoordinates(circles2X);
+  } else if (choice == 3) {
+    println("circles3Y: ", circles3Y);
+    moveYCoordinates(circles3Y);
+    moveXCoordinates(circles3X);
+  } else if (choice == 4) {
+    moveYCoordinates(squigles1Y);
+    moveXCoordinates(squigles1X);
+  } else if (choice == 5) {
+    moveYCoordinates(squigles2Y);
+    moveXCoordinates(squigles2X);
+  } else if (choice == 6) {
+    moveYCoordinates(squigles3Y);
+    moveXCoordinates(squigles3X);
+  }
+}
+
+void moveYCoordinates(int type) {
+  if (type < 0) {
+    circles1Y += canInc;
+  } else if (type > 0) {
+    circles1Y -= canInc;
+  } else {
+  }
+}
+
+void moveXCoordinates(int type) {
+  if (type < 0) {
+    circles1X += canInc;
+  } else if (type > 0) {
+    circles1X -= canInc;
+  } else {
+  }
+}
+
 void PD() {
 
   pd.sendFloat("frequency1", (float)PART1.getPitch());
   pd.sendFloat("lvl1", PART1.getLvl());
 
-  pd.sendFloat("frequency2", (float)PART2.getPitch());
-  pd.sendFloat("lvl2", PART2.getLvl());
-
-  pd.sendFloat("frequency3", (float)PART3.getPitch());
-  pd.sendFloat("lvl3", PART3.getLvl());
-
-  pd.sendFloat("frequency4", (float)PART4.getPitch());
-  pd.sendFloat("lvl4", PART4.getLvl());
-
-  pd.sendFloat("frequency5", (float)PART5.getPitch());
-  pd.sendFloat("lvl5", PART5.getLvl());
-
+  //  pd.sendFloat("frequency2", (float)PART2.getPitch());
+  //  pd.sendFloat("lvl2", PART2.getLvl());
+  //
+  //  pd.sendFloat("frequency3", (float)PART3.getPitch());
+  //  pd.sendFloat("lvl3", PART3.getLvl());
+  //
+  //  pd.sendFloat("frequency4", (float)PART4.getPitch());
+  //  pd.sendFloat("lvl4", PART4.getLvl());
+  //
+  //  pd.sendFloat("frequency5", (float)PART5.getPitch());
+  //  pd.sendFloat("lvl5", PART5.getLvl());
+  //
   pd.sendFloat("frequency6", (float)PART6.getPitch());
   pd.sendFloat("lvl6", PART6.getLvl());
 }
