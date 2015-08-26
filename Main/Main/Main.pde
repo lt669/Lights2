@@ -12,12 +12,12 @@ AudioPlayer player;
 //Shared Variables
 
 //Office Screen
-int canX = 1650;
-int canY = 600;
+//int canX = 1650;
+//int canY = 600;
 
 //Mac
-//int canX = 600;
-//int canY = 200;
+int canX = 1600;
+int canY = 900;
 
 int squigleCanX = canX;
 int squigleCanY = canY;
@@ -28,7 +28,7 @@ int BGhue = 0;
 int BGsat = 0;
 int BGbri = 100;
 int colorBright; //graphics brightness variable
-int select; //Bckground colour changer and other variables)
+int select; //Background colour changer and other variables)
 
 //Cicles Variables
 Table table;
@@ -126,15 +126,18 @@ void setup() {
 
   minim = new Minim(this);
   //PC
-  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(1).mp3");
+  //  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(1).mp3");
+  //  player.play();
+
+  player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
   player.play();
 
 
   //Setup PD patch
-//  pd = new PureData(this, 44100, 0, 2); //6 outputs
-//  //  pd.openPatch("/Users/Lewis/Developer/Lights_Project/Lights/Main/Main/patch.pd");  
-//  pd.openPatch("patch.pd");
-//  pd.start();
+  //  pd = new PureData(this, 44100, 0, 2); //6 outputs
+  //  //  pd.openPatch("/Users/Lewis/Developer/Lights_Project/Lights/Main/Main/patch.pd");  
+  //  pd.openPatch("patch.pd");
+  //  pd.start();
 
 
 
@@ -285,7 +288,7 @@ void draw() {
   //    image(Squigles, canX/2, canY/2);
   //  }
   //Run PD function
- // PD();
+  // PD();
 }
 
 void mousePressed() {
