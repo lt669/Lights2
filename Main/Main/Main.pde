@@ -2,6 +2,8 @@ import org.puredata.processing.PureData;
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 
+//Actually want to merge with PGraphics
+
 //import processing.sound.*;
 //SoundFile file;
 
