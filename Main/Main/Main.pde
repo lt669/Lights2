@@ -2,7 +2,7 @@ import org.puredata.processing.PureData;
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 
-//Actually want to merge with PGraphics
+//AWorking in PGraphics_Update
 
 //import processing.sound.*;
 //SoundFile file;
@@ -106,8 +106,11 @@ PureData pd;
 
 PGraphics Circles;
 PGraphics Circles1;
+PGraphics Circles1BG;
 PGraphics Circles2;
+PGraphics Circles2BG;
 PGraphics Circles3;
+PGraphics Circles3BG;
 PGraphics Squigles;
 PGraphics Squigles1;
 PGraphics Squigles2;
@@ -119,8 +122,11 @@ void setup() {
   //Create PGraphics
   Circles = createGraphics(canX, canY);
   Circles1 = createGraphics(canX, canY);
+  Circles1BG = createGraphics(canX, canY);
   Circles2 = createGraphics(canX, canY);
+  Circles2BG = createGraphics(canX, canY);
   Circles3 = createGraphics(canX, canY);
+  Circles3BG = createGraphics(canX, canY);
   Squigles = createGraphics(squigleCanX, squigleCanY);
   Squigles1 = createGraphics(canX, canY);
   Squigles2 = createGraphics(canX, canY);
@@ -131,8 +137,8 @@ void setup() {
   //  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(1).mp3");
   //  player.play();
 
-  player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
-  player.play();
+//  player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
+//  player.play();
 
 
   //Setup PD patch
@@ -209,8 +215,9 @@ void setup() {
 }
 
 void draw() {
-  colorMode(HSB, 360, 100, 100);
-  background(BGhue, BGsat, BGbri);
+//  colorMode(HSB, 360, 100, 100);
+//  background(BGhue, BGsat, BGbri);
+
   //  if (backCount == 0) {
   //    colorMode(HSB, 360, 100, 100);
   //    background(360);
@@ -311,27 +318,42 @@ void keyPressed() {
     choice++;
   } else if (select == 2) {
     choice--;
-  } else if (select == 3) { //Black BG, flat colours
-    BGhue = 0;
-    BGsat = 0;
-    BGbri = 0;
-    colorBright = 1;
-  } else if (select == 4) { //Black BG, bright colours
-    BGhue = 0;
-    BGsat = 0;
-    BGbri = 0;
-    colorBright = 2;
-  } else if (select == 5) { //White BG, flat colours
-    BGhue = 0;
-    BGsat = 0;
-    BGbri = 100;
-    colorBright = 1;
-  } else if (select == 6) { //White BG, bright colours
-    BGhue = 0;
-    BGsat = 0;
-    BGbri = 100;
-    colorBright = 2;
   }
+  //  } else if (select == 3) { //Black BG, flat colours
+  //    BGhue = 0;
+  //    BGsat = 0;
+  //    BGbri = 0;
+  //    colorBright = 1;
+  //  } else if (select == 4) { //Black BG, bright colours
+  //    BGhue = 0;
+  //    BGsat = 0;
+  //    BGbri = 0;
+  //    colorBright = 2;
+  //  } else if (select == 5) { //White BG, flat colours
+  //    BGhue = 0;
+  //    BGsat = 0;
+  //    BGbri = 100;
+  //    colorBright = 1;
+  //  } else if (select == 6) { //White BG, bright colours
+  //    BGhue = 0;
+  //    BGsat = 0;
+  //    BGbri = 100;
+  //    colorBright = 2;
+  //  }
+
+  //Set background colours
+  if (choice == 1 || choice == 3 || choice == 4 || choice == 6) {
+    BGhue = 0;
+    BGsat = 0;
+    BGbri = 100;
+    colorBright = 1; //Dark Colours
+  } else if (choice == 2 || choice == 5 || choice == 7) {
+    BGhue = 0;
+    BGsat = 0;
+    BGbri = 0;
+    colorBright = 2; //Bright Colours
+  }
+
   pressed = true;
   //  println("Select", select);
   //  println("Choice: ", choice);

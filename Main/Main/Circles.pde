@@ -46,16 +46,16 @@ class Cir {
     float incY = 0;
 
     //    if (select == 3 || select == 4)
-    if (select <= 4) {
+    if (choice > 1) {
       movement = 2;
       sizeMultiplier = 1;
       incX = random(-(size*sizeMultiplier)*movement, (size*sizeMultiplier)*movement);
       incY = random(-(size*sizeMultiplier)*movement, (size*sizeMultiplier)*movement);
-    } else if (select == 5) {
-      movement = 20;
+    } else if (choice == 1) {
+      movement = 1;
       sizeMultiplier = 1;
-      //      incX = random(-size*movement, size*movement);
-      //      incY = random(-size*movement, size*movement);
+      incX = random(-size*movement, size*movement);
+      incY = random(-size*movement, size*movement);
 
       //      incX = random(-(movement/(size+1)), movement/(size+1));
       //      incY = random(-(movement/(size+1)), movement/(size+1));
@@ -63,11 +63,11 @@ class Cir {
       //      incX = random(-10,10);
       //      incY = random(-10,10);
       //      
-      float ranMultX = random(-2, 2);
-      float ranMultY = random(-2, 2);
-
-      incX = ranMultX*(size/2);
-      incY = ranMultY*(size/2);
+      //      float ranMultX = random(-2, 2);
+      //      float ranMultY = random(-2, 2);
+      //
+      //      incX = ranMultX*(size/2);
+      //      incY = ranMultY*(size/2);
     } else if (select == 6) {
       int randomMovement = round(random(3));
 
@@ -125,56 +125,27 @@ class Cir {
       DONE = false;
     }
 
-    //    //Alter circle size
-    //    if (size == maxSize && DONE != true) { //Once circle has reached maxSize, DONE
-    //      DONE = true;
-    //      //      print("\n DONE");
-    //    } else if (DONE != true && secondPassed == true) { //If its maximum size is not reached, increase size
-    //      size++;
-    //    } else if (DONE == true && size != 0 || size > maxSize) {
-    //      // size = abs(size-1);
-    //      size--;
-    //    }
-
-    //Check if ready for the next value in the array
-    //    if (size <= 0 && DONE == true) {//Once circle has shurnk, get the next value
-    //      NEXT = true;
-    //      DONE = false;
-    //      //print("\n NEXT");
-    //    } else {
-    //      NEXT = false;
-    //    }
-
-    //  println("DONE: "+DONE+ " size: "+size+" maxSize: "+maxSize);
-    //Draw Line
-    //  stroke(250,250,250);
-    //  line(canX/2,canY/2,posX,posY);
-
-    // Draw ellipse
-    //  bright = 360 * 12/(bright+1);
-
-    //        stroke(255);
-    //        fill(255);
-    //        ellipse(posX, posY, size, size);
-    //        filter(BLUR, 1);
-
-    //  if(bright == 255*12){
-    //    size = 0;
-    //  }
+    float sizeBri = map(size, 0, maxSize, 0, 100);
 
     if (choice == 1 || circles1Y > 0 - canY && circles1Y < canY  && circles1X > 0 && circles1X < canX) {
       println("Running CIRCLE 1");
-      float sizeBri = map(size, 0, maxSize, 0, 100);
+      Circles1BG.colorMode(HSB, 360, 100, 100, 100);
+      Circles1BG.beginDraw();
+      Circles1BG.fill(0, 0, 100);
+      Circles1BG.rect(0, 0, canX, canY);
+      Circles1BG.endDraw();
+      image(Circles1BG, circles1X, circles1Y);
+
       Circles1.beginDraw();
-      Circles1.colorMode(HSB, 360, 100, 100, 100);
       if (backGroundChange == true) {
         Circles1.background(0, 0, 100, 0);
       }
+      Circles1.colorMode(HSB, 360, 100, 100, 100);
       Circles1.smooth();
       Circles1.noStroke();
-      //      Circles1.fill(bright, Saturation, Brightness, bright/2);
       Circles1.fill(bright, sizeBri, Brightness, Brightness);
       Circles1.ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
+
       //Fading Rectangles
       Circles1.noStroke();
       Circles1.fill(BGhue, BGsat, BGbri, 10);
@@ -182,34 +153,42 @@ class Cir {
       Circles1.endDraw();
       image(Circles1, circles1X, circles1Y);
     }
-
-    float invert = 100 - Brightness;
     if (choice == 2 || circles2Y > 0 - canY && circles2Y < canY && circles2X > 0 && circles2X < canX) {
       println("Running CIRCLE 2");
+
+      Circles2BG.colorMode(HSB, 360, 100, 100, 100);
+      Circles2BG.beginDraw();
+      Circles2BG.fill(0, 0, 0);
+      Circles2BG.rect(0, 0, canX, canY);
+      Circles2BG.endDraw();
+      image(Circles2BG, circles2X, circles2Y);
+
       Circles2.beginDraw();
       if (backGroundChange == true) {
         Circles2.background(0, 0, 100, 0);
       }
       Circles2.colorMode(HSB, 360, 100, 100);
       Circles2.smooth();
-      Circles2.stroke(0, 0, bright);
-      Circles2.fill(0, bright, bright, invert);
+      Circles2.noStroke();
+      Circles2.fill(bright, sizeBri, Brightness, Brightness);
       Circles2.ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
+      Circles2.endDraw();
+
+      //Fading Rectangles
+      Circles2.noStroke();
+      Circles2.fill(BGhue, BGsat, BGbri, 10);
+      Circles2.rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
       Circles2.endDraw();
       image(Circles2, circles2X, circles2Y);
     }
-
-
-    //      bright = round(map(bright, 0, 360, 0, 255));
-    //      println("bight: ",bright);
-    //      colorMode(RGB,255,255,255);
-    //      stroke(bright, bright, bright);
-    //     // stroke((255 - bright),(255 - bright), (255 - bright), (255 - bright));
-    //      fill(bright, 0, 0, bright);
-    //      ellipse(posX, posY, size*5, size*5);
-
-    colorMode(HSB, 360, 100, 100);
     if (choice == 3 || circles3Y > 0 - canY && circles3Y < canY) {
+      Circles3BG.colorMode(HSB, 360, 100, 100, 100);
+      Circles3BG.beginDraw();
+      Circles3BG.fill(0, 0, 100);
+      Circles3BG.rect(0, 0, canX, canY);
+      Circles3BG.endDraw();
+      image(Circles3BG, circles3X, circles3Y); 
+
       println("Running CIRCLE 3");
       Circles3.beginDraw();
       Circles3.colorMode(HSB, 360, 100, 100, 100);
