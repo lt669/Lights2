@@ -90,6 +90,7 @@ int alpha;
 boolean alphaDONE;
 boolean just;
 float graphicChooser;
+boolean fadedDONE;
 
 void setup() {
 
@@ -215,14 +216,15 @@ void draw() {
 
 
 
-  if (check == 1) {
+//  if (check == 1) {
+  if(fadedDONE == false) {
     if (just == true) {
       alpha = 1;
     }
     just = false;
 
     if (alphaDONE == false) {
-      alpha++;
+      alpha += 10;
     }
 
     if (alpha >= 100) {
@@ -231,16 +233,21 @@ void draw() {
     }
 
     if (alphaDONE == true) {
-      alpha--;
+      alpha -= 10;
     }
 
     if (alpha < 0) {
+      fadedDONE = true;
       alphaDONE = false;
       alpha = -2;
     }
 
-    println("just: ", just);
-    println("Alpha: ", alpha);
+//    println("just: ", just);
+//    println("Alpha: ", alpha);
+//    println("FadedDONE: ",fadedDONE);
+
+    //println("Choice: "+choice+" Select: "+select+" BGbri: "+BGbri);
+
     Circles.beginDraw();
     Circles.colorMode(HSB, 360, 100, 100, 100);
     Circles.background(0, 0, 0, 0);
@@ -251,7 +258,7 @@ void draw() {
     image(Circles, 0, 0, canX, canY);
   }
 
-  println("graphicChooser: "+graphicChooser+" choice: "+choice+ " select: "+select);
+  //println("graphicChooser: "+graphicChooser+" choice: "+choice+ " select: "+select);
 
   //Run PD function
   //PD();
@@ -273,7 +280,6 @@ void graphicChoice() {
     choice = 1;
     select = 5;
   } else if (graphicChooser == 2) {
-    println("SHOULD BE BLACK");
     choice = 2;
     select = 3;
   } else if (graphicChooser == 3) {
@@ -292,9 +298,7 @@ void graphicChoice() {
     choice = 5;
     select = 4;
   }
-
-
-
+println("Second Select: ",select);
   if (select == 3) { //Black BG, flat colours
     BGhue = 0;
     BGsat = 0;
@@ -319,32 +323,37 @@ void graphicChoice() {
 }
 
 void keyPressed() {
+  
   select = Character.digit(key, 10);
-  if (select == 1) {
-    choice++;
-  } else if (select == 2) {
-    choice--;
-  } else if (select == 3) { //Black BG, flat colours
-    BGhue = 0;
-    BGsat = 0;
-    BGbri = 0;
-    colorBright = 1;
-  } else if (select == 4) { //Black BG, bright colours
-    BGhue = 0;
-    BGsat = 0;
-    BGbri = 0;
-    colorBright = 2;
-  } else if (select == 5) { //White BG, flat colours
-    BGhue = 0;
-    BGsat = 0;
-    BGbri = 100;
-    colorBright = 1;
-  } else if (select == 6) { //White BG, bright colours
-    BGhue = 0;
-    BGsat = 0;
-    BGbri = 100;
-    colorBright = 2;
+  println("Select: ",select);
+  if(select == 1){
+   fadedDONE = false; 
   }
+//  if (select == 1) {
+//    choice++;
+//  } else if (select == 2) {
+//    choice--;
+//  } else if (select == 3) { //Black BG, flat colours
+//    BGhue = 0;
+//    BGsat = 0;
+//    BGbri = 0;
+//    colorBright = 1;
+//  } else if (select == 4) { //Black BG, bright colours
+//    BGhue = 0;
+//    BGsat = 0;
+//    BGbri = 0;
+//    colorBright = 2;
+//  } else if (select == 5) { //White BG, flat colours
+//    BGhue = 0;
+//    BGsat = 0;
+//    BGbri = 100;
+//    colorBright = 1;
+//  } else if (select == 6) { //White BG, bright colours
+//    BGhue = 0;
+//    BGsat = 0;
+//    BGbri = 100;
+//    colorBright = 2;
+//  }
   pressed = true;
   //  println("Select", select);
   //  println("Choice: ", choice);

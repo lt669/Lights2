@@ -94,17 +94,17 @@ class Cir {
     }
     
     //New Size Altering Algorithm
-    float increaseTime = durationInMS/(maxSize + 1);
+    float increaseTime = durationInMS/(maxSize + 1); //+1 to prevent from being 0
     float currentTime = millis() - last;
 
     //Alter circle size
-    if (size == maxSize && DONE != true) { //Once circle has reached maxSize, DONE
+    if (size >= maxSize && DONE != true) { //Once circle has reached maxSize, DONE
       DONE = true;
       //      print("\n DONE");
     } else if (DONE != true && currentTime >= increaseTime) { //If its maximum size is not reached, increase size
       size++;
       last = millis();
-    } else if (DONE == true && size != 0 || size > maxSize) {
+    } else if (DONE == true && size != 0 /*|| size > maxSize*/) {
       // size = abs(size-1);
       size--;
     }

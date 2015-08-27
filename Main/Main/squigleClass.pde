@@ -264,7 +264,7 @@ class squigleClass {
     if (colorBright == 1) {
       colorMode(HSB, 360);
     } else if (colorBright == 2) {
-      colorMode(HSB, 360, 100, 100);
+      colorMode(HSB, 360, 100, 100, 100);
     }
     //  println("colorBright ", colorBright);
     if (choice == 4) {
@@ -272,6 +272,7 @@ class squigleClass {
       //      map(yDirection, 0, canX, 0, 360);
       stroke(xDirection, yDirection, 100);
       strokeWeight(2);
+      fill(0, 0, 0, 0);
       beginShape(); 
       if (largerUsed == true) {
         for (int i=0; i<xArray.length; i++) {
@@ -288,6 +289,12 @@ class squigleClass {
       }
       endShape();
     } else if (choice == 5) {
+      //Must define the colorMode once here and again at rectangels to prevent rectagles being black
+      if (colorBright == 1) {
+        colorMode(HSB, 360);
+      } else if (colorBright == 2) {
+        colorMode(HSB, 360, 100, 100, 100);
+      }
       backCount = 0;
       int xColour = round(map(xDirection, 0, canX, 0, 360));
       noStroke();
@@ -311,6 +318,7 @@ class squigleClass {
       endShape();
 
       //Fading Rectangles
+      colorMode(HSB,360, 100, 100, 100);
       noStroke();
       fill(BGhue, BGsat, BGbri, 10);
       rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
