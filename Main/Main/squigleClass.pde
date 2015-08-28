@@ -52,7 +52,7 @@ class squigleClass {
     yDirection = posY;
   }
 
-  void calcShape(int inputPoints, int lvl) {
+  void calcShape(int inputPoints, int lvl, int restartX, int restartY) {
     //    println("inputPoints: ", inputPoints);
     points = round(map(inputPoints, minDuration, maxDuration, 10, 70)); //Make the chain longer
     noteON = lvl;
@@ -68,13 +68,22 @@ class squigleClass {
       lowerD = randomDiameter - 2;
     }
 
+    if (alphaDONE == true) {
+      //Restart the starting positions
+      xDirection = restartX;
+      yDirection = restartY;
+
+      //Clear arrays of previous point locations
+      resetArrays();
+    }
+
     //Calculate the direction the 'head' will be moving in
-    if (noteON == 0) {
+    if (noteON == 1) {
       //Random number to slightly move the hovering circle
       float p = random(lowerD, randomDiameter);
       xDirection += cos(TWO_PI*count/10)*p; 
       yDirection += sin(TWO_PI*count/10)*p;
-    } else if (noteON == 1) {
+    } else if (noteON == 0) {
 
       if (randMove ==0) {
         float p = random(-5, 5);
@@ -261,7 +270,7 @@ class squigleClass {
 
   //THIS ONES PRETTY SICK BRO with black background
   void drawShape() {
-  int xColour = round(map(xDirection, 0, canX, 0, 360));
+    int xColour = round(map(xDirection, 0, canX, 0, 360));
     if (colorBright == 1) {
       colorMode(HSB, 360);
     } else if (colorBright == 2) {
@@ -295,7 +304,6 @@ class squigleClass {
       noStroke();
       fill(BGhue, BGsat, BGbri, 5);
       rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
-      
     } else if (choice == 5) {
       //Must define the colorMode once here and again at rectangels to prevent rectagles being black
       if (colorBright == 1) {
@@ -304,7 +312,7 @@ class squigleClass {
         colorMode(HSB, 360, 100, 100, 100);
       }
       backCount = 0;
-    //  int xColour = round(map(xDirection, 0, canX, 0, 360));
+      //  int xColour = round(map(xDirection, 0, canX, 0, 360));
       noStroke();
       //stroke(xColour, xColour, 100); 
       //strokeWeight(2);
@@ -330,6 +338,17 @@ class squigleClass {
       noStroke();
       fill(BGhue, BGsat, BGbri, 5);
       rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
+    }
+  }
+
+  void resetArrays() {
+    for (int i=0; i<xArray.length; i++) {
+      xArray[i] = xDirection;
+      yArray[i] = yDirection;
+    }
+    for (int i=0; i<newXArray.length; i++) {
+      newXArray[i] = xDirection;
+      newYArray[i] = yDirection;
     }
   }
 

@@ -40,7 +40,12 @@ class Cir {
     bright = iBright;
   }
 
-  void drawCir() {
+  void drawCir(int restartX, int restartY) {
+
+    if (alphaDONE == true) {
+      posX = restartX;
+      posY = restartY;
+    }
 
     float incX = 0;
     float incY = 0;
@@ -92,7 +97,7 @@ class Cir {
     } else if (posY >= canY) {
       posY -= canY;
     }
-    
+
     //New Size Altering Algorithm
     float increaseTime = durationInMS/(maxSize + 1); //+1 to prevent from being 0
     float currentTime = millis() - last;
@@ -109,25 +114,26 @@ class Cir {
       size--;
     }
 
-    if(NEXT == true){
+    if (NEXT == true) {
       DONE = false;
     }
 
-    
+
     float sizeBri = map(size, 0, maxSize, 0, 100);
     colorMode(HSB, 360, 100, 100);
+    int colorFlux = int(random(-50, 50));
 
     if (choice == 1) {
       noStroke();
-      fill(bright, sizeBri, Brightness, Brightness);
+      fill(bright + colorFlux, sizeBri, Brightness, Brightness);
       ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
     } else if (choice == 2) {
       noStroke();
-      fill(bright, sizeBri, Brightness, Brightness);
+      fill(bright + colorFlux, sizeBri, Brightness, Brightness);
       ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
     } else if (choice == 3 || choice == 8) {
       strokeWeight(1);
-      stroke(bright, Saturation, Brightness, 100 - Brightness);
+      stroke(bright + colorFlux, Saturation, Brightness, 100 - Brightness);
       fill(0, 0, BGbri, Saturation); //Setting last value to 0 makes the circles centres transparent 
       ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
     }

@@ -153,12 +153,12 @@ void setup() {
   singer6 = new Cir(canX*3/4, canY*3/4, 0, 0);
 
   //Squigle Objects
-  sq1 = new squigleClass(newX, newY);
-  sq2 = new squigleClass(canX*3/4, canY*3/4);
+  sq1 = new squigleClass(canX/4, canY/4);
+  sq2 = new squigleClass(canX/2, canY/4);
   sq3 = new squigleClass(canX*3/4, canY/4);
   sq4 = new squigleClass(canX/4, canY*3/4);
-  sq5 = new squigleClass(canX*3/4, canY/4);
-  sq6 = new squigleClass(canX/4, canY*3/4);
+  sq5 = new squigleClass(canX/2, canY*3/4);
+  sq6 = new squigleClass(canX*3/4, canY*3/4);
 
   //Set the Pitch and Duration ranges in the appropriate classes
   singer1.setRange(PART1.getMinPitch(), PART1.getMaxPitch(), PART1.getMinDuration(), PART1.getMaxDuration());
@@ -196,9 +196,9 @@ void draw() {
     fill(BGhue, BGsat, BGbri, 10);
     rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
   } else if (choice == 4 || choice == 5) {
-//    noStroke();
-//    fill(BGhue, BGsat, BGbri, 5);
-//    rect(0, 0, canX, canY);
+    //    noStroke();
+    //    fill(BGhue, BGsat, BGbri, 5);
+    //    rect(0, 0, canX, canY);
   } else {
     background(BGhue, BGsat, BGbri);
   }
@@ -216,8 +216,8 @@ void draw() {
 
 
 
-//  if (check == 1) {
-  if(fadedDONE == false) {
+  //  if (check == 1) {
+  if (fadedDONE == false) {
     if (just == true) {
       alpha = 1;
     }
@@ -229,7 +229,10 @@ void draw() {
 
     if (alpha >= 100) {
       alphaDONE = true;
-      graphicChooser = round(random(1, 7));
+      graphicChooser += 1 /* round(random(1, 7))*/;
+      if (graphicChooser > 7) {
+        graphicChooser = 1;
+      }
     }
 
     if (alphaDONE == true) {
@@ -242,9 +245,9 @@ void draw() {
       alpha = -2;
     }
 
-//    println("just: ", just);
-//    println("Alpha: ", alpha);
-//    println("FadedDONE: ",fadedDONE);
+    //    println("just: ", just);
+    //    println("Alpha: ", alpha);
+    //    println("FadedDONE: ",fadedDONE);
 
     //println("Choice: "+choice+" Select: "+select+" BGbri: "+BGbri);
 
@@ -299,7 +302,7 @@ void graphicChoice() {
     choice = 5;
     select = 4;
   }
-println("Second Select: ",select);
+
   if (select == 3) { //Black BG, flat colours
     BGhue = 0;
     BGsat = 0;
@@ -324,37 +327,37 @@ println("Second Select: ",select);
 }
 
 void keyPressed() {
-  
+
   select = Character.digit(key, 10);
-  println("Select: ",select);
-  if(select == 1){
-   fadedDONE = false; 
+  println("Select: ", select);
+  if (select == 1) {
+    fadedDONE = false;
   }
-//  if (select == 1) {
-//    choice++;
-//  } else if (select == 2) {
-//    choice--;
-//  } else if (select == 3) { //Black BG, flat colours
-//    BGhue = 0;
-//    BGsat = 0;
-//    BGbri = 0;
-//    colorBright = 1;
-//  } else if (select == 4) { //Black BG, bright colours
-//    BGhue = 0;
-//    BGsat = 0;
-//    BGbri = 0;
-//    colorBright = 2;
-//  } else if (select == 5) { //White BG, flat colours
-//    BGhue = 0;
-//    BGsat = 0;
-//    BGbri = 100;
-//    colorBright = 1;
-//  } else if (select == 6) { //White BG, bright colours
-//    BGhue = 0;
-//    BGsat = 0;
-//    BGbri = 100;
-//    colorBright = 2;
-//  }
+  //  if (select == 1) {
+  //    choice++;
+  //  } else if (select == 2) {
+  //    choice--;
+  //  } else if (select == 3) { //Black BG, flat colours
+  //    BGhue = 0;
+  //    BGsat = 0;
+  //    BGbri = 0;
+  //    colorBright = 1;
+  //  } else if (select == 4) { //Black BG, bright colours
+  //    BGhue = 0;
+  //    BGsat = 0;
+  //    BGbri = 0;
+  //    colorBright = 2;
+  //  } else if (select == 5) { //White BG, flat colours
+  //    BGhue = 0;
+  //    BGsat = 0;
+  //    BGbri = 100;
+  //    colorBright = 1;
+  //  } else if (select == 6) { //White BG, bright colours
+  //    BGhue = 0;
+  //    BGsat = 0;
+  //    BGbri = 100;
+  //    colorBright = 2;
+  //  }
   pressed = true;
   //  println("Select", select);
   //  println("Choice: ", choice);
@@ -367,42 +370,42 @@ void keyReleased() {
 void runCircleClass() {
 
   // background(-1);
-
+  
   singer1.setBright(PART1.getPitch());
   singer1.setSize(PART1.getDuration());
   singer1.setSecondPassed(PART1.getSecondPassed());
   singer1.setNext(PART1.getNext());
-  singer1.drawCir();
+  singer1.drawCir(canX/4, canY/4);
 
   singer2.setBright(PART2.getPitch());
   singer2.setSize(PART2.getDuration());
   singer2.setSecondPassed(PART2.getSecondPassed());
   singer2.setNext(PART2.getNext());
-  singer2.drawCir();
+  singer2.drawCir(canX/2, canY/4);
 
   singer3.setBright(PART3.getPitch());
   singer3.setSize(PART3.getDuration());
   singer3.setSecondPassed(PART3.getSecondPassed());
   singer3.setNext(PART3.getNext());
-  singer3.drawCir();
+  singer3.drawCir(canX*3/4, canY/4);
 
   singer4.setBright(PART4.getPitch());
   singer4.setSize(PART4.getDuration());
   singer4.setSecondPassed(PART4.getSecondPassed());
   singer4.setNext(PART4.getNext());
-  singer4.drawCir();
+  singer4.drawCir(canX/4, canY*3/4);
 
   singer5.setBright(PART5.getPitch());
   singer5.setSize(PART5.getDuration());
   singer5.setSecondPassed(PART5.getSecondPassed());
   singer5.setNext(PART5.getNext());
-  singer5.drawCir();
+  singer5.drawCir(canX/2, canY*3/4);
 
   singer6.setBright(PART6.getPitch());
   singer6.setSize(PART6.getDuration());
   singer6.setSecondPassed(PART6.getSecondPassed());
   singer6.setNext(PART6.getNext());
-  singer6.drawCir();
+  singer6.drawCir(canX*3/4, canY*3/4);
 
   //  float imgX = random(-5, 5);
   //  float imgY = random(-5, 5);
@@ -410,27 +413,29 @@ void runCircleClass() {
 
 void runSquigleClass() {
 
-  sq1.calcShape(PART1.getDuration(), PART1.getLvl());
+
+  
+  sq1.calcShape(PART1.getDuration(), PART1.getLvl(), canX/4, canY/4);
   sq1.edgeCheck();
   sq1.drawShape();
 
-  sq2.calcShape(PART2.getDuration(), PART2.getLvl());
+  sq2.calcShape(PART2.getDuration(), PART2.getLvl(), canX/2, canY/4);
   sq2.drawShape();
   sq2.edgeCheck();
 
-  sq3.calcShape(PART3.getDuration(), PART3.getLvl());
+  sq3.calcShape(PART3.getDuration(), PART3.getLvl(), canX*3/4, canY/4);
   sq3.drawShape();
   sq3.edgeCheck();
 
-  sq4.calcShape(PART4.getDuration(), PART4.getLvl());
+  sq4.calcShape(PART4.getDuration(), PART4.getLvl(), canX/4, canY*3/4);
   sq4.drawShape();
   sq4.edgeCheck();
 
-  sq5.calcShape(PART5.getDuration(), PART5.getLvl());
+  sq5.calcShape(PART5.getDuration(), PART5.getLvl(), canX/2, canY*3/4);
   sq5.drawShape();
   sq5.edgeCheck();
 
-  sq6.calcShape(PART6.getDuration(), PART6.getLvl());
+  sq6.calcShape(PART6.getDuration(), PART6.getLvl(), canX*3/4, canY*3/4);
   sq6.drawShape();
   sq6.edgeCheck();
 }
