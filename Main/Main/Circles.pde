@@ -126,6 +126,7 @@ class Cir {
       fill(bright, sizeBri, Brightness, Brightness);
       ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
     } else if (choice == 3 || choice == 8) {
+      strokeWeight(1);
       stroke(bright, Saturation, Brightness, 100 - Brightness);
       fill(0, 0, BGbri, Saturation); //Setting last value to 0 makes the circles centres transparent 
       ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
@@ -144,6 +145,7 @@ class Cir {
   }
 
   void setSize(int SIZE) {
+    durationInMS = SIZE;
     maxSize = int(map(SIZE, minDuration, maxDuration, 0, 10));
     //  println("SIZE: "+ SIZE + " minD: " + minDuration + " maxD: " + maxDuration + " maxSize: "+maxSize);
   }

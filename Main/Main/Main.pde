@@ -100,8 +100,8 @@ void setup() {
 
   minim = new Minim(this);
   //PC
-  //  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(verb).mp3");
-  //  player.play();
+  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(verb).mp3");
+  player.play();
 
   //Mac
   //  player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
@@ -248,6 +248,7 @@ void draw() {
 
     //println("Choice: "+choice+" Select: "+select+" BGbri: "+BGbri);
 
+    //Extra canvas used for the fade effect
     Circles.beginDraw();
     Circles.colorMode(HSB, 360, 100, 100, 100);
     Circles.background(0, 0, 0, 0);

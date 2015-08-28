@@ -1,5 +1,17 @@
 To Do:
 
 Correct squiggle fill
+
 Correct Squiggles rectangle colour - DONE
+
 Look at Circles movement (Its weirdly sporadic)
+
+Restart sketch when new graphic is chosen
+
+Intelligent graphics choose (not the same graphic twice)
+
+Sguigle bright colour looks shit, sort it
+
+Make Circles colours 'Wobble'
+
+For the squigle fill, concider alternating where the fading recs run
