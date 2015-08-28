@@ -23,3 +23,5 @@ Concider changing the DONE in circles to when there is a gap in notes, e.i the c
 The squigle line (white BG) needs something more
 
 Work on Intro Screen
+
+Make the circles grow more

@@ -12,15 +12,15 @@ AudioPlayer player;
 //Shared Variables
 
 //Office Screen
-int canX = 1650;
-int canY = 600;
+//int canX = 1650;
+//int canY = 600;
 
-int squigleCanX = canX;
-int squigleCanY = canY;
+//int squigleCanX = canX;
+//int squigleCanY = canY;
 
 //Mac
-//int canX = 600;
-//int canY = 200;
+int canX = 800;
+int canY = 400;
 
 boolean first, second;
 int backCount = 0;
@@ -53,6 +53,8 @@ float startBang = 1.0;
 float stopBang = 1.0;
 
 int x =0;
+
+int[] comp = new int[2];
 
 //Set up classes
 squigleClass sq1;
@@ -96,16 +98,16 @@ void setup() {
 
   //Create PGraphics
   Circles = createGraphics(canX, canY);
-  Squigles = createGraphics(squigleCanX, squigleCanY);
+  //Squigles = createGraphics(squigleCanX, squigleCanY);
 
   minim = new Minim(this);
   //PC
-  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(verb).mp3");
-  player.play();
+  //  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(verb).mp3");
+  //  player.play();
 
   //Mac
-  //  player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
-  //  player.play();
+  player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
+  player.play();
 
 
 
@@ -214,6 +216,8 @@ void draw() {
   runCircleClass();
   runSquigleClass();
 
+  //runRectangles();
+
 
 
   //  if (check == 1) {
@@ -224,7 +228,7 @@ void draw() {
     just = false;
 
     if (alphaDONE == false) {
-      alpha += 10;
+      alpha += 1;
     }
 
     if (alpha >= 100) {
@@ -236,7 +240,7 @@ void draw() {
     }
 
     if (alphaDONE == true) {
-      alpha -= 10;
+      alpha -= 1;
     }
 
     if (alpha < 0) {
@@ -370,7 +374,7 @@ void keyReleased() {
 void runCircleClass() {
 
   // background(-1);
-  
+
   singer1.setBright(PART1.getPitch());
   singer1.setSize(PART1.getDuration());
   singer1.setSecondPassed(PART1.getSecondPassed());
@@ -414,7 +418,7 @@ void runCircleClass() {
 void runSquigleClass() {
 
 
-  
+
   sq1.calcShape(PART1.getDuration(), PART1.getLvl(), canX/4, canY/4);
   sq1.edgeCheck();
   sq1.drawShape();
@@ -459,5 +463,55 @@ void PD() {
 
   pd.sendFloat("frequency6", (float)PART6.getPitch());
   pd.sendFloat("lvl6", PART6.getLvl());
+}
+
+void runRectangles() {
+
+  colorMode(HSB, 360, 100, 100);
+  int colour1 = int(map(PART1.getPitch(), PART1.getMinPitch(), PART1.getMaxPitch(), 0, 360));
+  int colour2 = int(map(PART2.getPitch(), PART2.getMinPitch(), PART2.getMaxPitch(), 0, 360));
+  int colour3 = int(map(PART3.getPitch(), PART3.getMinPitch(), PART3.getMaxPitch(), 0, 360));
+  int colour4 = int(map(PART4.getPitch(), PART4.getMinPitch(), PART4.getMaxPitch(), 0, 360));
+  int colour5 = int(map(PART5.getPitch(), PART5.getMinPitch(), PART5.getMaxPitch(), 0, 360));
+  int colour6 = int(map(PART6.getPitch(), PART6.getMinPitch(), PART6.getMaxPitch(), 0, 360));
+
+
+  drawRect(colour1, 10, 10, 50, 100);
+  drawRect(colour2, 60, 10, 50, 100);
+  drawRect(colour3, 110, 10, 50, 100);
+  drawRect(colour4, 160, 10, 50, 100);
+  drawRect(colour5, 210, 10, 50, 100);
+  drawRect(colour6, 260, 10, 50, 100);
+
+  //Mix
+
+  drawRect(colour1, 100, 100, 70, 10);
+  drawRect(colour2, 100, 100, 70, 10);
+  drawRect(colour3, 100, 100, 70, 10);
+  drawRect(colour4, 100, 100, 70, 10);
+  drawRect(colour5, 100, 100, 70, 10);
+  drawRect(colour6, 100, 100, 70, 10);
+}
+
+void drawRect(int col, int posX, int posY, int size, int tran) {
+  int colour = col;
+
+  if (PART1.getNext() == true) {
+    comp[1] = comp[0];
+    comp[0] = col;
+  }
+  if (comp[0] > comp[1]) {
+    colour-=10;
+  } else if ( comp[0] < comp[1]) {
+    colour+=10;
+  } else {
+    colour = colour;
+  }
+
+  println("comp[0]: "+comp[0]+" comp[1]: "+comp[1]+" col: "+col+" colour: "+colour);
+
+  noStroke();
+  fill(colour, 100, 100, tran);
+  rect(posX, posY, size, size);
 }
 

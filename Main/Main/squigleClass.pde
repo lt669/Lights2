@@ -366,11 +366,11 @@ class squigleClass {
       xDirection = 0;
     } else if (yDirection <= 0) {
       yDirection = 0;
-    } else if ( xDirection >= squigleCanX)
+    } else if ( xDirection >= canX)
     {
-      xDirection = squigleCanX;
-    } else if (yDirection >= squigleCanY) {
-      yDirection = squigleCanY;
+      xDirection = canX;
+    } else if (yDirection >= canY) {
+      yDirection = canY;
     }
 
     //        //Calculate whether the points have 'gone through a wall'
