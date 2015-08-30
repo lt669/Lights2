@@ -71,7 +71,7 @@ class textFileReader {
 
   void rangeCalc() { //Calculates the maximum & minimum pitch and duration within the text file
     //Max Pitch
-    println("text.Length",text.length/3); // Divide 3 as file contains ALL the information
+   // println("text.Length",text.length/3); // Divide 3 as file contains ALL the information
     for (int i=0; i<text.length/3; i++) {
      // println("Every Pitch: "+singerInfo[1][i]+"["+i+"]");
       if (singerInfo[1][i] > maxPitch) {
@@ -80,7 +80,6 @@ class textFileReader {
       //Min Pitch
       if (singerInfo[1][i] < minPitch) {
         minPitch = singerInfo[1][i];
-        println(" minPitch["+i+"]: "+minPitch);
       }
       //Max Duration
       if (singerInfo[2][i] > maxDuration) {
