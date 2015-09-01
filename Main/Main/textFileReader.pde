@@ -17,6 +17,8 @@ class textFileReader {
   int minPitch = 10000; //Large values to compare to
   int minDuration = 10000;
 
+  int h = 0;
+
   //Constructor
   textFileReader(String iFile) {
     file = iFile;
@@ -24,20 +26,20 @@ class textFileReader {
 
   void read() {
     text = loadStrings(file); 
-//    println("text: ", text.length);
+    //    println("text: ", text.length);
     singerInfo = new int[3][text.length]; //1.Start time 2.Frequency 3.Note duration ms
-
     for (int i=0; i< (text.length/3); i++) {
       for (int j=0; j<3; j++) {
+        port.write(int(text[x]));
         singerInfo[j][i] = int(text[x]);
-        x++; 
+        x++;
       }
     }
   }
 
 
   //Measure time passed and send new values from the arrays
-  void timer() {
+  void timer(int TAG) {
     if (z < text.length - 1) {
       //      println("Length: ", text.length);
       //      println("Millis: "+millis()+" Next Millis: " + singerInfo[0][z+1] + " SecondPasses: " + secondPassed);
@@ -67,13 +69,25 @@ class textFileReader {
     } else {
       println("END OF FILE");
     }
+    
+    //Send data to arduino when new data is needed
+    if(NEXT == true){
+     h += 1;
+     println("Sending Data ("+h+")");
+     port.write(TAG);
+     port.write(singerInfo[0][z]);
+     port.write(singerInfo[1][z]);
+     port.write(singerInfo[2][z]);
+     port.write(h);
+    }
+    
   }
 
   void rangeCalc() { //Calculates the maximum & minimum pitch and duration within the text file
     //Max Pitch
-   // println("text.Length",text.length/3); // Divide 3 as file contains ALL the information
+    // println("text.Length",text.length/3); // Divide 3 as file contains ALL the information
     for (int i=0; i<text.length/3; i++) {
-     // println("Every Pitch: "+singerInfo[1][i]+"["+i+"]");
+      // println("Every Pitch: "+singerInfo[1][i]+"["+i+"]");
       if (singerInfo[1][i] > maxPitch) {
         maxPitch = singerInfo[1][i];
       }
@@ -87,13 +101,13 @@ class textFileReader {
       }
       //Min Duration
       if (singerInfo[2][i] < minDuration)
-       {
+      {
         minDuration = singerInfo[2][i];
       }
     }  
-    println("(File) maxPitch: "+ maxPitch + " maxDuration: "+maxDuration+ " minPitch: "+minPitch);
+    println("(File) maxPitch: "+ maxPitch + " maxDuration: "+maxDuration+ " minPitch: "+minPitch + " length: "+text.length);
   }
-  
+
   int getMinPitch() {
     return minPitch;
   }
@@ -126,20 +140,20 @@ class textFileReader {
     }
     return retDuration;
   }
-  
-  boolean getNext(){
-   return NEXT; 
+
+  boolean getNext() {
+    return NEXT;
   }
-  
-  int getLvl(){
-   if(millis() >= (singerInfo[0][z] + singerInfo[2][z])){
-    return 0;
-   } else
-   return 1;
+
+  int getLvl() {
+    if (millis() >= (singerInfo[0][z] + singerInfo[2][z])) {
+      return 0;
+    } else
+      return 1;
   }
-  
-  int getNextStartTime(){
-   return singerInfo[0][z+1]; 
+
+  int getNextStartTime() {
+    return singerInfo[0][z+1];
   }
 
   boolean getSecondPassed() {
@@ -154,4 +168,14 @@ class textFileReader {
     println("x: ", x);
   }
 }
+
+//void getTextLength(){
+// return text.length; 
+//}
+
+//void toArduino() {
+//  port.write("<");
+//  port.write(singerInfo); 
+//  port.write(">");
+//}
 

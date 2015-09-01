@@ -1,6 +1,8 @@
 import org.puredata.processing.PureData;
 import ddf.minim.*;
 import ddf.minim.analysis.*;
+import processing.serial.*;
+Serial port;
 
 //import processing.sound.*;
 //SoundFile file;
@@ -56,6 +58,7 @@ int x =0;
 
 int[] comp = new int[2];
 
+
 //Set up classes
 squigleClass sq1;
 squigleClass sq2;
@@ -95,6 +98,10 @@ float graphicChooser;
 boolean fadedDONE;
 
 void setup() {
+
+  //Initialise Port to send serial data to arduino
+  port = new Serial(this, "/dev/tty.usbmodem641", 9600); 
+  port.bufferUntil('\n');
 
   //Create PGraphics
   Circles = createGraphics(canX, canY);
@@ -145,6 +152,10 @@ void setup() {
   PART4.rangeCalc();
   PART5.rangeCalc();
   PART6.rangeCalc();
+  
+  //Send the length of each text file o the arduino
+//  port.write("PART1 Length");
+//  port.write(PART1.getTextLength());
 
   //Circle Objects
   singer1 = new Cir(canX/4, canY/4, 0, 0);
@@ -205,16 +216,17 @@ void draw() {
     background(BGhue, BGsat, BGbri);
   }
 
-  PART1.timer();
-  PART2.timer();
-  PART3.timer();
-  PART4.timer();
-  PART5.timer();
-  PART6.timer();
+  PART1.timer('A');
+//  PART2.timer();
+//  PART3.timer();
+//  PART4.timer();
+//  PART5.timer();
+//  PART6.timer();
 
   graphicChoice();
   runCircleClass();
   runSquigleClass();
+  //writeToArduino();
 
   //runRectangles();
 
@@ -276,6 +288,7 @@ void mousePressed() {
   just = true;
   check = 1;
   redraw();
+  //port.write('A');
   //  pd.sendFloat("stopBang",stopBang);
 }
 
@@ -514,4 +527,6 @@ void drawRect(int col, int posX, int posY, int size, int tran) {
   fill(colour, 100, 100, tran);
   rect(posX, posY, size, size);
 }
+
+
 

@@ -25,3 +25,9 @@ The squigle line (white BG) needs something more
 Work on Intro Screen
 
 Make the circles grow more
+
+ARUDINO:
+
+Receive data and store appropriately
+
+Write few programs to run lights
