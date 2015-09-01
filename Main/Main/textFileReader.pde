@@ -14,7 +14,7 @@ class textFileReader {
 
   int maxPitch;
   int maxDuration;
-  int minPitch = 10000; //Large valuses to compare to
+  int minPitch = 10000; //Large values to compare to
   int minDuration = 10000;
 
   //Constructor
@@ -71,7 +71,9 @@ class textFileReader {
 
   void rangeCalc() { //Calculates the maximum & minimum pitch and duration within the text file
     //Max Pitch
-    for (int i=0; i<text.length; i++) {
+   // println("text.Length",text.length/3); // Divide 3 as file contains ALL the information
+    for (int i=0; i<text.length/3; i++) {
+     // println("Every Pitch: "+singerInfo[1][i]+"["+i+"]");
       if (singerInfo[1][i] > maxPitch) {
         maxPitch = singerInfo[1][i];
       }
@@ -89,7 +91,7 @@ class textFileReader {
         minDuration = singerInfo[2][i];
       }
     }  
-//    println("(File) maxPitch: "+ maxPitch + " maxDuration: "+maxDuration);
+    println("(File) maxPitch: "+ maxPitch + " maxDuration: "+maxDuration+ " minPitch: "+minPitch);
   }
   
   int getMinPitch() {
@@ -125,9 +127,12 @@ class textFileReader {
     return retDuration;
   }
   
+  boolean getNext(){
+   return NEXT; 
+  }
+  
   int getLvl(){
    if(millis() >= (singerInfo[0][z] + singerInfo[2][z])){
-     println("GOT ZERO");
     return 0;
    } else
    return 1;
