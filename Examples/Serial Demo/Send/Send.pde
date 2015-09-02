@@ -1,8 +1,11 @@
 import processing.serial.*;
 Serial port;
-float brightness = 0;
-int i = 0;
-int sensorReading;
+
+int first = 5;
+int second = 7;
+
+int val;
+boolean NEXT = false;
 
 void setup()
 {
@@ -12,34 +15,35 @@ void setup()
 }
 
 void draw() {
+ // int val = port.read();
 
-  port.write(mouseX);
-  println("Processing: ", mouseX);
-  
-//  sensorReading = port.read();
-//  println("Arduino: ", sensorReading);
-  
-  //  for (i = 0; i < 2; i++){
-  //   port.clear();
-  //   port.write(i); 
-  //   delay(500);
-  //   print("",i);
-  //  }
+  //Establish contact
+  if (NEXT == true) {
+    port.write(first);
+    //val = char(port.read());
+  }
 }
 
-void serialEvent (Serial port) {
-  sensorReading = int(port.readStringUntil('\n'));
-//  if (sensorReading != null) {
-//    sensorReading=trim(sensorReading);
+void mousePressed() {
+  NEXT = true;
+  println("Pressed");
+}
+void mouseReleased() {
+  NEXT = false;
+}
+
+//void establishContact() {
+//  while (Serial.available () <= 0) {
+//    Serial.println("B");   // send a capital A
 //  }
+//}
 
-  println("Arduino: ", sensorReading);
-}
-
-
-
-//Look for serial event
-//void serialEvent (Serial port){
-// brightness = float(port.readStrginUntil('\n'); 
+//void serialEvent (Serial port) {
+//  sensorReading = int(port.readStringUntil('\n'));
+////  if (sensorReading != null) {
+////    sensorReading=trim(sensorReading);
+////  }
+//
+//  println("Arduino: ", sensorReading);
 //}
 
