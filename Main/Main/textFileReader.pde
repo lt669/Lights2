@@ -75,9 +75,18 @@ class textFileReader {
      h += 1;
      println("Sending Data ("+h+")");
      port.write(TAG);
+     
      port.write(singerInfo[0][z]);
-     port.write(singerInfo[1][z]);
-     port.write(singerInfo[2][z]);
+     println("Sent: ",singerInfo[0][z]);
+//     
+//     port.write(singerInfo[1][z]);
+//     println("Waiting for F");
+//     port.bufferUntil('F');
+//     println("Got F");
+//     port.write(singerInfo[2][z]);
+//     println("Waiting for D");
+//     port.bufferUntil('D');
+//     println("Got D");
      port.write(h);
     }
     
