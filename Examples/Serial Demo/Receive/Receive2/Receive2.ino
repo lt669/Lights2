@@ -10,7 +10,7 @@ boolean firstContact = false;
 
 void setup(){
   Serial.begin(9600); 
-  Serial.write('z');//Send valuse to establish contact
+  Serial.write(1);//Send valuse to establish contact
 }
 
 void loop() {
@@ -19,7 +19,12 @@ void loop() {
 
 void serialEvent(){
   int incoming = Serial.read();
-  Serial.println(incoming);
+ // Serial.println(incoming);
+  //delay(1000);
+  Serial.write(1);
+  Serial.print(",");
+  Serial.write(incoming);
+  Serial.print("|");
 }
 
 //void serialEvent(){
