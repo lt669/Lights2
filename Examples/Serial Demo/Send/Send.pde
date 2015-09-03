@@ -1,8 +1,6 @@
 import processing.serial.*;
 Serial port;
 
-int first = 5;
-int second = 7;
 
 int val = 0;
 boolean NEXT = false;
@@ -10,6 +8,7 @@ int received = 1;
 int var;
 int[] in = new int[3];
 int h;
+int count = 0;
 
 void setup()
 {
@@ -27,27 +26,33 @@ void draw() {
 
   /*-----------DUMMY PROGRAM-----------*/
   if (NEXT == true) {
-    //    port.write(-1);//-1 starts data group
-    //    port.write(5);
-    //    port.write(-2);//-2 seperates data
-    //    port.write(7);
-    //    port.write(-2);
-    //    port.write(9);
-    //    port.write(-3);//-3 ends data group and prints
+    if (count == 0) {//Prevent from triggering multiple times per click
+      val = 0;
+      //Random values
+      int first = int(random(2, 8));
+      int second = int(random(2, 8));
+      int third = int(random(2, 8));
 
+      //Convert to a string
+      String firstS = str(first);
+      String secondS = str(second);
+      String thirdS = str(third);
 
+      println(""+first+","+second+","+third);
 
-    while (val != 1) {
-      port.write("4,5,6");
-      val = port.read();
-      println("Loop Val:", val);
-      if (val == 1) {
-        println("val: ", val);
-        break;
+      while (val != 1) {
+        port.write(""+firstS+", "+secondS+", "+thirdS);
+        val = port.read();
+        println("Loop Val:", val);
+        if (val == 1) {
+          println("val: ", val);
+          break;
+        }
       }
+      //val = port.read();
+      println("FIRST VAL: ", val);
+      count++;
     }
-    val = port.read();
-    println("FIRST VAL: ", val);
   }
 }
 
@@ -104,6 +109,7 @@ void mousePressed() {
 }
 void mouseReleased() {
   NEXT = false;
+  count = 0;
 }
 
 //void establishContact() {
