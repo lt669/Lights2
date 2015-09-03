@@ -17,6 +17,14 @@ int h;
 void setup() {
   Serial.begin(9600);
   Serial.write(1);//Send valuse to establish contact
+
+  //LED OUTPUTS
+  pinMode(7, OUTPUT);
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
 }
 
 void loop() {
@@ -54,18 +62,36 @@ void loop() {
 
   /*-----------DUMMY PROGRAM-----------*/
   if (Serial.available()) {
-    Serial.print("incomingInt: ");
+//    Serial.print("incomingInt: ");
 
     while (Serial.available() > 0) {
       in[0] = Serial.parseInt();
       in[1] = Serial.parseInt();
       in[2] = Serial.parseInt();
 
-      Serial.println(in[0]);
-      Serial.println(in[1]);
-      Serial.println(in[2]);
+//      Serial.println(in[0]);
+//      Serial.println(in[1]);
+//      Serial.println(in[2]);
+
     }
+    Serial.write(1);
   }
+
+  //Turn all off
+  digitalWrite(7,LOW);
+  digitalWrite(2,LOW);
+  digitalWrite(3,LOW);
+  digitalWrite(4,LOW);
+  digitalWrite(5,LOW);
+  digitalWrite(6,LOW);
+
+  //Light appropriate outputs
+  digitalWrite(in[0],HIGH);
+  digitalWrite(in[1],HIGH);
+  digitalWrite(in[2],HIGH);
+
+
+  
   /*-----------DUMMY PROGRAM-----------*/
 
   /*-----------DUMMY PROGRAM-----------*/

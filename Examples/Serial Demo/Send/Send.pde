@@ -27,51 +27,53 @@ void draw() {
 
   /*-----------DUMMY PROGRAM-----------*/
   if (NEXT == true) {
-//    port.write(-1);//-1 starts data group
-//    port.write(5);
-//    port.write(-2);//-2 seperates data
-//    port.write(7);
-//    port.write(-2);
-//    port.write(9);
-//    port.write(-3);//-3 ends data group and prints
-    
-    port.write("1,2,3");
-    
-    val = port.read()-48;
-    println(val);
-    
-  } else if (port.available() > 0) {
-    //NOWT
+    //    port.write(-1);//-1 starts data group
+    //    port.write(5);
+    //    port.write(-2);//-2 seperates data
+    //    port.write(7);
+    //    port.write(-2);
+    //    port.write(9);
+    //    port.write(-3);//-3 ends data group and prints
+
+    while (1==1) {
+      port.write("7,2,3");
+      val = port.read();
+      println("In the Loop");
+      if (val == 1) {
+        println("val: ", val);
+        break;
+      }
     }
   }
+}
 
-  /*-----------DUMMY PROGRAM-----------*/
+/*-----------DUMMY PROGRAM-----------*/
 
 
-  /*-----------DUMMY PROGRAM-----------*/
-  //  if (NEXT == true) {
-  //    port.write('y');//Tell Arduino we are sending brand new data
-  //    while (1==1) { //Keep reading the port untill Arduino asks for data
-  //      incoming = port.read();
-  //      if (incoming == 'g') {//Break out of loop if Arduino asks for data
-  //        break;
-  //      }
-  //    }
-  //  port.write(singerInfo[0][z]);//Send start time
-  //  }
-  /*-----------DUMMY PROGRAM-----------*/
+/*-----------DUMMY PROGRAM-----------*/
+//  if (NEXT == true) {
+//    port.write('y');//Tell Arduino we are sending brand new data
+//    while (1==1) { //Keep reading the port untill Arduino asks for data
+//      incoming = port.read();
+//      if (incoming == 'g') {//Break out of loop if Arduino asks for data
+//        break;
+//      }
+//    }
+//  port.write(singerInfo[0][z]);//Send start time
+//  }
+/*-----------DUMMY PROGRAM-----------*/
 
-  //  if (NEXT == true) {
-  //    if (received == 1) {
-  //      port.write(first);
-  //      //received = 0;
-  //      println();
-  //    } else if (received == -1) {
-  //      received = 0;
-  //    } else {
-  //      println("Received: ", received);
-  //    }
-  //  }
+//  if (NEXT == true) {
+//    if (received == 1) {
+//      port.write(first);
+//      //received = 0;
+//      println();
+//    } else if (received == -1) {
+//      received = 0;
+//    } else {
+//      println("Received: ", received);
+//    }
+//  }
 
 
 
