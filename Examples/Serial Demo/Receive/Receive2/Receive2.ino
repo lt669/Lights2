@@ -10,7 +10,9 @@ boolean firstContact = false;
 int incomingInt;
 String incomingChar;
 int in[3];
+String charReader[10];
 int h;
+
 
 void setup() {
   Serial.begin(9600);
@@ -20,31 +22,81 @@ void setup() {
 void loop() {
 
   /*-----------DUMMY PROGRAM-----------*/
+  //  if (Serial.available()) {
+  //    Serial.print("incomingInt: ");
+  //
+  //    while (Serial.available() > 0) {
+  //      incomingInt = Serial.read() - 48;
+  //      // incomingChar = String(Serial.read());
+  //      Serial.println(incomingInt);
+  //
+  //      if (incomingInt == -1) {// -1 indicates start of data group
+  //        h = 0;
+  //        Serial.println("h = 0");
+  //      } else if (incomingInt == -2) {// -2 to seperate the data in the group
+  //        h++;
+  //        Serial.println("h++");
+  //      } else if (incomingInt == -3) {// -3 to end data group and print data
+  //        Serial.println("Print please");//Test
+  //        Serial.println(in[0]);
+  //        Serial.println(in[1]);
+  //        Serial.println(in[2]);
+  //      }
+  //      else {
+  //        //while(Serial.available() > 0){
+  //        in[h] = incomingInt;
+  //        //}
+  //      }
+  //    }
+  //  }
+  /*-----------DUMMY PROGRAM-----------*/
+
+
+  /*-----------DUMMY PROGRAM-----------*/
   if (Serial.available()) {
     Serial.print("incomingInt: ");
 
     while (Serial.available() > 0) {
-      incomingInt = Serial.read() - 48;
-      // incomingChar = String(Serial.read());
-      Serial.println(incomingInt);
+      in[0] = Serial.parseInt();
+      in[1] = Serial.parseInt();
+      in[2] = Serial.parseInt();
 
-      if (incomingInt == -1) {// -1 indicates start of data group
-        h = 0;
-        Serial.println("h = 0");
-      } else if (incomingInt == -2) {// -2 to seperate the data in the group
-        h++;
-        Serial.println("h++");
-      } else if (incomingInt == -3) {// -3 to end data group and print data
-        Serial.println("Print please");//Test
-        Serial.println(in[0]);
-        Serial.println(in[1]);
-        Serial.println(in[2]);
-      }
-      else {
-        in[h] = incomingInt;
-      }
+      Serial.println(in[0]);
+      Serial.println(in[1]);
+      Serial.println(in[2]);
     }
   }
+  /*-----------DUMMY PROGRAM-----------*/
+
+  /*-----------DUMMY PROGRAM-----------*/
+  //  if (Serial.available()) {
+  //    Serial.print("incomingChar: ");
+  //
+  //    while (Serial.available() > 0) {
+  //      charReader[i] = Serial.read();
+  //      i++;
+  //      incomingChar = Serial.read(); // If it's single bit it can be used for if statements, maybe?
+  //      Serial.println(incomingChar);
+  //      if (incomingChar == '-1') {// -1 indicates start of data group
+  //        h = 0;
+  //        Serial.println("h = 0");
+  //      } else if (incomingChar == '-2') {// -2 to seperate the data in the group
+  //        h++;
+  //        Serial.println("h++");
+  //      } else if (incomingChar == '-3') {// -3 to end data group and print data
+  //        Serial.println("Print please");//Test
+  //        Serial.println(in[0]);
+  //        Serial.println(in[1]);
+  //        Serial.println(in[2]);
+  //      }
+  //      else {
+  //        //while(Serial.available() > 0){
+  //        stoa
+  //        in[h] = incomingChar;
+  //        //}
+  //      }
+  //    }
+  //  }
   /*-----------DUMMY PROGRAM-----------*/
 
 }
