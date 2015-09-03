@@ -12,6 +12,7 @@ String incomingChar;
 int in[3];
 String charReader[10];
 int h;
+int count;
 
 
 void setup() {
@@ -61,37 +62,42 @@ void loop() {
 
 
   /*-----------DUMMY PROGRAM-----------*/
-  if (Serial.available()) {
-//    Serial.print("incomingInt: ");
+  //if (Serial.available()) {
+    //    Serial.print("incomingInt: ");
 
-    while (Serial.available() > 0) {
+    while (Serial.available() >= 6) {// wait for 3 ints to arrive
+      delay(100);
       in[0] = Serial.parseInt();
       in[1] = Serial.parseInt();
       in[2] = Serial.parseInt();
 
-//      Serial.println(in[0]);
-//      Serial.println(in[1]);
-//      Serial.println(in[2]);
-
+      //      Serial.println(in[0]);
+      //      Serial.println(in[1]);
+      //      Serial.println(in[2]);
+      Serial.write(1);
+      count = 0;
     }
-    Serial.write(1);
-  }
 
+
+  //}
   //Turn all off
-  digitalWrite(7,LOW);
-  digitalWrite(2,LOW);
-  digitalWrite(3,LOW);
-  digitalWrite(4,LOW);
-  digitalWrite(5,LOW);
-  digitalWrite(6,LOW);
-
-  //Light appropriate outputs
-  digitalWrite(in[0],HIGH);
-  digitalWrite(in[1],HIGH);
-  digitalWrite(in[2],HIGH);
-
-
+  if (count == 0){
+  digitalWrite(7, LOW);
+  digitalWrite(2, LOW);
+  digitalWrite(3, LOW);
+  digitalWrite(4, LOW);
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
+  }
+  count++;
   
+  //Light appropriate outputs
+  digitalWrite(in[0], HIGH);
+  digitalWrite(in[1], HIGH);
+  digitalWrite(in[2], HIGH);
+
+  //Serial.read();//Flush buffer
+
   /*-----------DUMMY PROGRAM-----------*/
 
   /*-----------DUMMY PROGRAM-----------*/

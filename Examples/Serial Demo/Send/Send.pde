@@ -4,7 +4,7 @@ Serial port;
 int first = 5;
 int second = 7;
 
-int val;
+int val = 0;
 boolean NEXT = false;
 int received = 1;
 int var;
@@ -35,15 +35,19 @@ void draw() {
     //    port.write(9);
     //    port.write(-3);//-3 ends data group and prints
 
-    while (1==1) {
-      port.write("7,2,3");
+
+
+    while (val != 1) {
+      port.write("4,5,6");
       val = port.read();
-      println("In the Loop");
+      println("Loop Val:", val);
       if (val == 1) {
         println("val: ", val);
         break;
       }
     }
+    val = port.read();
+    println("FIRST VAL: ", val);
   }
 }
 
