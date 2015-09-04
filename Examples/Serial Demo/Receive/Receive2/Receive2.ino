@@ -80,6 +80,10 @@ void loop() {
     in[1] = Serial.parseInt();
     in[2] = Serial.parseInt();
 
+    Serial.println("in[0]: "+in[0]);
+    Serial.println("in[1]: "+in[1]);
+    Serial.println("in[2]: "+in[2]);
+
     //      Serial.write(in[0]);
     //      Serial.write(in[1]);
     //      Serial.write(in[2]);
