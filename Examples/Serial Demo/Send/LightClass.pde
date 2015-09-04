@@ -1,41 +1,65 @@
 class lightClass {
-int blinkRate;
-int currentLED = 0;
-int LED1;
-int LED2;
-String DONE;
-int val = 1;
+  int blinkRate;
+  int currentLED = 1;
+  int LED1;
+  int LED2;
+  String DONE;
+  int val = 0;
+  int count;
+  int TAG;
+  int brightness;
 
   //Constructor
-  lightClass(int iBlinkRate, int Led1, int Led2) {
+  lightClass(int iTAG, int iBlinkRate, int Led1, int Led2, int iBrightness) {
+    TAG = iTAG;
     blinkRate = iBlinkRate;
     LED1 = Led1;
     LED2 = Led2;
+    brightness = iBrightness;
   }
 
   void sendData() {
-    println("VAL: ",val);
-    currentLED++;
-    if(currentLED >LED2){
-     currentLED = LED1;
-    println("IN LOOP"); 
+    val = 0;
+    
+    int ran = int(random(3));
+    if (ran == 0) {
+      LED1 = 3;
+    } else if (ran == 1) {
+      LED1 = 5;
+    } else if (ran == 2) {
+      LED1 = 6;
     }
-    
-    println("Current LED: ",currentLED);
-    
+
+    println("TAG: "+TAG+ " VAL: ", val);
+    //    if (count >= blinkRate) {
+    //      currentLED++;
+    //      count = 0;
+    //      if (currentLED >LED2) {
+    //        currentLED = LED1;
+    //        println("CHANGE LED");
+    //      }
+    //    } 
+
+    currentLED = LED1;
+
+    //count++;
+
+
     String LightON = str(currentLED);
-    
+    String BRI = str(brightness);
+
+    println("TAG: "+TAG+ " Current LED: "+ currentLED+" BRI: "+BRI+" Count: "+count);
+
     while (val != 1) {
-      port.write(LightON);
+      port.write(""+TAG+","+LightON+","+BRI);
       val = port.read();
-      println("Loop Val:", val);
+      println("TAG: "+TAG+ " Loop Val:", val);
       if (val == 1) {
-        println("val: ", val);
         break;
       }
     }
     val = port.read();
-    println("PASSED LOOP");
+    println("TAG: "+TAG+ " Final Val: ", val);
   }
 }
 
