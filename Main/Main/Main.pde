@@ -100,8 +100,8 @@ boolean fadedDONE;
 void setup() {
 
   //Initialise Port to send serial data to arduino
-  port = new Serial(this, "/dev/tty.usbmodem641", 9600); 
-  port.bufferUntil('\n');
+  // port = new Serial(this, "/dev/tty.usbmodem441", 9600); 
+  // port.bufferUntil('\n');
 
   //Create PGraphics
   Circles = createGraphics(canX, canY);
@@ -216,7 +216,7 @@ void draw() {
     background(BGhue, BGsat, BGbri);
   }
 
-  PART1.timer('A');
+  PART1.timer(/*'A'*/);
 //  PART2.timer();
 //  PART3.timer();
 //  PART4.timer();

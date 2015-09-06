@@ -30,7 +30,6 @@ class textFileReader {
     singerInfo = new int[3][text.length]; //1.Start time 2.Frequency 3.Note duration ms
     for (int i=0; i< (text.length/3); i++) {
       for (int j=0; j<3; j++) {
-        port.write(int(text[x]));
         singerInfo[j][i] = int(text[x]);
         x++;
       }
@@ -39,7 +38,7 @@ class textFileReader {
 
 
   //Measure time passed and send new values from the arrays
-  void timer(int TAG) {
+  void timer(/*int TAG*/) {
     if (z < text.length - 1) {
       //      println("Length: ", text.length);
       //      println("Millis: "+millis()+" Next Millis: " + singerInfo[0][z+1] + " SecondPasses: " + secondPassed);
@@ -71,24 +70,24 @@ class textFileReader {
     }
     
     //Send data to arduino when new data is needed
-    if(NEXT == true){
-     h += 1;
-     println("Sending Data ("+h+")");
-     port.write(TAG);
+//     if(NEXT == true){
+//      h += 1;
+//      println("Sending Data ("+h+")");
+//      port.write(TAG);
      
-     port.write(singerInfo[0][z]);
-     println("Sent: ",singerInfo[0][z]);
-//     
-//     port.write(singerInfo[1][z]);
-//     println("Waiting for F");
-//     port.bufferUntil('F');
-//     println("Got F");
-//     port.write(singerInfo[2][z]);
-//     println("Waiting for D");
-//     port.bufferUntil('D');
-//     println("Got D");
-     port.write(h);
-    }
+//      port.write(singerInfo[0][z]);
+//      println("Sent: ",singerInfo[0][z]);
+// //     
+// //     port.write(singerInfo[1][z]);
+// //     println("Waiting for F");
+// //     port.bufferUntil('F');
+// //     println("Got F");
+// //     port.write(singerInfo[2][z]);
+// //     println("Waiting for D");
+// //     port.bufferUntil('D');
+// //     println("Got D");
+//      port.write(h);
+//     }
     
   }
 
