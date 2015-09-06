@@ -1,10 +1,12 @@
-#include <DmxMaster.h>
-
 #include <DMXSerial.h>
 
-#include <DmxSimple.h>
-
-#include <SoftwareSerial.h>
+//#include <DmxMaster.h>
+//
+//#include <DMXSerial.h>
+//
+//#include <DmxSimple.h>
+//
+//#include <SoftwareSerial.h>
 
 
 /*------DMX ADDRESSES------*/
@@ -115,5 +117,5 @@ while (Serial.available() >= 3) {// wait for 3 ints to arrive (Keep having to ch
 }
 
 void function1(){
-	DMXSimple.write(panL1, in[0]);
+	DMXSerial.write(panL1, in[0]);
 }

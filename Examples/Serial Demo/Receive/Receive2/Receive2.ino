@@ -1,5 +1,7 @@
+#include <DMXSerial.h>
+
 #include <SoftwareSerial.h>
-#include <DmxSimple.h>
+
 
 //#include <DmxMaster.h>
 
@@ -121,17 +123,17 @@ void loop() {
 
   /*-----------DMX DUMMY PROGRAM-----------*/
 
-  int hTiltL1, vTiltL1, speelL1, redL1, blueL1, greenL1
-  int hTiltL2, vTiltL2, speelL2, redL2, blueL2, greenL2
-  int hTiltL3, vTiltL3, speelL3, redL3, blueL3, greenL3
-  int hTiltL4, vTiltL4, speelL4, redL4, blueL4, greenL4
-  int hTiltL5, vTiltL5, speelL5, redL5, blueL5, greenL5
-  int hTiltL6, vTiltL6, speelL6, redL6, blueL6, greenL6
-  int hTiltL7, vTiltL7, speelL7, redL7, blueL7, greenL7
-  int hTiltL8, vTiltL8, speelL8, redL8, blueL8, greenL8
-
-  int fre1, fre2, fre3, fre4, fre5, fre6;
-  int dur1, dur2, dur3, dur5, dur5, dur6;
+//  int hTiltL1, vTiltL1, speelL1, redL1, blueL1, greenL1
+//  int hTiltL2, vTiltL2, speelL2, redL2, blueL2, greenL2
+//  int hTiltL3, vTiltL3, speelL3, redL3, blueL3, greenL3
+//  int hTiltL4, vTiltL4, speelL4, redL4, blueL4, greenL4
+//  int hTiltL5, vTiltL5, speelL5, redL5, blueL5, greenL5
+//  int hTiltL6, vTiltL6, speelL6, redL6, blueL6, greenL6
+//  int hTiltL7, vTiltL7, speelL7, redL7, blueL7, greenL7
+//  int hTiltL8, vTiltL8, speelL8, redL8, blueL8, greenL8
+//
+//  int fre1, fre2, fre3, fre4, fre5, fre6;
+//  int dur1, dur2, dur3, dur5, dur5, dur6;
 
    while (Serial.available() >= 3) {// wait for 3 ints to arrive (Keep having to change this?)
      in[0] = Serial.parseInt();
@@ -144,31 +146,31 @@ void loop() {
      Serial.write(1);
    }
   
-  //Sort incoming data
-   if (in[0] == 1) {
-      fre1 = in[1];
-      dur1 = in[2];
-    } else if (in[0] == 2) {
-      fre2 = in[1];
-      dur2 = in[2];
-    } else if (in[0] == 2) {
-      fre3 = in[1];
-      dur3 = in[2];
-    } else if (in[0] == 2) {
-      fre4 = in[1];
-      dur4 = in[2];
-    } else if (in[0] == 2) {
-      fre5 = in[1];
-      dur5 = in[2];
-    } else if (in[0] == 2) {
-      fre6 = in[1];
-      dur6 = in[2];
-    } 
+//  //Sort incoming data
+//   if (in[0] == 1) {
+//      fre1 = in[1];
+//      dur1 = in[2];
+//    } else if (in[0] == 2) {
+//      fre2 = in[1];
+//      dur2 = in[2];
+//    } else if (in[0] == 2) {
+//      fre3 = in[1];
+//      dur3 = in[2];
+//    } else if (in[0] == 2) {
+//      fre4 = in[1];
+//      dur4 = in[2];
+//    } else if (in[0] == 2) {
+//      fre5 = in[1];
+//      dur5 = in[2];
+//    } else if (in[0] == 2) {
+//      fre6 = in[1];
+//      dur6 = in[2];
+//    } 
 
    //Light appropriate outputs
-   DMXSimple.write(channel1, in[0]);
-   DMXSimple.write(channel2, in[1]);
-   DMXSimple.write(channel3, in[2]);
+   DMXSerial.write(7, in[0]);
+//   DMXSimple.write(channel2, in[1]);
+//   DMXSimple.write(channel3, in[2]);
 
   /*-----------DMX DUMMY PROGRAM-----------*/
 
