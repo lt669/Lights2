@@ -72,12 +72,12 @@ class textFileReader {
     }
     
     //Send data to arduino when new data is needed
-    if(NEXT == true && state == 1){
+    if(NEXT == true){
       String pitchS = str(singerInfo[1][i]);
       String durationS = str(singerInfo[2][i]);
 
       while(val != 1){
-      port.write(""+TAG+","+pitchS+","+durationS);
+      port.write(""+TAG+","+state+","+pitchS+","+durationS);
       val = port.read();
       if(val == 1){
         break;
