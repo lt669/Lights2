@@ -58,6 +58,8 @@ int x =0;
 
 int[] comp = new int[2];
 
+int state; //What the Arduino should run
+
 
 //Set up classes
 squigleClass sq1;
@@ -346,8 +348,9 @@ void graphicChoice() {
 void keyPressed() {
 
   select = Character.digit(key, 10);
+  state = select;
   println("Select: ", select);
-  if (select == 1) {
+  if (select == 0) {
     fadedDONE = false;
   }
   //  if (select == 1) {

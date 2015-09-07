@@ -19,6 +19,8 @@ class textFileReader {
 
   int h = 0;
 
+  int val; //Flag sent by Arduino
+
   //Constructor
   textFileReader(String iFile) {
     file = iFile;
@@ -70,24 +72,19 @@ class textFileReader {
     }
     
     //Send data to arduino when new data is needed
-//     if(NEXT == true){
-//      h += 1;
-//      println("Sending Data ("+h+")");
-//      port.write(TAG);
-     
-//      port.write(singerInfo[0][z]);
-//      println("Sent: ",singerInfo[0][z]);
-// //     
-// //     port.write(singerInfo[1][z]);
-// //     println("Waiting for F");
-// //     port.bufferUntil('F');
-// //     println("Got F");
-// //     port.write(singerInfo[2][z]);
-// //     println("Waiting for D");
-// //     port.bufferUntil('D');
-// //     println("Got D");
-//      port.write(h);
-//     }
+    if(NEXT == true && state == 1){
+      String pitchS = str(singerInfo[1][i]);
+      String durationS = str(singerInfo[2][i]);
+
+      while(val != 1){
+      port.write(""+TAG+","+pitchS+","+durationS);
+      val = port.read();
+      if(val == 1){
+        break;
+      }
+      }
+      val = port.read();
+    }
     
   }
 

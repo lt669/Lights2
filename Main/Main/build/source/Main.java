@@ -79,6 +79,8 @@ int x =0;
 
 int[] comp = new int[2];
 
+int state; //What the Arduino should run
+
 
 //Set up classes
 squigleClass sq1;
@@ -367,8 +369,9 @@ public void graphicChoice() {
 public void keyPressed() {
 
   select = Character.digit(key, 10);
+  state = select;
   println("Select: ", select);
-  if (select == 1) {
+  if (select == 0) {
     fadedDONE = false;
   }
   //  if (select == 1) {
@@ -690,6 +693,27 @@ class Cir {
       fill(0, 0, BGbri, Saturation); //Setting last value to 0 makes the circles centres transparent 
       ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
     }
+
+    //Send to Arduino
+    if(NEXT == true && state == 2){ //State '2' runs 'sameFunction' in Arduino
+     //Send colour data to Arduino
+    int lightColour = Color.HSBtoRGB(bright, sizeBri,Brightness);
+
+    println("Colour: ",lightColour);
+
+    //Convert to a string
+    String lightColourS = str(lightColour);
+
+      // while(val != 1){
+      // port.write(""+TAG+","+lightColourS;
+      // val = port.read();
+      // if(val == 1){
+      //   break;
+      // }
+      // }
+      // val = port.read();
+    }
+
   }
 
   public void setNext(boolean n) {
@@ -1237,6 +1261,8 @@ class textFileReader {
 
   int h = 0;
 
+  int val; //Flag sent by Arduino
+
   //Constructor
   textFileReader(String iFile) {
     file = iFile;
@@ -1288,24 +1314,19 @@ class textFileReader {
     }
     
     //Send data to arduino when new data is needed
-//     if(NEXT == true){
-//      h += 1;
-//      println("Sending Data ("+h+")");
-//      port.write(TAG);
-     
-//      port.write(singerInfo[0][z]);
-//      println("Sent: ",singerInfo[0][z]);
-// //     
-// //     port.write(singerInfo[1][z]);
-// //     println("Waiting for F");
-// //     port.bufferUntil('F');
-// //     println("Got F");
-// //     port.write(singerInfo[2][z]);
-// //     println("Waiting for D");
-// //     port.bufferUntil('D');
-// //     println("Got D");
-//      port.write(h);
-//     }
+    if(NEXT == true && state == 1){
+      String pitchS = str(singerInfo[1][i]);
+      String durationS = str(singerInfo[2][i]);
+
+      while(val != 1){
+      port.write(""+TAG+","+pitchS+","+durationS);
+      val = port.read();
+      if(val == 1){
+        break;
+      }
+      }
+      val = port.read();
+    }
     
   }
 

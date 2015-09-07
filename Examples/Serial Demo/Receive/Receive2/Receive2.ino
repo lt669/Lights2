@@ -1,9 +1,8 @@
-#include <DMXSerial.h>
+//#include <DMXSerial.h>
+//
+//#include <SoftwareSerial.h>
 
-#include <SoftwareSerial.h>
-
-
-//#include <DmxMaster.h>
+#include <DmxMaster.h>
 
 int i = 0;
 int j = 0;
@@ -40,78 +39,80 @@ void setup() {
 
 void loop() {
   /*-----------SERIAL DUMMY PROGRAM-----------*/
-  // if (Serial.available()) {
-  //    Serial.print("incomingInt: ");
+  if (Serial.available()) {
+     Serial.println("incomingInt: ");
 
-  //    while (Serial.available() >= 3) {// wait for 3 ints to arrive
-  //      in[0] = Serial.parseInt();
-  //      in[1] = Serial.parseInt();
-  //      //in[2] = Serial.parseInt();
-  //
-  //      //      Serial.write(in[0]);
-  //      //      Serial.write(in[1]);
-  //      //      Serial.write(in[2]);
-  //      Serial.write(1);
-  //      count = 0;
-  //    }
-  //
-  //
-  //  //}
-  //  //Turn all off
-  //  if (count == 0) {
-  //    digitalWrite(7, LOW);
-  //    digitalWrite(2, LOW);
-  //    digitalWrite(3, LOW);
-  //    digitalWrite(4, LOW);
-  //    digitalWrite(5, LOW);
-  //    digitalWrite(6, LOW);
-  //  }
-  //  count++;
-  //
-  //  //Light appropriate outputs
-  //  digitalWrite(in[0], HIGH);
-  //  //digitalWrite(in[1], HIGH);
-  //  //digitalWrite(in[2], HIGH);
+     while (Serial.available() >= 2) {// wait for 3 ints to arrive
+       in[0] = Serial.parseInt();
+       in[1] = Serial.parseInt();
+       //in[2] = Serial.parseInt();
+  
+       //      Serial.write(in[0]);
+       //      Serial.write(in[1]);
+       //      Serial.write(in[2]);
+       Serial.write(1);
+       count = 0;
+     }
+  
+  
+   //}
+   //Turn all off
+   if (count == 0) {
+     digitalWrite(7, LOW);
+     digitalWrite(2, LOW);
+     digitalWrite(3, LOW);
+     digitalWrite(4, LOW);
+     digitalWrite(5, LOW);
+     digitalWrite(6, LOW);
+   }
+   count++;
+  
+   //Light appropriate outputs
+   digitalWrite(in[0], HIGH);
+   //digitalWrite(in[1], HIGH);
+   //digitalWrite(in[2], HIGH);
+ }
+}
 
   //Serial.read();//Flush buffer
 
   /*-----------SERIAL DUMMY PROGRAM-----------*/
 
   /*-----------BRIGHTNESS DUMMY PROGRAM-----------*/
-  while (Serial.available() >= 5) {// wait for 3 ints to arrive (Keep having to change this?)
-    in[0] = Serial.parseInt();
-    in[1] = Serial.parseInt();
-    in[2] = Serial.parseInt();
-
-    Serial.println("in[0]: "+in[0]);
-    Serial.println("in[1]: "+in[1]);
-    Serial.println("in[2]: "+in[2]);
-
-    //      Serial.write(in[0]);
-    //      Serial.write(in[1]);
-    //      Serial.write(in[2]);
-
-    digitalWrite(7, LOW);
-    digitalWrite(2, LOW);
-    digitalWrite(3, LOW);
-    digitalWrite(4, LOW);
-    digitalWrite(5, LOW);
-    digitalWrite(6, LOW);
-
-    if (in[0] == 1) {
-      light1[0] = in[1];
-      light1[1] = in[2];
-    } else if (in[0] == 2) {
-      light2[0] = in[1];
-      light2[1] = in[2];
-    }
-    Serial.write(1);
-  }
-
-
-
-  analogWrite(light1[0], light1[1]);
-  analogWrite(light2[0], light2[1]);
+//  while (Serial.available() >= 5) {// wait for 3 ints to arrive (Keep having to change this?)
+//    in[0] = Serial.parseInt();
+//    in[1] = Serial.parseInt();
+//    in[2] = Serial.parseInt();
+//
+//    Serial.println("in[0]: "+in[0]);
+//    Serial.println("in[1]: "+in[1]);
+//    Serial.println("in[2]: "+in[2]);
+//
+//    //      Serial.write(in[0]);
+//    //      Serial.write(in[1]);
+//    //      Serial.write(in[2]);
+//
+//    digitalWrite(7, LOW);
+//    digitalWrite(2, LOW);
+//    digitalWrite(3, LOW);
+//    digitalWrite(4, LOW);
+//    digitalWrite(5, LOW);
+//    digitalWrite(6, LOW);
+//
+//    if (in[0] == 1) {
+//      light1[0] = in[1];
+//      light1[1] = in[2];
+//    } else if (in[0] == 2) {
+//      light2[0] = in[1];
+//      light2[1] = in[2];
+//    }
+//    Serial.write(1);
+//  }
+//
+//
+//
+//  analogWrite(light1[0], light1[1]);
+//  analogWrite(light2[0], light2[1]);
 
 
   //Light appropriate outputs
@@ -135,16 +136,13 @@ void loop() {
 //  int fre1, fre2, fre3, fre4, fre5, fre6;
 //  int dur1, dur2, dur3, dur5, dur5, dur6;
 
-   while (Serial.available() >= 3) {// wait for 3 ints to arrive (Keep having to change this?)
-     in[0] = Serial.parseInt();
-     in[1] = Serial.parseInt();
-     in[2] = Serial.parseInt();
-  
-     //      Serial.write(in[0]);
-     //      Serial.write(in[1]);
-     //      Serial.write(in[2]);
-     Serial.write(1);
-   }
+   // while (Serial.available() >= 3) {// wait for 3 ints to arrive (Keep having to change this?)
+   //   in[0] = Serial.parseInt();
+   //   in[1] = Serial.parseInt();
+   //   in[2] = Serial.parseInt();
+
+   //   Serial.write(1);
+   // }
   
 //  //Sort incoming data
 //   if (in[0] == 1) {
@@ -168,7 +166,7 @@ void loop() {
 //    } 
 
    //Light appropriate outputs
-   DMXSerial.write(7, in[0]);
+ //  DmxMaster.write(7, in[0]);
 //   DMXSimple.write(channel2, in[1]);
 //   DMXSimple.write(channel3, in[2]);
 
@@ -207,7 +205,7 @@ void loop() {
   /*-----------DUMMY PROGRAM-----------*/
 
   //  Serial.write(1);
-}
+//}
 
 
 //void serialEvent()  {
