@@ -1,73 +1,14 @@
 #include <HSBColor.h>
-
 #include <RGBConverter.h>
-
 #include <DmxMaster.h>
-
-
-/*------DMX ADDRESSES------*/
-int panL1 = 1;
-int tiltL1 = 2;
-int speelL1 = 3;
-int redL1 = 4;
-int blueL1 = 5;
-int greenL1 = 6;
-
-int panL2 = 7;
-int tiltL2 = 8;
-int speelL2 = 9;
-int redL2 = 10;
-int blueL2 = 11;
-int greenL2 = 12;
-
-int panL3 = 13;
-int tiltL3 = 14;
-int speelL3 = 15;
-int redL3 = 16;
-int blueL3 = 17;
-int greenL3 = 18;
-
-int panL4 = 19;
-int tiltL4 = 20;
-int speelL4 = 21;
-int redL4 = 22;
-int blueL4 = 23;
-int greenL4 = 24;
-
-int panL5 = 25;
-int tiltL5 = 26;
-int speelL5 = 27;
-int redL5 = 28;
-int blueL5 = 29;
-int greenL5 = 30;
-int panL6 = 31;
-int tiltL6 = 32;
-int speelL6 = 33;
-int redL6 = 34;
-int blueL6 = 35;
-int greenL6 = 36;
-
-int panL7 = 37;
-int tiltL7 = 38;
-int speelL7 = 39;
-int redL7 = 40;
-int blueL7 = 41;
-int greenL7 = 42;
-
-int panL8 = 43;
-int tiltL8 = 44;
-int speelL8 = 45;
-int redL8 = 46;
-int blueL8 = 47;
-int greenL8 = 48;
-/*------DMX ADDRESSES------*/
+#include <DMXAddresses.h>
 
 int fre1, fre2, fre3, fre4, fre5, fre6;
 int dur1, dur2, dur3, dur4, dur5, dur6;
 
 int in[3]; // Input from Processing
 
-int situation; //Function to run will change depending on where we are in the program/music
+int state; //Function to run will change depending on where we are in the program/music
 
 //Hardcode range variables (Taken from Processing)
 int maxPitch[6];
@@ -75,9 +16,26 @@ int minPitch[6];
 int maxDuration[6];
 
 //circlesCopy variables
-int hue[8];
-int bri[8];
-int sat[8];
+int hue[14];
+int bri[14];
+int sat[14];
+
+int rgb1[6]; //Current values: 1-3 Previous values: 4-6
+int rgb2[6];
+int rgb3[6];
+int rgb4[6];
+int rgb5[6];
+int rgb6[6];
+int rgb7[6];
+int rgb8[6];
+int rgb9[6];
+int rgb10[6];
+int rgb11[6];
+int rgb12[6];
+int rgb13[6];
+int rgb14[6];
+
+int fader = 5; //Speed of lights fade
 
 void setup() {
 
@@ -107,11 +65,22 @@ void setup() {
 }
 
 void loop() {
+  
+  if(state == 1){
+  //Contiuously outputs data to the lights
+  pitchToColourDisplay();
+}
+
+  //Output to lights
+  writeToLights(redL1, greenL1, blueL1, red1, green1, blue1);
+}
+
+void SerialEvent(){
   while (Serial.available() >= 3) {// wait for 3 ints to arrive (Keep having to change this?)
-    in[0] = Serial.parseInt();
-    in[1] = Serial.parseInt();
-    in[2] = Serial.parseInt();
-    in[3] = Serial.parseInt();
+    in[0] = Serial.parseInt(); //TAG
+    in[1] = Serial.parseInt(); //pitch
+    in[2] = Serial.parseInt(); //duration
+    in[3] = Serial.parseInt(); //state
     Serial.write(1); //Tell processing we're done receiving data
   }
 
@@ -135,21 +104,17 @@ void loop() {
     fre6 = in[1];
     dur6 = in[2];
   } else if (in[0] == 7) {
-    situation = in[1];
+    state = in[3];
   }
 
-  if (situation == 1) {
-    function1();
+  //Colour and movment calculations based on the state
+  if (state == 1) {
+    pitchToColour(fre1,9,0,rgb9); //SingerPitch, Light, Singer, Light
   }
-}
-
-void function1() {
-  DmxMaster.write(panL1, in[0]);
 }
 
 void circlesCopy() {
   //NOTE:Test lights will not have movement, so use hardcoded addresses
-
   for (int i = 0; i < 8; i++) {
     //Map the frequency and duration the same way it is in Processing - Circles
     hue[i] = int(map(fre1, minPitch[i], maxPitch[i], 0, 360));
@@ -157,8 +122,6 @@ void circlesCopy() {
     bri[i] = int(map(fre1, minPitch[i], maxPitch[i], 0, 70));
   }
 
-  int rgb1[3];
-  
   //Convert HSB to RGB
   
   H2R_HSBtoRGB(hue[0], sat[0], bri[0], rgb1);
@@ -168,5 +131,81 @@ void circlesCopy() {
   DmxMaster.write(greenL1, rgb1[1]);
   DmxMaster.write(blueL1, rgb1[2]);
 
-
 }
+
+void pitchToColourCalc(int frequency, int light, int singer, int rgb[6]){
+  
+  //Map the frequency to color (using map)
+  mapHSB(frequency,light,singer); //SingerPitch, Light, Singer
+
+  //Shift previous values
+  RGBShift(rgb);
+
+  //Convert HSB to RGB
+  H2R_HSBtoRGB(hue[light], sat[light], bri[light], rgb);
+}
+
+void pitchToColourDisplay(){
+  //Compare current values to previous
+  compareRed(rgb);
+}
+
+void mapHSB(int freq, int count, int count2){
+    //Maps 
+    hue[count] = int(map(freq, minPitch[count2], maxPitch[count2], 0, 360));
+    sat[count] =  int(map(freq, minPitch[count2], maxPitch[count2], 0, 100));
+    bri[count] = int(map(freq, minPitch[count2], maxPitch[count2], 0, 70));
+}
+
+void writeToLights(int redAddress, int greenAddress, int blueAddress, int colour[6]){
+    DmxMaster.write(redAddress, colour[0]);
+    DmxMaster.write(greenAddress, colour[1]);
+    DmxMaster.write(blueAddress, colour[2]);
+}
+
+void RGBShift(RGBArray[6]){
+  RGBArray[0] = RGBArray[3];
+  RGBArray[1] = RGBArray[4];
+  RGBArray[2] = RGBArray[5];
+}
+
+void compareRGB(int initialArray[6], int targetArray[3]){
+  targetArray[0] = compareRed(initialArray);
+  targetArray[2] = compareGreen(initialArray);
+  targetArray[3] = compareBlue(initialArray);
+}
+
+void compareRed(int compareRedArray[6]){
+  if(compareRedArray[0] > compareRedArray[3]){
+    red += fader;
+  } else if (compareRedArray[0] < compareRedArray[3]){
+    red -= fader;
+  } else {
+    red = red;
+  }
+  return red;
+}
+
+void compareGreen(int compareGreenArray[6]){
+    if(compareGreenArray[1] > compareGreenArray[4]){
+    green += fader;
+  } else if (compareGreenArray[1] < compareGreenArray[4]){
+    green -= fader;
+  } else {
+    green = green;
+  }
+  return green;
+}
+
+void compareBlue(int compareBlueArray[6]){
+      if(compareBlueArray[2] > compareBlueArray[5]){
+    blue += fader;
+  } else if (compareBlueArray[2] > compareBlueArray[5]){
+    blue -= fader;
+  } else {
+    blue = blue;
+  }
+  return blue
+}
+
+

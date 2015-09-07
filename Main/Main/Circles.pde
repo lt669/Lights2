@@ -138,26 +138,6 @@ class Cir {
       ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
     }
 
-    //Send to Arduino
-    if(NEXT == true && state == 2){ //State '2' runs 'sameFunction' in Arduino
-     //Send colour data to Arduino
-    int lightColour = Color.HSBtoRGB(bright, sizeBri,Brightness);
-
-    println("Colour: ",lightColour);
-
-    //Convert to a string
-    String lightColourS = str(lightColour);
-
-      // while(val != 1){
-      // port.write(""+TAG+","+lightColourS;
-      // val = port.read();
-      // if(val == 1){
-      //   break;
-      // }
-      // }
-      // val = port.read();
-    }
-
   }
 
   void setNext(boolean n) {
