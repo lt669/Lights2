@@ -109,7 +109,7 @@ void SerialEvent(){
 
   //Colour and movment calculations based on the state
   if (state == 1) {
-    pitchToColour(fre1,9,0,rgb9); //SingerPitch, Light, Singer, Light
+    pitchToColourCalc(fre1,9,0,rgb9); //SingerPitch, Light, Singer, Light
   }
 }
 
@@ -145,8 +145,10 @@ void pitchToColourCalc(int frequency, int light, int singer, int rgb[6]){
   H2R_HSBtoRGB(hue[light], sat[light], bri[light], rgb);
 }
 
-void pitchToColourDisplay(){
+void pitchToColourDisplay(int rgb[6]){
   //Compare current values to previous
+  compareRGB(rgb);
+
   compareRed(rgb);
 }
 
@@ -169,10 +171,11 @@ void RGBShift(RGBArray[6]){
   RGBArray[2] = RGBArray[5];
 }
 
-void compareRGB(int initialArray[6], int targetArray[3]){
+void compareRGB(int initialArray[6]){
   targetArray[0] = compareRed(initialArray);
   targetArray[2] = compareGreen(initialArray);
   targetArray[3] = compareBlue(initialArray);
+
 }
 
 void compareRed(int compareRedArray[6]){
