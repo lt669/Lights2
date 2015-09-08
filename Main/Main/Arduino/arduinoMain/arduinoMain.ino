@@ -1,41 +1,15 @@
 #include <HSBColor.h>
 #include <RGBConverter.h>
 #include <DmxMaster.h>
-#include <DMXAddresses.h>
 
-int fre1, fre2, fre3, fre4, fre5, fre6;
-int dur1, dur2, dur3, dur4, dur5, dur6;
+//Self written headers
+#include "DMXAddresses.h"
+#include "RGBVariables.h"
 
-int in[3]; // Input from Processing
+//#include <pitchToColourFunctions.h>
+//#include "pitchToColourFunctions.c"
 
-int state; //Function to run will change depending on where we are in the program/music
 
-//Hardcode range variables (Taken from Processing)
-int maxPitch[6];
-int minPitch[6];
-int maxDuration[6];
-
-//circlesCopy variables
-int hue[14];
-int bri[14];
-int sat[14];
-
-int rgb1[6]; //Current values: 1-3 Previous values: 4-6
-int rgb2[6];
-int rgb3[6];
-int rgb4[6];
-int rgb5[6];
-int rgb6[6];
-int rgb7[6];
-int rgb8[6];
-int rgb9[6];
-int rgb10[6];
-int rgb11[6];
-int rgb12[6];
-int rgb13[6];
-int rgb14[6];
-
-int fader = 5; //Speed of lights fade
 
 void setup() {
 
@@ -68,11 +42,11 @@ void loop() {
   
   if(state == 1){
   //Contiuously outputs data to the lights
-  pitchToColourDisplay();
+  pitchToColourDisplay(rgb1, compareRGB1, displayRGB1);
 }
 
   //Output to lights
-  writeToLights(redL1, greenL1, blueL1, red1, green1, blue1);
+  writeToLights(redL1, greenL1, blueL1, displayRGB1);
 }
 
 void SerialEvent(){
@@ -107,9 +81,9 @@ void SerialEvent(){
     state = in[3];
   }
 
-  //Colour and movment calculations based on the state
+  //Colour and movement calculations based on the state
   if (state == 1) {
-    pitchToColourCalc(fre1,9,0,rgb9); //SingerPitch, Light, Singer, Light
+    pitchToColourCalc(fre1,9,0,rgb9, compareRGB9, hue, sat, bri); //SingerPitch, Light, Singer, Light, (3 arrays to save the conversions to)
   }
 }
 
@@ -133,82 +107,31 @@ void circlesCopy() {
 
 }
 
-void pitchToColourCalc(int frequency, int light, int singer, int rgb[6]){
+
+void pitchToColourCalc(int frequency, int light, int singer, int rgb[3], int rgbCompare[3], int hue[14], int sat[14], int bri[14]){
   
   //Map the frequency to color (using map)
-  mapHSB(frequency,light,singer); //SingerPitch, Light, Singer
+  mapHSB(frequency,light,singer, hue, sat, bri); //SingerPitch, Light, Singer, (arrays to save data to)
 
-  //Shift previous values
-  RGBShift(rgb);
+  //Shift previous values of RGB (Before loading new ones in below)
+  RGBShift(rgb, rgbCompare);
 
-  //Convert HSB to RGB
-  H2R_HSBtoRGB(hue[light], sat[light], bri[light], rgb);
+  //Convert HSB to RGB (Overwrites first three addresses of RGB)
+  H2R_HSBtoRGB(hue[light], sat[light], bri[light], rgb); //Does it only write to first 3 addresses?
 }
 
-void pitchToColourDisplay(int rgb[6]){
-  //Compare current values to previous
-  compareRGB(rgb);
 
-  compareRed(rgb);
-}
-
-void mapHSB(int freq, int count, int count2){
-    //Maps 
-    hue[count] = int(map(freq, minPitch[count2], maxPitch[count2], 0, 360));
-    sat[count] =  int(map(freq, minPitch[count2], maxPitch[count2], 0, 100));
-    bri[count] = int(map(freq, minPitch[count2], maxPitch[count2], 0, 70));
-}
-
-void writeToLights(int redAddress, int greenAddress, int blueAddress, int colour[6]){
+void writeToLights(int redAddress, int greenAddress, int blueAddress, int colour[3]){
     DmxMaster.write(redAddress, colour[0]);
     DmxMaster.write(greenAddress, colour[1]);
     DmxMaster.write(blueAddress, colour[2]);
 }
 
-void RGBShift(RGBArray[6]){
-  RGBArray[0] = RGBArray[3];
-  RGBArray[1] = RGBArray[4];
-  RGBArray[2] = RGBArray[5];
+void pitchToColourDisplay(int rgb[3], int rgbCompare[3], int targetArray[3]){
+  //Compare current values to previous
+  compareRGB(rgb, rgbCompare, targetArray);
 }
 
-void compareRGB(int initialArray[6]){
-  targetArray[0] = compareRed(initialArray);
-  targetArray[2] = compareGreen(initialArray);
-  targetArray[3] = compareBlue(initialArray);
 
-}
-
-void compareRed(int compareRedArray[6]){
-  if(compareRedArray[0] > compareRedArray[3]){
-    red += fader;
-  } else if (compareRedArray[0] < compareRedArray[3]){
-    red -= fader;
-  } else {
-    red = red;
-  }
-  return red;
-}
-
-void compareGreen(int compareGreenArray[6]){
-    if(compareGreenArray[1] > compareGreenArray[4]){
-    green += fader;
-  } else if (compareGreenArray[1] < compareGreenArray[4]){
-    green -= fader;
-  } else {
-    green = green;
-  }
-  return green;
-}
-
-void compareBlue(int compareBlueArray[6]){
-      if(compareBlueArray[2] > compareBlueArray[5]){
-    blue += fader;
-  } else if (compareBlueArray[2] > compareBlueArray[5]){
-    blue -= fader;
-  } else {
-    blue = blue;
-  }
-  return blue
-}
 
 

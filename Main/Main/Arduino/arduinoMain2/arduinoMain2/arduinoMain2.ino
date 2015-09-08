@@ -18,14 +18,13 @@ void setup() {
   Serial.begin(9600);
   Serial.println("READY");
 
-  int rgb[3];
-
+  int rgb[6];
+//  rgb[3] = 9;
+//  rgb[4] = 9;
+//  rgb[5] = 9;
   for(int i = 100; i<110; i++){
   H2R_HSBtoRGB(i, 100, 100, rgb);
-
-
-  
-  
+    
   Serial.print("i: ");
   Serial.print(i);
   Serial.print(" r: ");
@@ -33,7 +32,13 @@ void setup() {
   Serial.print(" g: ");
   Serial.print(rgb[1]);
   Serial.print(" b: ");
-  Serial.println(rgb[2]);
+  Serial.print(rgb[2]);
+  Serial.print(" [3]: ");
+  Serial.print(rgb[3]);
+  Serial.print(" [4]: ");
+  Serial.print(rgb[4]);
+  Serial.print(" [5]: ");
+  Serial.println(rgb[5]);
 }
 
 }
