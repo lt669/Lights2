@@ -15,7 +15,7 @@ class Cir {
   int last = 0;
   int millis;
   int seconds;
-  int[] secondArray = new int[2]; // place to compair seconds values
+  int[] secondArray = new int[2]; // place to compare seconds values
   float Saturation;
   float Brightness;
 

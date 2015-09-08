@@ -75,9 +75,10 @@ class textFileReader {
     if(NEXT == true){
       String pitchS = str(singerInfo[1][z]);
       String durationS = str(singerInfo[2][z]);
+      String stateS = str(state); //Takes global variable 'state'
 
       while(val != 1){
-      port.write(""+TAG+","+pitchS+","+durationS+","+state);
+      port.write(""+TAG+","+pitchS+","+durationS+","+stateS);
       val = port.read();
       if(val == 1){
         break;

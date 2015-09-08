@@ -47,10 +47,8 @@ void loop() {
 
   //Output to lights
   writeToLights(redL1, greenL1, blueL1, displayRGB1);
-}
-
-void SerialEvent(){
-  while (Serial.available() >= 3) {// wait for 3 ints to arrive (Keep having to change this?)
+if(Serial.available()){
+  while (Serial.available() >= 4) {// wait for 3 ints to arrive (Keep having to change this?)
     in[0] = Serial.parseInt(); //TAG
     in[1] = Serial.parseInt(); //pitch
     in[2] = Serial.parseInt(); //duration
@@ -77,14 +75,28 @@ void SerialEvent(){
   } else if (in[0] == 6) {
     fre6 = in[1];
     dur6 = in[2];
-  } else if (in[0] == 7) {
-    state = in[3];
   }
+    //Always store the state
+    state = in[3];
 
+    Serial.print("in[0]: ");
+    Serial.print(in[0]);
+    Serial.print(" in[1]: ");
+    Serial.print(in[1]);
+    Serial.print(" in[2]: ");
+    Serial.print(in[2]);
+    Serial.print("State: ");
+    Serial.println(state);
+}
   //Colour and movement calculations based on the state
   if (state == 1) {
     pitchToColourCalc(fre1,9,0,rgb9, compareRGB9, hue, sat, bri); //SingerPitch, Light, Singer, Light, (3 arrays to save the conversions to)
   }
+  
+}
+
+void SerialEvent(){
+
 }
 
 void circlesCopy() {
