@@ -1,5 +1,15 @@
 import processing.opengl.*;
 
+int numberOfSides = 4;
+int starterX = 400;
+int starterY = 300;
+int hue;
+int sat;
+int bri;
+
+
+int r;
+
 void setup() {
   
   size(600,400,P3D);
@@ -7,7 +17,32 @@ void setup() {
 }
 
 void draw() {
-  drawCylinder(20, 70, 200);
+ // background(-1);
+  numberOfSides += 1;
+  if(numberOfSides >= 100){
+    numberOfSides = 4;
+  }
+  hue += 1;
+  if(hue >= 360){
+    hue = 0;
+  }
+  sat += 1;
+  if(sat >= 100){
+    sat = 0;
+  }
+  bri = 100;
+
+starterX += 1;
+if(starterX >= 600){
+  starterX = 0;
+}
+
+  r -= 1;
+  if(r <= 0){
+    r = 100;
+  }
+
+  drawCylinder(numberOfSides, r, 200);
 }
 
 
@@ -20,7 +55,7 @@ void drawCylinder(int sides, float r, float h)
   for (int i = 0; i < sides; i++) {
     float x = cos( radians( i * angle ) ) * r;
     float y = sin( radians( i * angle ) ) * r;
-    vertex( x + 100, y + 100, -halfHeight );
+    vertex( x + starterX, y + starterY, -halfHeight );
   }
   endShape(CLOSE);
   // draw bottom shape
@@ -28,7 +63,7 @@ void drawCylinder(int sides, float r, float h)
   for (int i = 0; i < sides; i++) {
     float x = cos( radians( i * angle ) ) * r;
     float y = sin( radians( i * angle ) ) * r;
-    vertex( x + 100, y + 100, halfHeight );
+    vertex( x + starterX, y + starterY, halfHeight );
   }
   endShape(CLOSE);
 
@@ -37,8 +72,10 @@ void drawCylinder(int sides, float r, float h)
   for (int i = 0; i < sides + 1; i++) {
     float x = cos( radians( i * angle ) ) * r;
     float y = sin( radians( i * angle ) ) * r;
-    vertex( x + 100, y + 100, halfHeight);
-    vertex( x + 100, y + 100, -halfHeight);
+    colorMode(HSB,360,100,100);
+    fill(hue,sat,bri);
+    vertex( x + starterX, y + starterY, halfHeight);
+    vertex( x + starterX, y + starterY, -halfHeight);
   }
   endShape(CLOSE);
 } 
