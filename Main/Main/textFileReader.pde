@@ -40,7 +40,7 @@ class textFileReader {
 
 
   //Measure time passed and send new values from the arrays
-  void timer(/*int TAG*/) {
+  void timer(String TAG) {
     if (z < text.length - 1) {
       //      println("Length: ", text.length);
       //      println("Millis: "+millis()+" Next Millis: " + singerInfo[0][z+1] + " SecondPasses: " + secondPassed);
@@ -73,6 +73,8 @@ class textFileReader {
     
     //Send data to arduino when new data is needed
     if(NEXT == true){
+
+      println("TAG: "+TAG+" pitch: "+singerInfo[1][z]+" duration: "+singerInfo[2][z]+" state: "+state);
       String pitchS = str(singerInfo[1][z]);
       String durationS = str(singerInfo[2][z]);
       String stateS = str(state); //Takes global variable 'state'

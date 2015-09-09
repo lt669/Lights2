@@ -39,20 +39,14 @@ void setup() {
 }
 
 void loop() {
-  
-  if(state == 1){
-  //Contiuously outputs data to the lights
-  pitchToColourDisplay(rgb1, compareRGB1, displayRGB1);
-}
 
-  //Output to lights
-  writeToLights(redL1, greenL1, blueL1, displayRGB1);
-if(Serial.available()){
-  while (Serial.available() >= 4) {// wait for 3 ints to arrive (Keep having to change this?)
+  if(Serial.available()){
+  while (Serial.available() >= /*4*/ 5) {// wait for 3 ints to arrive (Keep having to change this?)
     in[0] = Serial.parseInt(); //TAG
     in[1] = Serial.parseInt(); //pitch
     in[2] = Serial.parseInt(); //duration
     in[3] = Serial.parseInt(); //state
+    in[4] = Serial.parseInt();//Run function (FOR TESTING ONLY!)
     Serial.write(1); //Tell processing we're done receiving data
   }
 
@@ -60,24 +54,25 @@ if(Serial.available()){
   if (in[0] == 1) {
     fre1 = in[1];
     dur1 = in[2];
-  } else if (in[0] == 2) {
-    fre2 = in[1];
-    dur2 = in[2];
-  } else if (in[0] == 3) {
-    fre3 = in[1];
-    dur3 = in[2];
-  } else if (in[0] == 4) {
-    fre4 = in[1];
-    dur4 = in[2];
-  } else if (in[0] == 5) {
-    fre5 = in[1];
-    dur5 = in[2];
-  } else if (in[0] == 6) {
-    fre6 = in[1];
-    dur6 = in[2];
-  }
+    } else if (in[0] == 2) {
+      fre2 = in[1];
+      dur2 = in[2];
+      } else if (in[0] == 3) {
+        fre3 = in[1];
+        dur3 = in[2];
+        } else if (in[0] == 4) {
+          fre4 = in[1];
+          dur4 = in[2];
+          } else if (in[0] == 5) {
+            fre5 = in[1];
+            dur5 = in[2];
+            } else if (in[0] == 6) {
+              fre6 = in[1];
+              dur6 = in[2];
+            }
     //Always store the state
-    state = in[3];
+    state = in[3]
+    fucntion = in[4];
 
     Serial.print("in[0]: ");
     Serial.print(in[0]);
@@ -85,18 +80,38 @@ if(Serial.available()){
     Serial.print(in[1]);
     Serial.print(" in[2]: ");
     Serial.print(in[2]);
-    Serial.print("State: ");
-    Serial.println(state);
-}
+    Serial.print(" State: ");
+    Serial.print(state);
+    Serial.print(" function "); //FOR TESTING ONLY
+    Serial.println(function);
+
   //Colour and movement calculations based on the state
   if (state == 1) {
     pitchToColourCalc(fre1,9,0,rgb9, compareRGB9, hue, sat, bri); //SingerPitch, Light, Singer, Light, (3 arrays to save the conversions to)
   }
+
+}
+
+//Run test function
+if(function == 1){
+  spin(panL1,tiltL1,speedL1,redL1,greenL1,blueL1,whiteL1, in[0], in[1], in[2]); //Light 1
+} else if (fuction == 2){
+  if(state == 1){
+  spin(panL2,tiltL2,speedL2,redL2,greenL2,blueL2,whiteL2, in[0], in[1], in[2]); //Light 2
+} else if (fuction == 3){
+  if(state == 1){
+  pitchToColourDisplay(rgb1, compareRGB1, displayRGB1);
+}
+}
+
+  //Continously output to lights
+  //writeToLights(redL1, greenL1, blueL1, displayRGB1);
+
   
 }
 
 void SerialEvent(){
-
+//This doesn't really work
 }
 
 void circlesCopy() {
@@ -121,7 +136,7 @@ void circlesCopy() {
 
 
 void pitchToColourCalc(int frequency, int light, int singer, int rgb[3], int rgbCompare[3], int hue[14], int sat[14], int bri[14]){
-  
+
   //Map the frequency to color (using map)
   mapHSB(frequency,light,singer, hue, sat, bri); //SingerPitch, Light, Singer, (arrays to save data to)
 
@@ -134,9 +149,9 @@ void pitchToColourCalc(int frequency, int light, int singer, int rgb[3], int rgb
 
 
 void writeToLights(int redAddress, int greenAddress, int blueAddress, int colour[3]){
-    DmxMaster.write(redAddress, colour[0]);
-    DmxMaster.write(greenAddress, colour[1]);
-    DmxMaster.write(blueAddress, colour[2]);
+  DmxMaster.write(redAddress, colour[0]);
+  DmxMaster.write(greenAddress, colour[1]);
+  DmxMaster.write(blueAddress, colour[2]);
 }
 
 void pitchToColourDisplay(int rgb[3], int rgbCompare[3], int targetArray[3]){

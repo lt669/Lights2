@@ -14,7 +14,6 @@ taken from the HSBColor.h file
 
 /*------------------------------HSB to RGB Functions------------------------------*/
 
-
 void RGBShift(int rgb[3], int rgbCompare[3]){
   //Shift previous RGB values to another array
   rgb[0] = rgbCompare[0];
