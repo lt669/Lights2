@@ -20,47 +20,6 @@ AudioPlayer player;
 //int squigleCanX = canX;
 //int squigleCanY = canY;
 
-//Mac
-int canX = 800;
-int canY = 400;
-
-boolean first, second;
-int backCount = 0;
-int BGhue = 0;
-int BGsat = 0;
-int BGbri = 100;
-int colorBright; //graphics brightness variable
-int select; //Bckground colour changer and other variables)
-//Cicles Variables
-Table table;
-int dur = 0;
-int pit = 0;
-PImage img;
-char circleKey;
-char squigleKey;
-int choice = 0;
-//char choice;
-
-//Squigle Variables
-float check = 0;
-char nPoints;
-//int nPoints = 1;
-float newX = canX/2;
-float newY = canY/2;
-int input;
-boolean pressed;
-float move;
-
-float startBang = 1.0;
-float stopBang = 1.0;
-
-int x =0;
-
-int[] comp = new int[2];
-
-int state; //What the Arduino should run
-
-
 //Set up classes
 squigleClass sq1;
 squigleClass sq2;
@@ -89,7 +48,6 @@ textFileReader PART5;
 textFileReader PART6;
 
 PureData pd;
-
 PGraphics Circles;
 PGraphics Squigles;
 
@@ -128,7 +86,6 @@ void setup() {
   //  //  pd.openPatch("/Users/Lewis/Developer/Lights_Project/Lights/Main/Main/patch.pd");  
   //  pd.openPatch("patch.pd");
   //  pd.start();
-
 
 
   //Load .txt files to singer classes
@@ -192,6 +149,9 @@ void setup() {
 
   //Send start bang to PD
   // pd.sendFloat("bang",startBang);
+
+  //Initialise cues array
+  //cueArray[] = new int[]
 
   size(canX, canY);
   colorMode(HSB, 360, 100, 100);
