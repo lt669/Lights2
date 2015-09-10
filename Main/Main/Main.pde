@@ -47,6 +47,9 @@ textFileReader PART4;
 textFileReader PART5;
 textFileReader PART6;
 
+reverbRings reverb1;
+reverbRings reverb2;
+
 PureData pd;
 PGraphics Circles;
 PGraphics Squigles;
@@ -60,8 +63,8 @@ boolean fadedDONE;
 void setup() {
 
   //Initialise Port to send serial data to arduino
-   port = new Serial(this, "/dev/cu.usbmodem411", 9600); 
-   port.bufferUntil('\n');
+//   port = new Serial(this, "/dev/cu.usbmodem411", 9600); 
+//   port.bufferUntil('\n');
 
   //Create PGraphics
   Circles = createGraphics(canX, canY);
@@ -87,6 +90,8 @@ void setup() {
   //  pd.openPatch("patch.pd");
   //  pd.start();
 
+  //Load cues into array
+  setCues();
 
   //Load .txt files to singer classes
   PART1 = new textFileReader("Part1.txt");
@@ -131,6 +136,11 @@ void setup() {
   sq4 = new squigleClass(canX/4, canY*3/4);
   sq5 = new squigleClass(canX/2, canY*3/4);
   sq6 = new squigleClass(canX*3/4, canY*3/4);
+
+  //reverbRings objects
+  reverb1 = new reverbRings(canX/4, canY/2,0,100);
+  reverb2 = new reverbRings(canX*3/4, canY/2,0,100);
+
 
   //Set the Pitch and Duration ranges in the appropriate classes
   singer1.setRange(PART1.getMinPitch(), PART1.getMaxPitch(), PART1.getMinDuration(), PART1.getMaxDuration());
@@ -179,16 +189,18 @@ void draw() {
   }
 
   PART1.timer("A");
-//  PART2.timer();
-//  PART3.timer();
-//  PART4.timer();
-//  PART5.timer();
-//  PART6.timer();
+  PART2.timer("B");
+  PART3.timer("C");
+  PART4.timer("D");
+  PART5.timer("E");
+  PART6.timer("F");
 
   graphicChoice();
   runCircleClass();
   runSquigleClass();
   //writeToArduino();
+
+  //runReverbClass();
 
   //runRectangles();
 
@@ -418,6 +430,13 @@ void runSquigleClass() {
   sq6.calcShape(PART6.getDuration(), PART6.getLvl(), canX*3/4, canY*3/4);
   sq6.drawShape();
   sq6.edgeCheck();
+}
+
+void runReverbClass(){
+
+
+  reverb1.drawRings(PART1.getNext());
+
 }
 
 void PD() {

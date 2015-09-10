@@ -132,12 +132,11 @@ class Cir {
       fill(bright + colorFlux, sizeBri, Brightness, Brightness);
       ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
     } else if (choice == 3 || choice == 8) {
-      strokeWeight(1);
+      //strokeWeight(1);
       stroke(bright + colorFlux, Saturation, Brightness, 100 - Brightness);
       fill(0, 0, BGbri, Saturation); //Setting last value to 0 makes the circles centres transparent 
-      ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
+      ellipse(posX, posY, size*sizeMultiplier*2, size*sizeMultiplier*2);
     }
-
   }
 
   void setNext(boolean n) {
@@ -159,9 +158,15 @@ class Cir {
 
   void setBright(int BRIGHT) {
     //  bright = BRIGHT;
+    if (choice == 3) {
+      bright = round(map(BRIGHT, 0, maxPitch, 0, 360)); 
+      Saturation = round(map(BRIGHT, 0, maxPitch, 0, 100));
+      Brightness = round(map(BRIGHT, 0, maxPitch, 0, 70));
+    } else {
     bright = round(map(BRIGHT, minPitch, maxPitch, 0, 360)); 
     Saturation = round(map(BRIGHT, minPitch, maxPitch, 0, 100));
     Brightness = round(map(BRIGHT, minPitch, maxPitch, 0, 70));
+    }
   }
 
   void setSecondPassed(boolean second) {

@@ -39,7 +39,8 @@ int[] comp = new int[2];
 int state; //What the Arduino should run
 
 /*---------------CUES---------------*/
-int [] cueArray = new int[17];
+int[] cueArray = new int[17];
+void setCues(){
 cueArray[0] = 8000;
 cueArray[1] = 68000;
 cueArray[2] = 180000;
@@ -57,4 +58,5 @@ cueArray[13] = 984000;
 cueArray[14] = 1036000;
 cueArray[15] = 1100000;
 cueArray[16] = 1176000;
+}
 /*---------------CUES---------------*/

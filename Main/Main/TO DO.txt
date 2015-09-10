@@ -14,17 +14,19 @@ Intelligent graphics choose (not the same graphic twice) - Currently on a rotor
 
 Sguigle bright colour looks shit, sort it
 
-For the squigle fill, concider alternating where the fading recs run
+For the squigle fill, consider alternating where the fading recs run
 
-Incorparate 12 second reverb time into graphics
+Incorporate 12 second reverb time into graphics
 
-Concider changing the DONE in circles to when there is a gap in notes, e.i the circles grow as long as there is a note
+Consider changing the DONE in circles to when there is a gap in notes, e.i the circles grow as long as there is a note
 
 The squigle line (white BG) needs something more
 
 Work on Intro Screen
 
 Make the circles grow more
+
+Make sure starting points are in the centre of the 3 projector screens
 
 ARUDINO:
 

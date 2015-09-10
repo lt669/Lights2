@@ -2,7 +2,7 @@
 //Large Lights
 int panL1 = 1;
 int tiltL1 = 2;
-int speelL1 = 3;
+int speedL1 = 3;
 int redL1 = 4;
 int greenL1 = 5;
 int blueL1 = 6;
@@ -10,7 +10,7 @@ int whiteL1 = 7;
 
 int panL2 = 8;
 int tiltL2 = 9;
-int speelL2 = 10;
+int speedL2 = 10;
 int redL2 = 11;
 int greenL2 = 12;
 int blueL2 = 13;
@@ -18,7 +18,7 @@ int whiteL2 = 14;
 
 int panL3 = 15;
 int tiltL3 = 16;
-int speelL3 = 17;
+int speedL3 = 17;
 int redL3 = 18;
 int greenL3 = 19;
 int blueL3 = 20;
@@ -26,7 +26,7 @@ int whiteL3 = 21;
 
 int panL4 = 22;
 int tiltL4 = 23;
-int speelL4 = 24;
+int speedL4 = 24;
 int redL4 = 25;
 int greenL4 = 26;
 int blueL4 = 27;
@@ -34,7 +34,7 @@ int whiteL4 = 28;
 
 int panL5 = 29;
 int tiltL5 = 30;
-int speelL5 = 31;
+int speedL5 = 31;
 int redL5 = 32;
 int greenL5 = 33;
 int blueL5 = 34;
@@ -42,7 +42,7 @@ int whiteL5 = 35;
 
 int panL6 = 36;
 int tiltL6 = 37;
-int speelL6 = 38;
+int speedL6 = 38;
 int redL6 = 39;
 int greenL6 = 40;
 int blueL6 = 41;
@@ -50,7 +50,7 @@ int whiteL6 = 42;
 
 int panL7 = 43;
 int tiltL7 = 44;
-int speelL7 = 45;
+int speedL7 = 45;
 int redL7 = 46;
 int greenL7 = 47;
 int blueL7 = 48;
@@ -59,7 +59,7 @@ int whiteL7 = 49;
 
 int panL8 = 50;
 int tiltL8 = 51;
-int speelL8 = 52;
+int speedL8 = 52;
 int redL8 = 53;
 int greenL8 = 54;
 int blueL8 = 55;

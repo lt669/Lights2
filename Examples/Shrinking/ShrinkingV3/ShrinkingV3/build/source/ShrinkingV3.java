@@ -1,3 +1,58 @@
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class ShrinkingV3 extends PApplet {
+
+int canX = 700;
+int canY = 800;
+boolean NEXT;
+int count;
+Quad Q1;
+Quad Q2;
+
+public void setup() {
+  size(canX, canY);
+
+
+  //noLoop();
+}
+
+public void draw() {
+  //background(-1);
+  if (NEXT == true) { 
+    if (count == 0) {
+      Q1 = new Quad(canX/4, canY/2, 100);
+      Q2 = new Quad(canX*3/4, canY/2, 100);
+    }
+    count++;
+
+    Q1.doQuad();
+    Q2.doQuad();
+  }
+  //Q1.printArray();
+}
+
+public void mousePressed() {
+  redraw();
+  NEXT = true;
+}
+
+public void mouseReleased() {
+  NEXT = false;
+  count = 0;
+}
+
 class Quad {
 
   int xPos, yPos;
@@ -29,6 +84,7 @@ class Quad {
   int Brightness = 6;
   int Choose = 7;
 
+  int radius;
 
   //Constructor
   Quad(int iXPos, int iYPos, int iSize) {
@@ -43,7 +99,7 @@ class Quad {
     shapesArray[e][sizeY] = ySize;
   }
 
-  void doQuad() {
+  public void doQuad() {
     
     //Set randomised colours
     colorMode(HSB, 360, 100, 100, 100);
@@ -61,12 +117,14 @@ class Quad {
     extendArray(); // Add an extra element to the array
     //    println("\nStart Movement", movement);
     calcSize(); //Calculate the size of all the shapes
-    chooseDirection(); // Calculate how the next shape will be drawn
-    println("movement: ", movement);
+    //chooseDirection(); // Calculate how the next shape will be drawn
+
     //Black marker where next starting point is
     fill(0, 0, 0);
     rect(shapesArray[e+1][xPosition], shapesArray[e+1][yPosition], 7, 5);
-    calcPosition(); //Test to see whether the shape can be drawn in this direction
+
+    moveInCircle();
+    //calcPosition(); //Test to see whether the shape can be drawn in this direction
     println("movement2: ", movement);
     //    print("\nreChoose: ", reChoose);
     if (reChoose == true) {
@@ -77,7 +135,7 @@ class Quad {
       movement -= 2; //Draw in the same direction again
       }
       println("new Movment: ", movement);
-      chooseDirection(); //Draw new shape in same as previous direction
+      //chooseDirection(); //Draw new shape in same as previous direction
     }
 
 
@@ -98,7 +156,7 @@ class Quad {
   }
 
 
-  void drawQuad() {
+  public void drawQuad() {
     //Loop through array and draw all new shapes
     for (int x=0; x<shapesArray.length; x++) { 
       noStroke();
@@ -111,7 +169,7 @@ class Quad {
     rect(shapesArray[e][xPosition], shapesArray[e][yPosition], 5, 5);
   }
 
-  void extendArray() {
+  public void extendArray() {
     //Create buffer array
     int[][] bufferArray = new int[shapesArray.length][8];
 
@@ -126,14 +184,14 @@ class Quad {
     shapesArray = new int[e+2][8]; // +2 as we need 1 extra element, and array adresses start at 0, but declaring the size starts at 1
 
     //Copy elements back into shapesArray
-    for (int x=0; x<bufferArray.length; x++) {
+    for (int x=1; x<bufferArray.length; x++) { //LEAVE THE FIRT ELEMENT EMPTY
       for (int i=0; i<8; i++) {
         shapesArray[x][i] = bufferArray[x][i];
       }
     }
   }
 
-  void calcSize() {
+  public void calcSize() {
     //Calculate new size of the previously drawn shapes
     for (i=0; i<shapesArray.length - 1; i++) { 
       //Alter size in X direction
@@ -180,7 +238,18 @@ class Quad {
     }
   }
 
-  void chooseDirection() {
+  public void moveInCircle(){
+
+    radius -= 1;
+    if(radius <= 0){
+      radius = 10;
+    }
+    shapesArray[e+1][xPosition] = PApplet.parseInt(cos(TWO_PI)*radius);
+    shapesArray[e+1][yPosition] = PApplet.parseInt(sin(TWO_PI)*radius);
+
+  }
+
+  public void chooseDirection() {
     //Decide where the starting point of the shape will be based on whether it will fit
     if (movement == right) {
       Right();
@@ -193,7 +262,7 @@ class Quad {
     }
   }
 
-  void calcPosition() {
+  public void calcPosition() {
     reChoose = false;
 
 //    for (i=0; i<shapesArray.length; i++) {
@@ -235,7 +304,7 @@ class Quad {
     }
   }
 
-  void printArray() {
+  public void printArray() {
     println("");
     for (int i=0; i<shapesArray.length-1; i++) {//Might need to +1
       println(""+i+" x: "+shapesArray[i][xPosition]+" y: " +shapesArray[i][yPosition]+" xEnd: " +(shapesArray[i][xPosition]+shapesArray[i][sizeX])+" yEnd: "+(shapesArray[i][yPosition]+shapesArray[i][sizeY] + " Choose: "+ shapesArray[i][Choose]));
@@ -243,7 +312,7 @@ class Quad {
   }
 
 
-  void Right() {
+  public void Right() {
     println("Drawing Right");
     if (movement == right) {
       shapesArray[e+1][xPosition] = shapesArray[e][xPosition] + shapesArray[e][sizeX];
@@ -254,7 +323,7 @@ class Quad {
     }
   }
 
-  void Down() {
+  public void Down() {
     println("Drawing Down");
     if (shapesArray[e][Choose] == 1) {
       shapesArray[e+1][xPosition] = shapesArray[e][xPosition] - shapesArray[e+1][sizeX] ;
@@ -265,7 +334,7 @@ class Quad {
     }
   }
 
-  void Left() {
+  public void Left() {
     //If the previous movement was also left
     //    if (shapesArray[e][Choose] == 2)
     if (movement == 2) {
@@ -285,7 +354,7 @@ class Quad {
     //    shapesArray[e+1][sizeY] = shapesArray[e+1][sizeY];// - (shapesArray[e+1][sizeY])*2;
   }
 
-  void Up() {
+  public void Up() {
     println("Drawing Up");
     if (shapesArray[e][Choose] == up) {
       shapesArray[e+1][xPosition] = shapesArray[e][xPosition];
@@ -301,3 +370,12 @@ class Quad {
   }
 }
 
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "ShrinkingV3" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
+}

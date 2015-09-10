@@ -29,6 +29,7 @@ class Quad {
   int Brightness = 6;
   int Choose = 7;
 
+  int radius;
 
   //Constructor
   Quad(int iXPos, int iYPos, int iSize) {
@@ -61,12 +62,14 @@ class Quad {
     extendArray(); // Add an extra element to the array
     //    println("\nStart Movement", movement);
     calcSize(); //Calculate the size of all the shapes
-    chooseDirection(); // Calculate how the next shape will be drawn
-    println("movement: ", movement);
+    //chooseDirection(); // Calculate how the next shape will be drawn
+
     //Black marker where next starting point is
     fill(0, 0, 0);
     rect(shapesArray[e+1][xPosition], shapesArray[e+1][yPosition], 7, 5);
-    calcPosition(); //Test to see whether the shape can be drawn in this direction
+
+    moveInCircle();
+    //calcPosition(); //Test to see whether the shape can be drawn in this direction
     println("movement2: ", movement);
     //    print("\nreChoose: ", reChoose);
     if (reChoose == true) {
@@ -77,7 +80,7 @@ class Quad {
       movement -= 2; //Draw in the same direction again
       }
       println("new Movment: ", movement);
-      chooseDirection(); //Draw new shape in same as previous direction
+      //chooseDirection(); //Draw new shape in same as previous direction
     }
 
 
@@ -126,7 +129,7 @@ class Quad {
     shapesArray = new int[e+2][8]; // +2 as we need 1 extra element, and array adresses start at 0, but declaring the size starts at 1
 
     //Copy elements back into shapesArray
-    for (int x=0; x<bufferArray.length; x++) {
+    for (int x=0; x<bufferArray.length; x++) { //LEAVE THE FIRT ELEMENT EMPTY
       for (int i=0; i<8; i++) {
         shapesArray[x][i] = bufferArray[x][i];
       }
@@ -178,6 +181,17 @@ class Quad {
         shapesArray[i][yPosition] += 1;
       }
     }
+  }
+
+  void moveInCircle(){
+
+    radius -= 1;
+    if(radius <= 0){
+      radius = 10;
+    }
+    shapesArray[e+1][xPosition] = int(cos(TWO_PI)*radius);
+    shapesArray[e+1][yPosition] = int(sin(TWO_PI)*radius);
+
   }
 
   void chooseDirection() {

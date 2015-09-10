@@ -71,6 +71,11 @@ class textFileReader {
       println("END OF FILE");
     }
     
+    //sendToArduino(TAG);
+    
+  }
+  
+  void sendToArduino(String TAG){
     //Send data to arduino when new data is needed
     if(NEXT == true){
 
@@ -88,7 +93,6 @@ class textFileReader {
       }
       val = port.read();
     }
-    
   }
 
   void rangeCalc() { //Calculates the maximum & minimum pitch and duration within the text file
