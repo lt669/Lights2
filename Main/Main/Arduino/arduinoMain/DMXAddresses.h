@@ -1,99 +1,99 @@
 /*------DMX ADDRESSES------*/
 //Large Lights
 int panL1 = 1;
-int tiltL1 = 2;
-int speedL1 = 3;
-int redL1 = 4;
-int greenL1 = 5;
-int blueL1 = 6;
-int whiteL1 = 7;
+int tiltL1 = panL1 + 1;
+int speedL1 = panL1 + 2;
+int redL1 = panL1 + 3;
+int greenL1 = panL1 + 4;
+int blueL1 = panL1 + 5;
+int whiteL1 = panL1 + 6;
 
-int panL2 = 8;
-int tiltL2 = 9;
-int speedL2 = 10;
-int redL2 = 11;
-int greenL2 = 12;
-int blueL2 = 13;
-int whiteL2 = 14;
+int panL2 = 15;
+int tiltL2 = panL2 + 1;
+int speedL2 = panL2 + 2;
+int redL2 = panL2 + 3;
+int greenL2 = panL2 + 4;
+int blueL2 = panL2 + 5;
+int whiteL2 = panL2 + 6;
 
-int panL3 = 15;
-int tiltL3 = 16;
-int speedL3 = 17;
-int redL3 = 18;
-int greenL3 = 19;
-int blueL3 = 20;
-int whiteL3 = 21;
+int panL3 = 29;
+int tiltL3 = panL3 + 1;
+int speedL3 = panL3 + 2;
+int redL3 = panL3 + 3;
+int greenL3 = panL3 + 4;
+int blueL3 = panL3 + 5;
+int whiteL3 = panL3 + 6;
 
-int panL4 = 22;
-int tiltL4 = 23;
-int speedL4 = 24;
-int redL4 = 25;
-int greenL4 = 26;
-int blueL4 = 27;
-int whiteL4 = 28;
+int panL4 = 43;
+int tiltL4 = panL4 + 1;
+int speedL4 = panL4 + 2;
+int redL4 = panL4 + 3;
+int greenL4 = panL4 + 4;
+int blueL4 = panL4 + 5;
+int whiteL4 = panL4 + 6;
 
-int panL5 = 29;
-int tiltL5 = 30;
-int speedL5 = 31;
-int redL5 = 32;
-int greenL5 = 33;
-int blueL5 = 34;
-int whiteL5 = 35;
+int panL5 = 57;
+int tiltL5 = panL5 + 1;
+int speedL5 = panL5 + 2;
+int redL5 = panL5 + 3;
+int greenL5 = panL5 + 4;
+int blueL5 = panL5 + 5;
+int whiteL5 = panL5 + 6;
 
-int panL6 = 36;
-int tiltL6 = 37;
-int speedL6 = 38;
-int redL6 = 39;
-int greenL6 = 40;
-int blueL6 = 41;
-int whiteL6 = 42;
+int panL6 = 71;
+int tiltL6 = panL6 + 1;
+int speedL6 = panL6 + 2;
+int redL6 = panL6 + 3;
+int greenL6 = panL6 + 4;
+int blueL6 = panL6 + 5;
+int whiteL6 = panL6 + 6;
 
-int panL7 = 43;
-int tiltL7 = 44;
-int speedL7 = 45;
-int redL7 = 46;
-int greenL7 = 47;
-int blueL7 = 48;
-int whiteL7 = 49;
+int panL7 = 85;
+int tiltL7 = panL7 + 1;
+int speedL7 = panL7 + 2;
+int redL7 = panL7 + 3;
+int greenL7 = panL7 + 4;
+int blueL7 = panL7 + 5;
+int whiteL7 = panL7 + 6;
 
 
-int panL8 = 50;
-int tiltL8 = 51;
-int speedL8 = 52;
-int redL8 = 53;
-int greenL8 = 54;
-int blueL8 = 55;
-int whiteL8 = 56;
+int panL8 = 99;
+int tiltL8 = panL8 + 1;
+int speedL8 = panL8 + 2;
+int redL8 = panL8 + 3;
+int greenL8 = panL8 + 4;
+int blueL8 = panL8 + 5;
+int whiteL8 = panL8 + 6;
 
 //Small Lights
-int redL9 = 57;
-int greenL9 = 58;
-int blueL9 = 59;
-int whiteL9 = 60;
+int redL9 = 113;
+int greenL9 = redL9 + 1;
+int blueL9 = redL9 + 2;
+int whiteL9 = redL9 + 3;
 
-int redL10 = 61;
-int greenL10 = 62;
-int blueL10 = 63;
-int whiteL10 = 64;
+int redL10 = 117;
+int greenL10 = redL10 + 1;
+int blueL10 = redL10 + 2;
+int whiteL10 = redL10 + 3;
 
-int redL11 = 65;
-int greenL11 = 66;
-int blueL11 = 67;
-int whiteL11 = 68;
+int redL11 = 121;
+int greenL11 = redL11 + 1;
+int blueL11 = redL11 + 2;
+int whiteL11 = redL11 + 3;
 
-int redL12 = 69;
-int greenL12 = 70;
-int blueL12 = 71;
-int whiteL12 = 72;
+int redL12 = 125;
+int greenL12 = redL12 + 1;
+int blueL12 = redL12 + 2;
+int whiteL12 = redL12 + 3;
 
-int redL13 = 73;
-int greenL13 = 74;
-int blueL13 = 75;
-int whiteL13 = 76;
+int redL13 = 129;
+int greenL13 = redL13 + 1;
+int blueL13 = redL13 + 2;
+int whiteL13 = redL13 + 3;
 
-int redL14 = 77;
-int greenL14 = 78;
-int blueL14 = 79;
-int whiteL14 = 80;
+int redL14 = 132;
+int greenL14 = redL14 + 1;
+int blueL14 = redL14 + 2;
+int whiteL14 = redL14 + 3;
 
 /*------DMX ADDRESSES------*/

@@ -41,12 +41,12 @@ void setup() {
 void loop() {
 
   if (Serial.available()) {
-    while (Serial.available() >= /*4*/ 5) {// wait for 3 ints to arrive (Keep having to change this?)
+    while (Serial.available() >= /*4*/ 4) {// wait for 3 ints to arrive (Keep having to change this?)
       in[0] = Serial.parseInt(); //TAG
       in[1] = Serial.parseInt(); //pitch
       in[2] = Serial.parseInt(); //duration
       in[3] = Serial.parseInt(); //state
-      in[4] = Serial.parseInt();//Run function (FOR TESTING ONLY!)
+      //in[4] = Serial.parseInt();//Run function (FOR TESTING ONLY!)
       Serial.write(1); //Tell processing we're done receiving data
     }
 
@@ -72,39 +72,46 @@ void loop() {
     }
     //Always store the state
     state = in[3];
-    function = in[4];
+    function = 3 /*in[4]*/;
 
-//    function = 3; //For testing with processing
+    //    function = 3; //For testing with processing
 
-    Serial.print("in[0]: ");
-    Serial.print(in[0]);
-    Serial.print(" in[1]: ");
-    Serial.print(in[1]);
-    Serial.print(" in[2]: ");
-    Serial.print(in[2]);
-    Serial.print(" State: ");
-    Serial.print(state);
-    Serial.print(" function "); //FOR TESTING ONLY
-    Serial.println(function);
+    // Serial.print("in[0]: ");
+    // Serial.print(in[0]);
+    // Serial.print(" in[1]: ");
+    // Serial.print(in[1]);
+    // Serial.print(" in[2]: ");
+    // Serial.print(in[2]);
+    // Serial.print(" State: ");
+    // Serial.print(state);
+    // Serial.print(" function "); //FOR TESTING ONLY
+    // Serial.println(function);
 
     //Colour and movement calculations based on the state (while serial is available)
-    if (state == 1) {
-      pitchToColourCalc(fre1, 9, 0, rgb9, compareRGB9, hue, sat, bri); //SingerPitch, Light, Singer, Light, (3 arrays to save the conversions to)
-    }
-  }
-  //Run test function
-  if (function == 1) {
-    spin(panL1, tiltL1, speedL1, redL1, greenL1, blueL1, whiteL1, in[0], in[1], in[2]); //Light 1
-  } else if (function == 2) {
-    spin(panL2, tiltL2, speedL2, redL2, greenL2, blueL2, whiteL2, in[0], in[1], in[2]); //Light 2
-  } else if (function == 3) {
-    if (state == 1) {
-      pitchToColourDisplay(rgb1, compareRGB1, displayRGB1);
-    }
+    //    if (state == 1) {
+    //      pitchToColourCalc(fre1, 9, 0, rgb9, compareRGB9, hue, sat, bri); //SingerPitch, Light, Singer, Light, (3 arrays to save the conversions to)
+    //    }
+
+    pitchToColourCalc(fre1, 9, 0, rgb9, compareRGB9, hue, sat, bri);
   }
 
+  //  //Run test function
+  //  if (function == 1) {
+  //    //spin(panL1, tiltL1, speedL1, redL1, greenL1, blueL1, whiteL1, in[0], in[1], in[2]); //Light 1
+  //        spin(panL3, tiltL3, speedL3, redL3, greenL3, blueL3, whiteL3, in[0], in[1], in[2]); //Light 2
+  //  } else if (function == 2) {
+  //    //spin(panL2, tiltL2, speedL2, redL2, greenL2, blueL2, whiteL2, in[0], in[1], in[2]); //Light 2
+  //    spin(panL3, tiltL3, speedL3, redL3, greenL3, blueL3, whiteL3, in[0], in[1], in[2]); //Light 2
+  //  } else if (function == 3) {
+  //    if (state == 1) {
+  //      pitchToColourDisplay(rgb1, compareRGB1, displayRGB1);
+  //    }
+  //  }
+
+
+  //pitchToColourDisplay(rgb9, compareRGB9, displayRGB9);
   //Continously output to lights
-  writeToLights(redL1, greenL1, blueL1, displayRGB1);
+  writeToLights(redL3, greenL3, blueL3, rgb9 /*displayRGB9*/);
 
 }
 
@@ -144,7 +151,7 @@ void pitchToColourCalc(int frequency, int light, int singer, int rgb[3], int rgb
   RGBShift(rgb, rgbCompare);
 
   //Convert HSB to RGB (Overwrites first three addresses of RGB)
-  H2R_HSBtoRGB(hue[light], sat[light], bri[light], rgb); //Does it only write to first 3 addresses?
+  H2R_HSBtoRGB(hue[light], sat[light], bri[light], rgb);
 }
 
 
@@ -152,6 +159,10 @@ void writeToLights(int redAddress, int greenAddress, int blueAddress, int colour
   DmxMaster.write(redAddress, colour[0]);
   DmxMaster.write(greenAddress, colour[1]);
   DmxMaster.write(blueAddress, colour[2]);
+  DmxMaster.write(38, 255);
+  DmxMaster.write(39, 255);
+
+
 }
 
 void pitchToColourDisplay(int rgb[3], int rgbCompare[3], int targetArray[3]) {

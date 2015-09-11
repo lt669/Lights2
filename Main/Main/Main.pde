@@ -63,8 +63,8 @@ boolean fadedDONE;
 void setup() {
 
   //Initialise Port to send serial data to arduino
-//   port = new Serial(this, "/dev/cu.usbmodem411", 9600); 
-//   port.bufferUntil('\n');
+  port = new Serial(this, "/dev/cu.usbmodem641", 9600); 
+  port.bufferUntil('\n');
 
   //Create PGraphics
   Circles = createGraphics(canX, canY);
@@ -188,12 +188,12 @@ void draw() {
     background(BGhue, BGsat, BGbri);
   }
 
-  PART1.timer("A");
-  PART2.timer("B");
-  PART3.timer("C");
-  PART4.timer("D");
-  PART5.timer("E");
-  PART6.timer("F");
+  PART1.timer(1);
+  // PART2.timer("B");
+  // PART3.timer("C");
+  // PART4.timer("D");
+  // PART5.timer("E");
+  // PART6.timer("F");
 
   graphicChoice();
   runCircleClass();
@@ -320,7 +320,7 @@ void graphicChoice() {
 void keyPressed() {
 
   select = Character.digit(key, 10);
-  state = select;
+  //state = select;
   println("Select: ", select);
   if (select == 0) {
     fadedDONE = false;

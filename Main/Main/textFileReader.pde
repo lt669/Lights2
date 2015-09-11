@@ -40,7 +40,7 @@ class textFileReader {
 
 
   //Measure time passed and send new values from the arrays
-  void timer(String TAG) {
+  void timer(int TAG) {
     if (z < text.length - 1) {
       //      println("Length: ", text.length);
       //      println("Millis: "+millis()+" Next Millis: " + singerInfo[0][z+1] + " SecondPasses: " + secondPassed);
@@ -71,21 +71,22 @@ class textFileReader {
       println("END OF FILE");
     }
     
-    //sendToArduino(TAG);
+    sendToArduino(TAG);
     
   }
   
-  void sendToArduino(String TAG){
+  void sendToArduino(int inTAG){
     //Send data to arduino when new data is needed
     if(NEXT == true){
 
-      println("TAG: "+TAG+" pitch: "+singerInfo[1][z]+" duration: "+singerInfo[2][z]+" state: "+state);
+      println("TAG: "+inTAG+" pitch: "+singerInfo[1][z]+" duration: "+singerInfo[2][z]+" state: "+state);
+      String tagS = str(inTAG);
       String pitchS = str(singerInfo[1][z]);
       String durationS = str(singerInfo[2][z]);
       String stateS = str(state); //Takes global variable 'state'
 
       while(val != 1){
-      port.write(""+TAG+","+pitchS+","+durationS+","+stateS);
+      port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
       val = port.read();
       if(val == 1){
         break;

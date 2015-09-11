@@ -36,7 +36,7 @@ int x =0;
 
 int[] comp = new int[2];
 
-int state; //What the Arduino should run
+int state = 1; //What the Arduino should run
 
 /*---------------CUES---------------*/
 int[] cueArray = new int[17];
