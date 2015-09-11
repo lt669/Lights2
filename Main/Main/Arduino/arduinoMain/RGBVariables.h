@@ -15,27 +15,38 @@ int maxPitch[6];
 int minPitch[6];
 int maxDuration[6];
 
+int panArray[8];
+int tiltArray[8];
+int movementSpeedArray[8];
+int redArray[8];
+int greenArray[8];
+int blueArray[8];
+int whiteArray[8];
+int dimmerArray[8];
+int shutterArray[8];
+
 //circlesCopy variables
 int hue[14];
 int bri[14];
 int sat[14];
 
 int lightFaderSpeed = 5; //Speed of lights fade
+int fadeCounter;
 
-int rgb1[3]; //Stores Target RGB Value
-int rgb2[3];
-int rgb3[3];
-int rgb4[3];
-int rgb5[3];
-int rgb6[3];
-int rgb7[3];
-int rgb8[3];
-int rgb9[3];
-int rgb10[3];
-int rgb11[3];
-int rgb12[3];
-int rgb13[3];
-int rgb14[3];
+int rgb1[4]; //Stores Target RGBW Value
+int rgb2[4];
+int rgb3[4];
+int rgb4[4];
+int rgb5[4];
+int rgb6[4];
+int rgb7[4];
+int rgb8[4];
+int rgb9[4];
+int rgb10[4];
+int rgb11[4];
+int rgb12[4];
+int rgb13[4];
+int rgb14[4];
 
 int compareRGB1[3]; //Stores previous RGB Value
 int compareRGB2[3];

@@ -20,6 +20,7 @@ class textFileReader {
   int h = 0;
 
   int val; //Flag sent by Arduino
+  int waitingCount = 0;
 
   //Constructor
   textFileReader(String iFile) {
@@ -70,14 +71,13 @@ class textFileReader {
     } else {
       println("END OF FILE");
     }
-    
+
     sendToArduino(TAG);
-    
   }
-  
-  void sendToArduino(int inTAG){
+
+  void sendToArduino(int inTAG) {
     //Send data to arduino when new data is needed
-    if(NEXT == true){
+    if (NEXT == true) {
 
       println("TAG: "+inTAG+" pitch: "+singerInfo[1][z]+" duration: "+singerInfo[2][z]+" state: "+state);
       String tagS = str(inTAG);
@@ -85,13 +85,19 @@ class textFileReader {
       String durationS = str(singerInfo[2][z]);
       String stateS = str(state); //Takes global variable 'state'
 
-      while(val != 1){
-      port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
-      println("Waiting...");
-      val = port.read();
-      if(val == 1){
-        break;
-      }
+      while (val != 1) {
+        port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
+        //println("Waiting...");
+        val = port.read();
+        waitingCount++;
+        println("waitingCount: ",waitingCount);
+        if (waitingCount >=10) {//break out if there is an error
+          val = 1;
+          waitingCount = 0;
+        }
+        if (val == 1) {
+          break;
+        }
       }
       val = port.read();
     }

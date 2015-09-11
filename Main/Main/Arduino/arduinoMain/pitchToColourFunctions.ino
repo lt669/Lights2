@@ -11,6 +11,54 @@ taken from the HSBColor.h file
 //#include "RGBVariables.h"
 //#include "pitchToColourFunctions.h"
 
+/*------------------------------Set Ranges------------------------------*/
+void setRanges(){
+
+  maxDuration[0] = 6500;
+  maxDuration[1] = 5250;
+  maxDuration[2] = 6000;
+  maxDuration[3] = 6000;
+  maxDuration[4] = 4250;
+  maxDuration[5] = 7000;
+
+  maxPitch[0] = 932;
+  maxPitch[1] = 466;
+  maxPitch[2] = 698;
+  maxPitch[3] = 622;
+  maxPitch[4] = 523;
+  maxPitch[5] = 155;
+
+  minPitch[0] = 349;
+  minPitch[1] = 261;
+  minPitch[2] = 261;
+  minPitch[3] = 261;
+  minPitch[4] = 261;
+  minPitch[5] = 87;
+}
+/*------------------------------Set Ranges------------------------------*/
+
+/*------------------------------Set Addresses------------------------------*/
+void setAddresses(){
+  int address = 1;
+  int z;
+  for(z = 0; z<9; z++){
+  panArray[z] = address;
+  tiltArray[z] = address + 1;
+  movementSpeedArray[z] = address + 2;
+  redArray[z] = address + 3;
+  greenArray[z] = address + 4;
+  blueArray[z] = address + 5;
+  whiteArray[z] = address + 6;
+  dimmerArray[z] = address + 9;
+  shutterArray[z] = address + 10;
+
+  address += 14;
+
+  }
+}
+/*------------------------------Set Addresses------------------------------*/
+
+
 
 /*------------------------------HSB to RGB Functions------------------------------*/
 

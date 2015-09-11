@@ -33,6 +33,7 @@ float startBang = 1.0;
 float stopBang = 1.0;
 
 int x =0;
+int cueAddress;
 
 int[] comp = new int[2];
 

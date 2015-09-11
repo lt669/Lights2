@@ -76,15 +76,15 @@ void setup() {
   //  player.play();
 
   //Mac
-  // player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
-  // player.play();
+   player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
+   player.play();
 
 
   //Setup PD patch
-   pd = new PureData(this, 44100, 0, 2); //6 outputs
-   //  pd.openPatch("/Users/Lewis/Developer/Lights_Project/Lights/Main/Main/patch.pd");  
-   pd.openPatch("patch.pd");
-   pd.start();
+//   pd = new PureData(this, 44100, 0, 2); //6 outputs
+//   //  pd.openPatch("/Users/Lewis/Developer/Lights_Project/Lights/Main/Main/patch.pd");  
+//   pd.openPatch("patch.pd");
+//   pd.start();
 
   //Load cues into array
   setCues();
@@ -250,8 +250,15 @@ void draw() {
 
   //println("graphicChooser: "+graphicChooser+" choice: "+choice+ " select: "+select);
 
+
+  //Cue Reader
+  if(millis() == cueArray[cueAddress]){
+    println("Cue["+cueAddress+"}");
+    x++;
+  }
+  
   //Run PD function
-  PD();
+  //PD();
 }
 
 void mousePressed() {
