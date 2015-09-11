@@ -1,13 +1,29 @@
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class Colours extends PApplet {
+
 int canX = 600;
 int canY = 400;
 //color col;
-void setup() {
+public void setup() {
 
   size(canX, canY);
   background(-1);
 }
 
-void draw() {
+public void draw() {
 
   // drawRec(canX/4,canY/4, 50, color(194,59,34));
   // drawRec(canX/4,canY*3/4, 50, color(255,179,71));
@@ -45,15 +61,24 @@ void draw() {
 
 
 
-void drawRec(int posX, int posY, int size, color col) {
+public void drawRec(int posX, int posY, int size, int col) {
   stroke(0);
   fill(col);
   rect(posX, posY, size, size);
 }
 
-void drawMultiRec(int posX, int posY, int size, color col) {
+public void drawMultiRec(int posX, int posY, int size, int col) {
   stroke(0);
   fill(col);
   rect(posX, posY, size, size);
 }
 
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "Colours" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
+}

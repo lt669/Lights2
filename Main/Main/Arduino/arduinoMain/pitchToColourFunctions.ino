@@ -24,8 +24,11 @@ void RGBShift(int rgb[3], int rgbCompare[3]) {
 void mapHSB(int freq, int count, int count2, int HUE[14], int SAT[14], int BRI[14]) {
   //Maps
     HUE[count] = (int)map(freq, minPitch[count2], maxPitch[count2], 0, 360);
-    SAT[count] =  (int)map(freq, minPitch[count2], maxPitch[count2], 0, 100);
-    BRI[count] = (int)map(freq, minPitch[count2], maxPitch[count2], 0, 70);
+    int tempSat =  (int)map(freq, minPitch[count2], maxPitch[count2], 0, 100 /*100*/);
+    int tempBri = (int)map(freq, minPitch[count2], maxPitch[count2], 0, 70 /*70*/);
+
+    SAT[count] =  map(tempSat, 0, 360, 0, 360 /*100*/);
+    BRI[count] =  map(tempBri, 0, 360, 0, 360 /*70*/);
 
 
 //  /*-------FOR TESTING ONLY-------*/

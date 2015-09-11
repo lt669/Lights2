@@ -87,6 +87,7 @@ class textFileReader {
 
       while(val != 1){
       port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
+      println("Waiting...");
       val = port.read();
       if(val == 1){
         break;

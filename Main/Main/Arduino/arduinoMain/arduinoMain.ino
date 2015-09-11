@@ -49,8 +49,9 @@ void loop() {
       //in[4] = Serial.parseInt();//Run function (FOR TESTING ONLY!)
       Serial.write(1); //Tell processing we're done receiving data
     }
+      Serial.write(0);
 
-    //Sort incoming data
+    //Sort incoming data 
     if (in[0] == 1) {
       fre1 = in[1];
       dur1 = in[2];
@@ -91,8 +92,6 @@ void loop() {
     //    if (state == 1) {
     //      pitchToColourCalc(fre1, 9, 0, rgb9, compareRGB9, hue, sat, bri); //SingerPitch, Light, Singer, Light, (3 arrays to save the conversions to)
     //    }
-
-    pitchToColourCalc(fre1, 9, 0, rgb9, compareRGB9, hue, sat, bri);
   }
 
   //  //Run test function
@@ -108,7 +107,7 @@ void loop() {
   //    }
   //  }
 
-
+  pitchToColourCalc(fre1, 9, 0, rgb9, compareRGB9, hue, sat, bri);
   //pitchToColourDisplay(rgb9, compareRGB9, displayRGB9);
   //Continously output to lights
   writeToLights(redL3, greenL3, blueL3, rgb9 /*displayRGB9*/);
@@ -148,7 +147,7 @@ void pitchToColourCalc(int frequency, int light, int singer, int rgb[3], int rgb
   mapHSB(frequency, light, singer, hue, sat, bri); //SingerPitch, Light, Singer, (arrays to save data to)
 
   //Shift previous values of RGB (Before loading new ones in below)
-  RGBShift(rgb, rgbCompare);
+ // RGBShift(rgb, rgbCompare);
 
   //Convert HSB to RGB (Overwrites first three addresses of RGB)
   H2R_HSBtoRGB(hue[light], sat[light], bri[light], rgb);

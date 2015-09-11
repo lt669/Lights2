@@ -76,19 +76,15 @@ void setup() {
   //  player.play();
 
   //Mac
-  player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
-  player.play();
+  // player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
+  // player.play();
 
-
-
-  //  file = new SoundFile(this, "C:/Users/lt669/Desktop/music/music(verb).mp3");
-  //  file.play();
 
   //Setup PD patch
-  //  pd = new PureData(this, 44100, 0, 2); //6 outputs
-  //  //  pd.openPatch("/Users/Lewis/Developer/Lights_Project/Lights/Main/Main/patch.pd");  
-  //  pd.openPatch("patch.pd");
-  //  pd.start();
+   pd = new PureData(this, 44100, 0, 2); //6 outputs
+   //  pd.openPatch("/Users/Lewis/Developer/Lights_Project/Lights/Main/Main/patch.pd");  
+   pd.openPatch("patch.pd");
+   pd.start();
 
   //Load cues into array
   setCues();
@@ -189,7 +185,7 @@ void draw() {
   }
 
   PART1.timer(1);
-  // PART2.timer("B");
+   //PART2.timer(1);
   // PART3.timer("C");
   // PART4.timer("D");
   // PART5.timer("E");
@@ -255,7 +251,7 @@ void draw() {
   //println("graphicChooser: "+graphicChooser+" choice: "+choice+ " select: "+select);
 
   //Run PD function
-  //PD();
+  PD();
 }
 
 void mousePressed() {
@@ -444,20 +440,20 @@ void PD() {
   pd.sendFloat("frequency1", (float)PART1.getPitch());
   pd.sendFloat("lvl1", PART1.getLvl());
 
-  pd.sendFloat("frequency2", (float)PART2.getPitch());
-  pd.sendFloat("lvl2", PART2.getLvl());
+  // pd.sendFloat("frequency2", (float)PART2.getPitch());
+  // pd.sendFloat("lvl2", PART2.getLvl());
 
-  pd.sendFloat("frequency3", (float)PART3.getPitch());
-  pd.sendFloat("lvl3", PART3.getLvl());
+  // pd.sendFloat("frequency3", (float)PART3.getPitch());
+  // pd.sendFloat("lvl3", PART3.getLvl());
 
-  pd.sendFloat("frequency4", (float)PART4.getPitch());
-  pd.sendFloat("lvl4", PART4.getLvl());
+  // pd.sendFloat("frequency4", (float)PART4.getPitch());
+  // pd.sendFloat("lvl4", PART4.getLvl());
 
-  pd.sendFloat("frequency5", (float)PART5.getPitch());
-  pd.sendFloat("lvl5", PART5.getLvl());
+  // pd.sendFloat("frequency5", (float)PART5.getPitch());
+  // pd.sendFloat("lvl5", PART5.getLvl());
 
-  pd.sendFloat("frequency6", (float)PART6.getPitch());
-  pd.sendFloat("lvl6", PART6.getLvl());
+  // pd.sendFloat("frequency6", (float)PART6.getPitch());
+  // pd.sendFloat("lvl6", PART6.getLvl());
 }
 
 void runRectangles() {
