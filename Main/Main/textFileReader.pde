@@ -72,7 +72,7 @@ class textFileReader {
       println("END OF FILE");
     }
 
-    sendToArduino(TAG);
+    //sendToArduino(TAG);
   }
 
   void sendToArduino(int inTAG) {

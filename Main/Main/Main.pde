@@ -35,10 +35,10 @@ Cir singer4;
 Cir singer5;
 Cir singer6;
 
-//Singer s1;
-//Singer s2;
-//Singer s3;
-//Singer s4;
+archClass arch1;
+archClass arch2;
+archClass arch3;
+
 
 textFileReader PART1;
 textFileReader PART2;
@@ -63,8 +63,8 @@ boolean fadedDONE;
 void setup() {
 
   //Initialise Port to send serial data to arduino
-  port = new Serial(this, "/dev/cu.usbmodem641", 9600); 
-  port.bufferUntil('\n');
+  // port = new Serial(this, "/dev/cu.usbmodem641", 9600); 
+  // port.bufferUntil('\n');
 
   //Create PGraphics
   Circles = createGraphics(canX, canY);
@@ -137,6 +137,11 @@ void setup() {
   reverb1 = new reverbRings(canX/4, canY/2,0,100);
   reverb2 = new reverbRings(canX*3/4, canY/2,0,100);
 
+  //archClass objects
+  arch1 = new archClass(canX/4,canY/4,canX*3/4,canY/4,50);
+  arch2 = new archClass(canX/4,canY/2,canX*3/4,canY/2,50);
+  arch3 = new archClass(canX/4,canY*3/4,canX*3/4,canY*3/4,50);
+
 
   //Set the Pitch and Duration ranges in the appropriate classes
   singer1.setRange(PART1.getMinPitch(), PART1.getMaxPitch(), PART1.getMinDuration(), PART1.getMaxDuration());
@@ -152,6 +157,11 @@ void setup() {
   sq4.setRange(PART4.getMinPitch(), PART4.getMaxPitch(), PART4.getMinDuration(), PART4.getMaxDuration());
   sq5.setRange(PART5.getMinPitch(), PART5.getMaxPitch(), PART5.getMinDuration(), PART5.getMaxDuration());
   sq6.setRange(PART6.getMinPitch(), PART6.getMaxPitch(), PART6.getMinDuration(), PART6.getMaxDuration());
+
+  arch1.setRange(PART1.getMinPitch(), PART1.getMaxPitch(), PART1.getMinDuration(), PART1.getMaxDuration());
+  arch2.setRange(PART2.getMinPitch(), PART2.getMaxPitch(), PART2.getMinDuration(), PART2.getMaxDuration());
+  arch3.setRange(PART3.getMinPitch(), PART3.getMaxPitch(), PART3.getMinDuration(), PART3.getMaxDuration());
+  
 
   //Send start bang to PD
   // pd.sendFloat("bang",startBang);
@@ -185,15 +195,16 @@ void draw() {
   }
 
   PART1.timer(1);
-   //PART2.timer(1);
-  // PART3.timer("C");
-  // PART4.timer("D");
-  // PART5.timer("E");
-  // PART6.timer("F");
+  PART2.timer(2);
+  PART3.timer(3);
+  PART4.timer(4);
+  PART5.timer(5);
+  PART6.timer(6);
 
   graphicChoice();
   runCircleClass();
   runSquigleClass();
+  runArchClass();
   //writeToArduino();
 
   //runReverbClass();
@@ -201,9 +212,20 @@ void draw() {
   //runRectangles();
 
 
+  screenFader();
+  //graphicChooser = 8;
+  //Cue Reader
+  if(millis() == cueArray[cueAddress]){
+    println("Cue["+cueAddress+"}");
+    x++;
+  }
+  
+  //Run PD function
+  //PD();
+}
 
-  //  if (check == 1) {
-  if (fadedDONE == false) {
+void screenFader(){
+   if (fadedDONE == false) {
     if (just == true) {
       alpha = 1;
     }
@@ -216,7 +238,7 @@ void draw() {
     if (alpha >= 100) {
       alphaDONE = true;
       graphicChooser += 1 /* round(random(1, 7))*/;
-      if (graphicChooser > 7) {
+      if (graphicChooser > 8) {
         graphicChooser = 1;
       }
     }
@@ -231,12 +253,6 @@ void draw() {
       alpha = -2;
     }
 
-    //    println("just: ", just);
-    //    println("Alpha: ", alpha);
-    //    println("FadedDONE: ",fadedDONE);
-
-    //println("Choice: "+choice+" Select: "+select+" BGbri: "+BGbri);
-
     //Extra canvas used for the fade effect
     Circles.beginDraw();
     Circles.colorMode(HSB, 360, 100, 100, 100);
@@ -247,18 +263,6 @@ void draw() {
     Circles.endDraw();
     image(Circles, 0, 0, canX, canY);
   }
-
-  //println("graphicChooser: "+graphicChooser+" choice: "+choice+ " select: "+select);
-
-
-  //Cue Reader
-  if(millis() == cueArray[cueAddress]){
-    println("Cue["+cueAddress+"}");
-    x++;
-  }
-  
-  //Run PD function
-  //PD();
 }
 
 void mousePressed() {
@@ -274,7 +278,7 @@ void mouseReleased() {
 }
 
 void graphicChoice() {
-  if (graphicChooser == 1) {
+  if (graphicChooser == 8) {
     choice = 1;
     select = 5;
   } else if (graphicChooser == 2) {
@@ -295,6 +299,9 @@ void graphicChoice() {
   } else if (graphicChooser == 7) {
     choice = 5;
     select = 4;
+  } else if (graphicChooser == 1) {
+    choice = 6;
+    select = 5;
   }
 
   if (select == 3) { //Black BG, flat colours
@@ -328,34 +335,7 @@ void keyPressed() {
   if (select == 0) {
     fadedDONE = false;
   }
-  //  if (select == 1) {
-  //    choice++;
-  //  } else if (select == 2) {
-  //    choice--;
-  //  } else if (select == 3) { //Black BG, flat colours
-  //    BGhue = 0;
-  //    BGsat = 0;
-  //    BGbri = 0;
-  //    colorBright = 1;
-  //  } else if (select == 4) { //Black BG, bright colours
-  //    BGhue = 0;
-  //    BGsat = 0;
-  //    BGbri = 0;
-  //    colorBright = 2;
-  //  } else if (select == 5) { //White BG, flat colours
-  //    BGhue = 0;
-  //    BGsat = 0;
-  //    BGbri = 100;
-  //    colorBright = 1;
-  //  } else if (select == 6) { //White BG, bright colours
-  //    BGhue = 0;
-  //    BGsat = 0;
-  //    BGbri = 100;
-  //    colorBright = 2;
-  //  }
   pressed = true;
-  //  println("Select", select);
-  //  println("Choice: ", choice);
 }
 
 void keyReleased() {
@@ -489,6 +469,23 @@ void runRectangles() {
   drawRect(colour4, 100, 100, 70, 10);
   drawRect(colour5, 100, 100, 70, 10);
   drawRect(colour6, 100, 100, 70, 10);
+}
+
+void runArchClass(){
+  if(choice == 6){
+
+  arch1.getNext(PART1.getNext(),PART2.getNext());
+  arch2.getNext(PART3.getNext(),PART4.getNext());
+  arch3.getNext(PART5.getNext(),PART6.getNext());
+
+  arch1.getPitch(PART1.getPitch(),PART2.getPitch());
+  arch2.getPitch(PART3.getPitch(),PART4.getPitch());
+  arch3.getPitch(PART5.getPitch(),PART6.getPitch());
+
+  arch1.drawArch();
+  arch2.drawArch();
+  arch3.drawArch();
+  }
 }
 
 void drawRect(int col, int posX, int posY, int size, int tran) {
