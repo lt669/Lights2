@@ -1,7 +1,7 @@
 class archClass{
 
-	int xStartPos, yStartPos, xEndPos, yEndPos, size/*, pitch1, pitch2*/;
-	int extraHeight = 20;
+	int xStartPos, yStartPos, xEndPos, yEndPos, size;
+	int extraHeight;
 	int minPitch1, minPitch2, maxPitch1, maxPitch2, pitch1, pitch2;
 	int [] pitchCompare1 = new int [2];
 	int [] pitchCompare2 = new int [2];
@@ -10,9 +10,12 @@ class archClass{
 	int radius1, radius2;
 	int alpha1 = 100;
 	int alpha2 = 100;
-
+	int transparency = 2;
 	reverbRings reverb1;
 	reverbRings reverb2;
+	int [] startPosition = new int[2];
+	int [] endPosition = new int[2];
+	int movementCounter = 0;
 	
 
 	//Constructor
@@ -31,6 +34,28 @@ class archClass{
 
 
 void drawArch(){
+
+	extraHeight = int(random(0,50));
+	movementCounter++;
+	if(movementCounter >= 10){
+		movementCounter = 0;
+	startPosition[1] = startPosition[0];
+	startPosition[0] = int(random(0,canX/3));
+	endPosition[1] = endPosition[0];
+	endPosition[0] = int(random(canX,canX*2/3));
+	}
+
+	if (startPosition[0] > startPosition[1]){
+		xStartPos+= 10;
+	} else if(startPosition[0] > startPosition[1]){
+		xStartPos-= 10;
+	}
+
+	if (endPosition[0] > endPosition[1]){
+		xEndPos++;
+	} else if(endPosition[0] > endPosition[1]){
+		xEndPos--;
+	}
 
 	colorMode(HSB,360,100,100,100);
 	int midPoint = xEndPos - (xEndPos-xStartPos)/2;
@@ -59,9 +84,19 @@ void drawArch(){
 		}
 	}
 
+	// int bri1 = int(map(pitch1,0,360,0,100));
+	// int bri2 = int(map(pitch1,0,360,0,100));
+	// int sat1 = int(map(pitch1,0,360,0,100));
+	// int sat2 = int(map(pitch1,0,360,0,100));
+
+	int bri1 = 70;
+	int bri2 = 70;
+	int sat1 = 70;
+	int sat2 = 70;	
+
 	//drawArch for first circle
 	noStroke();
-	fill(pitch1,100,100,50);
+	fill(pitch1,bri1,sat1,transparency);
 	beginShape();
 	curveVertex(xStartPos, yStartPos);
 	curveVertex(midPoint, yStartPos + extraHeight);
@@ -70,7 +105,7 @@ void drawArch(){
 	curveVertex(xStartPos, yStartPos);
 	endShape(CLOSE);
 	noStroke();
-	fill(pitch1,100,100,50);
+	fill(pitch1,bri1,sat1,transparency);
 	beginShape();
 	curveVertex(xEndPos, yEndPos);
 	curveVertex(midPoint, yStartPos + extraHeight);
@@ -81,7 +116,7 @@ void drawArch(){
 
 
 	noStroke();
-	fill(pitch2,100,100,50);
+	fill(pitch2,bri2,sat2,transparency);
 	beginShape();
 	curveVertex(xEndPos, yEndPos);
 	curveVertex(midPoint, yStartPos + extraHeight);
@@ -90,7 +125,7 @@ void drawArch(){
 	curveVertex(xStartPos, yStartPos);
 	endShape();
 	noStroke();
-	fill(pitch2,100,100,50);
+	fill(pitch2,bri2,sat2,transparency);
 	beginShape();
 	curveVertex(xStartPos, yStartPos);
 	curveVertex(midPoint, yStartPos + extraHeight);
@@ -100,21 +135,20 @@ void drawArch(){
 	endShape(CLOSE);
 
 		//Draw circles
-	fill(pitch1,100,100);
+	fill(pitch1,bri1,sat1);
 	ellipse(xStartPos, yStartPos, size, size);
 
 	//End Circle
-	fill(pitch2,100,100);
+	fill(pitch2,bri2,sat2);
 	ellipse(xEndPos, yEndPos, size, size);
 
-	println("alpha1",alpha1);
 
-	if(NEXT1 == true || alpha1 != 0){
-		reverb1.drawRings();
-	}
-	if(NEXT2 == true || alpha2 != 0){
-		reverb2.drawRings();
-	}
+	// if(NEXT1 == true || alpha1 != 0){
+	// 	reverb1.drawRings();
+	// }
+	// if(NEXT2 == true || alpha2 != 0){
+	// 	reverb2.drawRings();
+	// }
 
 }
 

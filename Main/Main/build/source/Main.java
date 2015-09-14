@@ -7,6 +7,8 @@ import org.puredata.processing.PureData;
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import processing.serial.*; 
+import codeanticode.gsvideo.*; 
+import com.hamoid.*; 
 
 import java.util.HashMap; 
 import java.util.ArrayList; 
@@ -23,8 +25,14 @@ public class Main extends PApplet {
 
 
 
+
+
 Serial port;
 
+//Quicktime Variables
+VideoExport videoExport2;
+GSMovieMaker video;
+boolean recordVideo, stopVideo;
 //import processing.sound.*;
 //SoundFile file;
 
@@ -83,10 +91,18 @@ boolean fadedDONE;
 
 public void setup() {
 
+  //Setup video rendering
+  // video = new GSMovieMaker(this,canX,canY,"ProcessingVideo.mov", GSMovieMaker.THEORA, GSMovieMaker.MEDIUM, fps);
+  // video.setQueueSize(50,10);
+  // video.start();
+
   //Initialise Port to send serial data to arduino
   // port = new Serial(this, "/dev/cu.usbmodem641", 9600); 
   // port.bufferUntil('\n');
 
+  videoExport2 = new VideoExport(this, "/Users/Lewis/Desktop/export.mp4");
+  videoExport2.setQuality(70);
+  videoExport2.setFrameRate(60);
   //Create PGraphics
   Circles = createGraphics(canX, canY);
   //Squigles = createGraphics(squigleCanX, squigleCanY);
@@ -97,8 +113,8 @@ public void setup() {
   //  player.play();
 
   //Mac
-   player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
-   player.play();
+   // player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
+   // player.play();
 
 
   //Setup PD patch
@@ -196,6 +212,9 @@ public void setup() {
 }
 
 public void draw() {
+
+  recordSketch();
+
   colorMode(HSB, 360, 100, 100, 100);
 
   if (alphaDONE == true) {
@@ -207,7 +226,7 @@ public void draw() {
     noStroke();
     fill(BGhue, BGsat, BGbri, 10);
     rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
-  } else if (choice == 4 || choice == 5) {
+  } else if (choice == 4 || choice == 5 || choice == 6) {
     //    noStroke();
     //    fill(BGhue, BGsat, BGbri, 5);
     //    rect(0, 0, canX, canY);
@@ -243,6 +262,24 @@ public void draw() {
   
   //Run PD function
   //PD();
+}
+
+public void recordSketch(){
+
+  if(millis() < 50000){
+
+videoExport2.saveFrame();
+    
+    //saveFrame("/Users/Lewis/Desktop/Images/sketch-#######.png");
+    // loadPixels();
+    // video.addFrame(pixels);
+    // println("Number of queued frames : " + video.getQueuedFrames());
+    // println("Number of dropped frames: " + video.getDroppedFrames());
+  } else {
+    //video.finish();
+    println("Done Recording");
+  }
+
 }
 
 public void screenFader(){
@@ -299,7 +336,7 @@ public void mouseReleased() {
 }
 
 public void graphicChoice() {
-  if (graphicChooser == 8) {
+  if (graphicChooser ==1) {
     choice = 1;
     select = 5;
   } else if (graphicChooser == 2) {
@@ -320,9 +357,9 @@ public void graphicChoice() {
   } else if (graphicChooser == 7) {
     choice = 5;
     select = 4;
-  } else if (graphicChooser == 1) {
+  } else if (graphicChooser == 8) {
     choice = 6;
-    select = 5;
+    select = 3;
   }
 
   if (select == 3) { //Black BG, flat colours
@@ -713,6 +750,9 @@ class Cir {
 int canX = 800;
 int canY = 400;
 
+//MovieMaker
+int fps = 60;
+
 boolean first, second;
 int backCount = 0;
 int BGhue = 0;
@@ -774,8 +814,8 @@ cueArray[16] = 1176000;
 /*---------------CUES---------------*/
 class archClass{
 
-	int xStartPos, yStartPos, xEndPos, yEndPos, size/*, pitch1, pitch2*/;
-	int extraHeight = 20;
+	int xStartPos, yStartPos, xEndPos, yEndPos, size;
+	int extraHeight;
 	int minPitch1, minPitch2, maxPitch1, maxPitch2, pitch1, pitch2;
 	int [] pitchCompare1 = new int [2];
 	int [] pitchCompare2 = new int [2];
@@ -784,9 +824,12 @@ class archClass{
 	int radius1, radius2;
 	int alpha1 = 100;
 	int alpha2 = 100;
-
+	int transparency = 2;
 	reverbRings reverb1;
 	reverbRings reverb2;
+	int [] startPosition = new int[2];
+	int [] endPosition = new int[2];
+	int movementCounter = 0;
 	
 
 	//Constructor
@@ -805,6 +848,28 @@ class archClass{
 
 
 public void drawArch(){
+
+	extraHeight = PApplet.parseInt(random(0,50));
+	movementCounter++;
+	if(movementCounter >= 10){
+		movementCounter = 0;
+	startPosition[1] = startPosition[0];
+	startPosition[0] = PApplet.parseInt(random(0,canX/3));
+	endPosition[1] = endPosition[0];
+	endPosition[0] = PApplet.parseInt(random(canX,canX*2/3));
+	}
+
+	if (startPosition[0] > startPosition[1]){
+		xStartPos+= 10;
+	} else if(startPosition[0] > startPosition[1]){
+		xStartPos-= 10;
+	}
+
+	if (endPosition[0] > endPosition[1]){
+		xEndPos++;
+	} else if(endPosition[0] > endPosition[1]){
+		xEndPos--;
+	}
 
 	colorMode(HSB,360,100,100,100);
 	int midPoint = xEndPos - (xEndPos-xStartPos)/2;
@@ -833,9 +898,19 @@ public void drawArch(){
 		}
 	}
 
+	// int bri1 = int(map(pitch1,0,360,0,100));
+	// int bri2 = int(map(pitch1,0,360,0,100));
+	// int sat1 = int(map(pitch1,0,360,0,100));
+	// int sat2 = int(map(pitch1,0,360,0,100));
+
+	int bri1 = 70;
+	int bri2 = 70;
+	int sat1 = 70;
+	int sat2 = 70;	
+
 	//drawArch for first circle
 	noStroke();
-	fill(pitch1,100,100,50);
+	fill(pitch1,bri1,sat1,transparency);
 	beginShape();
 	curveVertex(xStartPos, yStartPos);
 	curveVertex(midPoint, yStartPos + extraHeight);
@@ -844,7 +919,7 @@ public void drawArch(){
 	curveVertex(xStartPos, yStartPos);
 	endShape(CLOSE);
 	noStroke();
-	fill(pitch1,100,100,50);
+	fill(pitch1,bri1,sat1,transparency);
 	beginShape();
 	curveVertex(xEndPos, yEndPos);
 	curveVertex(midPoint, yStartPos + extraHeight);
@@ -855,7 +930,7 @@ public void drawArch(){
 
 
 	noStroke();
-	fill(pitch2,100,100,50);
+	fill(pitch2,bri2,sat2,transparency);
 	beginShape();
 	curveVertex(xEndPos, yEndPos);
 	curveVertex(midPoint, yStartPos + extraHeight);
@@ -864,7 +939,7 @@ public void drawArch(){
 	curveVertex(xStartPos, yStartPos);
 	endShape();
 	noStroke();
-	fill(pitch2,100,100,50);
+	fill(pitch2,bri2,sat2,transparency);
 	beginShape();
 	curveVertex(xStartPos, yStartPos);
 	curveVertex(midPoint, yStartPos + extraHeight);
@@ -874,21 +949,20 @@ public void drawArch(){
 	endShape(CLOSE);
 
 		//Draw circles
-	fill(pitch1,100,100);
+	fill(pitch1,bri1,sat1);
 	ellipse(xStartPos, yStartPos, size, size);
 
 	//End Circle
-	fill(pitch2,100,100);
+	fill(pitch2,bri2,sat2);
 	ellipse(xEndPos, yEndPos, size, size);
 
-	println("alpha1",alpha1);
 
-	if(NEXT1 == true || alpha1 != 0){
-		reverb1.drawRings();
-	}
-	if(NEXT2 == true || alpha2 != 0){
-		reverb2.drawRings();
-	}
+	// if(NEXT1 == true || alpha1 != 0){
+	// 	reverb1.drawRings();
+	// }
+	// if(NEXT2 == true || alpha2 != 0){
+	// 	reverb2.drawRings();
+	// }
 
 }
 

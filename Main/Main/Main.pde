@@ -2,8 +2,14 @@ import org.puredata.processing.PureData;
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 import processing.serial.*;
+import codeanticode.gsvideo.*;
+import com.hamoid.*;
 Serial port;
 
+//Quicktime Variables
+VideoExport videoExport2;
+GSMovieMaker video;
+boolean recordVideo, stopVideo;
 //import processing.sound.*;
 //SoundFile file;
 
@@ -62,10 +68,18 @@ boolean fadedDONE;
 
 void setup() {
 
+  //Setup video rendering
+  // video = new GSMovieMaker(this,canX,canY,"ProcessingVideo.mov", GSMovieMaker.THEORA, GSMovieMaker.MEDIUM, fps);
+  // video.setQueueSize(50,10);
+  // video.start();
+
   //Initialise Port to send serial data to arduino
   // port = new Serial(this, "/dev/cu.usbmodem641", 9600); 
   // port.bufferUntil('\n');
 
+  videoExport2 = new VideoExport(this, "/Users/Lewis/Desktop/export.mp4");
+  videoExport2.setQuality(70);
+  videoExport2.setFrameRate(60);
   //Create PGraphics
   Circles = createGraphics(canX, canY);
   //Squigles = createGraphics(squigleCanX, squigleCanY);
@@ -76,8 +90,8 @@ void setup() {
   //  player.play();
 
   //Mac
-   player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
-   player.play();
+   // player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
+   // player.play();
 
 
   //Setup PD patch
@@ -175,6 +189,9 @@ void setup() {
 }
 
 void draw() {
+
+  recordSketch();
+
   colorMode(HSB, 360, 100, 100, 100);
 
   if (alphaDONE == true) {
@@ -186,7 +203,7 @@ void draw() {
     noStroke();
     fill(BGhue, BGsat, BGbri, 10);
     rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
-  } else if (choice == 4 || choice == 5) {
+  } else if (choice == 4 || choice == 5 || choice == 6) {
     //    noStroke();
     //    fill(BGhue, BGsat, BGbri, 5);
     //    rect(0, 0, canX, canY);
@@ -222,6 +239,24 @@ void draw() {
   
   //Run PD function
   //PD();
+}
+
+void recordSketch(){
+
+  if(millis() < 50000){
+
+videoExport2.saveFrame();
+    
+    //saveFrame("/Users/Lewis/Desktop/Images/sketch-#######.png");
+    // loadPixels();
+    // video.addFrame(pixels);
+    // println("Number of queued frames : " + video.getQueuedFrames());
+    // println("Number of dropped frames: " + video.getDroppedFrames());
+  } else {
+    //video.finish();
+    println("Done Recording");
+  }
+
 }
 
 void screenFader(){
@@ -278,7 +313,7 @@ void mouseReleased() {
 }
 
 void graphicChoice() {
-  if (graphicChooser == 8) {
+  if (graphicChooser ==1) {
     choice = 1;
     select = 5;
   } else if (graphicChooser == 2) {
@@ -299,9 +334,9 @@ void graphicChoice() {
   } else if (graphicChooser == 7) {
     choice = 5;
     select = 4;
-  } else if (graphicChooser == 1) {
+  } else if (graphicChooser == 8) {
     choice = 6;
-    select = 5;
+    select = 3;
   }
 
   if (select == 3) { //Black BG, flat colours

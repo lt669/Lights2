@@ -2,6 +2,9 @@
 int canX = 800;
 int canY = 400;
 
+//MovieMaker
+int fps = 60;
+
 boolean first, second;
 int backCount = 0;
 int BGhue = 0;
