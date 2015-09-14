@@ -8,7 +8,6 @@ import ddf.minim.*;
 import ddf.minim.analysis.*; 
 import processing.serial.*; 
 import codeanticode.gsvideo.*; 
-import com.hamoid.*; 
 
 import java.util.HashMap; 
 import java.util.ArrayList; 
@@ -26,12 +25,12 @@ public class Main extends PApplet {
 
 
 
-
+//import com.hamoid.*;
 Serial port;
 
 //Quicktime Variables
-VideoExport videoExport2;
-GSMovieMaker video;
+//VideoExport videoExport2;
+//GSMovieMaker video;
 boolean recordVideo, stopVideo;
 //import processing.sound.*;
 //SoundFile file;
@@ -100,9 +99,9 @@ public void setup() {
   // port = new Serial(this, "/dev/cu.usbmodem641", 9600); 
   // port.bufferUntil('\n');
 
-  videoExport2 = new VideoExport(this, "/Users/Lewis/Desktop/export.mp4");
-  videoExport2.setQuality(70);
-  videoExport2.setFrameRate(60);
+  // videoExport2 = new VideoExport(this, "/Users/Lewis/Desktop/export.mp4");
+  // videoExport2.setQuality(70);
+  // videoExport2.setFrameRate(60);
   //Create PGraphics
   Circles = createGraphics(canX, canY);
   //Squigles = createGraphics(squigleCanX, squigleCanY);
@@ -113,8 +112,8 @@ public void setup() {
   //  player.play();
 
   //Mac
-   // player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
-   // player.play();
+   player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
+   player.play();
 
 
   //Setup PD patch
@@ -213,7 +212,7 @@ public void setup() {
 
 public void draw() {
 
-  recordSketch();
+  //recordSketch();
 
   colorMode(HSB, 360, 100, 100, 100);
 
@@ -268,7 +267,7 @@ public void recordSketch(){
 
   if(millis() < 50000){
 
-videoExport2.saveFrame();
+//videoExport2.saveFrame();
     
     //saveFrame("/Users/Lewis/Desktop/Images/sketch-#######.png");
     // loadPixels();

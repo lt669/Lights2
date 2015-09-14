@@ -32,9 +32,9 @@ void loop() {
       in[4] = Serial.parseInt();//Run function (FOR TESTING ONLY!)
       Serial.write(1); //Tell processing we're done receiving data
     }
-      //Serial.write(0);
+    //Serial.write(0);
 
-    //Sort incoming data 
+    //Sort incoming data
     if (in[0] == 1) {
       fre1 = in[1];
       dur1 = in[2];
@@ -56,7 +56,7 @@ void loop() {
     }
     //Always store the state
     state = in[3];
-    function = /*3*/ in[4];
+    function = in[4];
 
     //    function = 3; //For testing with processing
 
@@ -77,33 +77,68 @@ void loop() {
     //    }
   }
 
-   //Run test function
-   if (function == 1) {
-     spin(2, in[0], in[1], in[2]); //Light 3
-   } else if (function == 2) {
-     spin(3, in[0], in[1], in[2]);//Light 2
-   } else if (function == 3) {
-     if (state == 1) {
+  //Run test function
+  if (function == 1) {
+    spin(2, in[0], in[1], in[2]); //Light 3
+  } else if (function == 2) {
+    spin(3, in[0], in[1], in[2]);//Light 2
+  } else if (function == 3) {
+    if (state == 1) {
       // pitchToColourDisplay(rgb1, compareRGB1, displayRGB1);
-      slowBright(2,rgb9); // for Lights 6 & 7 at begining
-     } else if(state == 2){
-        lightsOff(2);
-     } else if(state == 3){
-        setRGB(rgb9,in[0],in[1],in[2],0); //Manually set the RGB
-        writeToLights(2,rgb9);
-     } else if(state == 4){
-        setRotation(2, in[0], in[1], in[2]);// Light, rotation, tilt, speed
-     }
+      slowBright(2, rgb0, 400); // for Lights 6 & 7 at begining
+    } else if (state == 2) {
+      lightsOff(2);
+    } else if (state == 3) {
+      setRGB(rgb0, in[0], in[1], in[2], 0); //Manually set the RGB
+      writeToLights(2, rgb0);
+    } else if (state == 4) {
+      setRotation(2, in[0], in[1], in[2]);// Light, rotation, tilt, speed
+    }
+  }
 
-   }
-  
-  // pitchToColourCalc(fre1, 9, 0, rgb9, /*compareRGB9,*/ hue, sat, bri);
-  // //pitchToColourDisplay(rgb9, compareRGB9, displayRGB9);
-  
-  //Continously output to lights
-  //writeToLights(2, rgb9 /*displayRGB9*/);
+  /*------------------------------FOR TESTING WITH ONE LIGHT ONLY------------------------------*/
+
+//      rgb0[0] = in[0];
+//      rgb0[1] = in[1];
+//      rgb0[2] = in[2];
+//      //Lights Program
+//      if (state == 1) {
+//        //BackLights only
+//        slowBright(2, rgb0, 400);//tilt upwards
+//      } else if (state == 2) {
+//        //Backlights + singer spots
+//      } else if (state == 3) {
+//        //Wall Lights Only (Set white light to 0)
+//        setRotation(2, 85, 100, 0); //Rotate lights
+//        writeToLights(2, rgb0);//Set colours
+//      } else if (state == 4) {
+//        //Wall colours + spots white
+//        softWhiteGlow(2, rgb0);
+//      } else if (state == 5) {
+//        //Continue above + sideLights throb white
+//      } else if (state == 6) {
+//        //Light 8 changes colour
+//      } else if (state == 7) {
+//        //Turn off sidel ights, turn on backlights
+//      } else if (state == 8) {
+//        //Animation only (Very dim siger lights)
+//      } else if (state == 9) {
+//        //Slowly fade backlightsin
+//      } else if (state == 10) {
+//        //
+//      }
+
+  /*------------------------------FOR TESTING WITH ONE LIGHT ONLY------------------------------*/
 
 }
+
+// pitchToColourCalc(fre1, 9, 0, rgb9, /*compareRGB9,*/ hue, sat, bri);
+// //pitchToColourDisplay(rgb9, compareRGB9, displayRGB9);
+
+//Continously output to lights
+//writeToLights(2, rgb9 /*displayRGB9*/);
+
+//}
 
 
 

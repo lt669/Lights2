@@ -5,10 +5,10 @@
 
 
 //Slowly fades to bright white, can be used at begining of the show
-void slowBright(int x, int rgb[4]){
+void slowBright(int x, int rgb[4], int fadeSpeed){
   //White light slowly fade
   fadeCounter++;
-  if(fadeCounter >= 200){
+  if(fadeCounter >= fadeSpeed){ //Larger the number the slower the fade
   fadeCounter = 0;
   rgb[3] += 1;
   if(rgb[3] >= 255){
@@ -62,6 +62,29 @@ void writeToLights(int x, int colour[4]) { //x = channel
   DmxMaster.write(shutterArray[x], 255);
 }
 
+void softWhiteGlow(int x, int rgb[4]){
+
+  int whiteMin = 10;
+  int whiteMax = 255;
+  boolean maxDone, minDone;
+
+  if(rgb[3] >= 100){
+    maxDone = true;
+  } else if(rgb[3] <= 10){
+    maxDone = false;
+  }
+
+  if(maxDone == false){
+    rgb[3]++;
+  } else if (maxDone == true){
+    rgb[3]--;
+  }
+    
+  DmxMaster.write(redArray[x], 0);
+  DmxMaster.write(greenArray[x], 0);
+  DmxMaster.write(blueArray[x], 0);
+  DmxMaster.write(whiteArray[x], rgb[3]);
+}
 
 
 //Compare two RGB values (NOT USED)

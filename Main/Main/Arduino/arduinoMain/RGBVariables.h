@@ -33,7 +33,10 @@ int sat[14];
 int lightFaderSpeed = 5; //Speed of lights fade
 int fadeCounter;
 
-int rgb1[4]; //Stores Target RGBW Value
+int whiteValue; //For softWhiteGlow();
+
+int rgb0[4]; //Stores Target RGBW Value
+int rgb1[4];
 int rgb2[4];
 int rgb3[4];
 int rgb4[4];
@@ -46,7 +49,6 @@ int rgb10[4];
 int rgb11[4];
 int rgb12[4];
 int rgb13[4];
-int rgb14[4];
 
 int compareRGB1[3]; //Stores previous RGB Value
 int compareRGB2[3];
