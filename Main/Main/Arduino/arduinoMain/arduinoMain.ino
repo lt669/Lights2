@@ -17,12 +17,16 @@ void setup() {
   Serial.write(1);//Send value to establish contact
 
   setRanges();
-  setAddresses();
+  setLargeAddresses();
+  setSmallAddresses();
+  setCues();
+
+  
 
 }
 
 void loop() {
-
+      timer = millis();
   if (Serial.available()) {
     while (Serial.available() >= /*4*/ 4) {// wait for 3 ints to arrive (Keep having to change this?)
       in[0] = Serial.parseInt(); //TAG
@@ -78,55 +82,172 @@ void loop() {
   }
 
   //Run test function
-  if (function == 1) {
-    spin(2, in[0], in[1], in[2]); //Light 3
-  } else if (function == 2) {
-    spin(3, in[0], in[1], in[2]);//Light 2
-  } else if (function == 3) {
-    if (state == 1) {
-      // pitchToColourDisplay(rgb1, compareRGB1, displayRGB1);
-      slowBright(2, rgb0, 400); // for Lights 6 & 7 at begining
-    } else if (state == 2) {
-      lightsOff(2);
-    } else if (state == 3) {
-      setRGB(rgb0, in[0], in[1], in[2], 0); //Manually set the RGB
-      writeToLights(2, rgb0);
-    } else if (state == 4) {
-      setRotation(2, in[0], in[1], in[2]);// Light, rotation, tilt, speed
-    }
-  }
+  // if (function == 1) {
+  //   spin(2, in[0], in[1], in[2]); //Light 3
+  // } else if (function == 2) {
+  //   spin(3, in[0], in[1], in[2]);//Light 2
+  // } else if (function == 3) {
+  //   if (state == 1) {
+  //     // pitchToColourDisplay(rgb1, compareRGB1, displayRGB1);
+  //     slowBright(2, rgb0, 400); // for Lights 6 & 7 at begining
+  //   } else if (state == 2) {
+  //     lightsOff(2);
+  //   } else if (state == 3) {
+  //     setRGB(rgb0, in[0], in[1], in[2], 0); //Manually set the RGB
+  //     writeToLights(2, rgb0);
+  //   } else if (state == 4) {
+  //     setRotation(2, in[0], in[1], in[2]);// Light, rotation, tilt, speed
+  //   }
+  // }
 
   /*------------------------------FOR TESTING WITH ONE LIGHT ONLY------------------------------*/
 
-//      rgb0[0] = in[0];
-//      rgb0[1] = in[1];
-//      rgb0[2] = in[2];
-//      //Lights Program
-//      if (state == 1) {
-//        //BackLights only
-//        slowBright(2, rgb0, 400);//tilt upwards
-//      } else if (state == 2) {
-//        //Backlights + singer spots
-//      } else if (state == 3) {
-//        //Wall Lights Only (Set white light to 0)
-//        setRotation(2, 85, 100, 0); //Rotate lights
-//        writeToLights(2, rgb0);//Set colours
-//      } else if (state == 4) {
-//        //Wall colours + spots white
-//        softWhiteGlow(2, rgb0);
-//      } else if (state == 5) {
-//        //Continue above + sideLights throb white
-//      } else if (state == 6) {
-//        //Light 8 changes colour
-//      } else if (state == 7) {
-//        //Turn off sidel ights, turn on backlights
-//      } else if (state == 8) {
-//        //Animation only (Very dim siger lights)
-//      } else if (state == 9) {
-//        //Slowly fade backlightsin
-//      } else if (state == 10) {
-//        //
-//      }
+     // rgb0[0] = in[0];
+     // rgb0[1] = in[1];
+     // rgb0[2] = in[2];
+
+     //Lights Program
+     if (state == 1) {
+       //BackLights only
+       setRotation(1,212,80,100);//TEST LIGHT
+       slowBright(1, rgb1, 400);//TEST LIGHT
+
+       setRotation(4,212,80,100); //Set the position of the backlights
+       setRotation(5,212,80,100);
+
+       slowBright(4, rgb4, 400); //Set backlights to glow
+       slowBright(5, rgb5, 400);
+     } else if (state == 2) {     /*-------------FADE IN SINGERS-------------*/
+       slowBright(6, rgb6, 400);  
+       if(timer >= cueArray[2] + 5){
+        slowBright(7, rgb7, 400);
+       }
+       if(timer >= cueArray[2] + 10){
+        slowBright(8, rgb8, 400);
+       }
+       if(timer >= cueArray[2] + 15){
+        slowBright(9, rgb9, 400);
+       }
+       if(timer >= cueArray[2] + 20){
+        slowBright(10, rgb10, 400);
+       }
+       if(timer >= cueArray[2] + 25){
+        slowBright(11, rgb11, 400);
+       }                                  /*-------------FADE IN SINGERS-------------*/
+     } else if (state == 3) {
+       /*Wall Lights Only (Set white light to 0)*/
+       setRGB(rgb6,0,0,0,0); //Fade out singer lights
+       setRGB(rgb7,0,0,0,0);
+       setRGB(rgb8,0,0,0,0);
+       setRGB(rgb9,0,0,0,0);
+       setRGB(rgb10,0,0,0,0);
+       setRGB(rgb11,0,0,0,0);
+
+       setRotation(1,85,100,0); //TEST
+       setRGB(rgb1,0,0,0,200);
+
+       setRotation(2, 85, 100, 0); //Set position of wall lights
+       setRotation(3, 85, 100, 0); 
+
+       setRGB(rgb2,0,0,0,200); //Set colours to white
+       setRGB(rgb3,0,0,0,200);
+     } else if (state == 4) { //Wall colours + spots white
+       if(count == 0){
+        setRGB(rgb0,0,0,0,0);
+        setRGB(rgb1,0,0,0,0);
+        setRGB(rgb6,0,0,0,0); //Set the white value to start on 0
+        setRGB(rgb7,0,0,0,0);
+        setRGB(rgb8,0,0,0,0);
+        setRGB(rgb9,0,0,0,0);
+        setRGB(rgb10,0,0,0,0);
+        setRGB(rgb11,0,0,0,0);
+
+        }
+       count++; //Only runs once
+
+       int fadeSpeed = 70;
+       fadeCounter++;
+       if(fadeCounter >= fadeSpeed){
+        fadeCounter = 0;
+         //softWhiteGlow(1, rgb1, 50);//TEST LIGHT
+         softWhiteGlow(6, rgb6, 50); //Singer spots glow white
+         softWhiteGlow(7, rgb7, 50);
+         softWhiteGlow(8, rgb8, 50);
+         softWhiteGlow(9, rgb9, 50);
+         softWhiteGlow(10, rgb10, 50);
+         softWhiteGlow(11, rgb11, 50);
+       } 
+
+      // writeToLights(2, rgb2);     //Set wall lights to white (copy rgb2)
+      // writeToLights(3, rgb2);
+     } else if (state == 5 /*Run this untill state 7*/) {
+       //Continue above + sideLights throb white
+       /*----------INSTER TIMER STATEMENT----------*/
+       pitchToColourCalc(fre1,6,0,rgb6); //Singer spots map pitch
+       pitchToColourCalc(fre2,7,1,rgb7);
+       pitchToColourCalc(fre3,8,2,rgb8);
+       pitchToColourCalc(fre4,9,3,rgb9);
+       pitchToColourCalc(fre5,10,4,rgb10);
+       pitchToColourCalc(fre6,11,5,rgb11);
+
+     } else if (state == 6) { // Side lights throb, singers still map to pitch
+       int fadeSpeed = 70;
+       fadeCounter++;
+       if(fadeCounter >= fadeSpeed){
+        fadeCounter = 0;
+        softWhiteGlow(0, rgb0, 200);//Side lights throb       
+        softWhiteGlow(1, rgb1, 200);
+        }
+     } else if (state == 7) {
+       pitchToColourCalc(fre1,6,0,rgb6); //Only Soprano map pitch
+       //pitchToColourCalc(fre1,1,0,rgb1); //Map front left to sporano pitch
+       setRGB(rgb1,255,0,0,0);
+       //setRotation(1,in[0],in[1],in[2]);
+       movingLight(1,move1); //HAVING PROBLEMS WITH THIS
+
+       setRGB(rgb7,0,0,0,70); //Rest of singers on low white
+       setRGB(rgb8,0,0,0,70);
+       setRGB(rgb9,0,0,0,70);
+       setRGB(rgb10,0,0,0,70);
+       setRGB(rgb11,0,0,0,70);
+
+       setRGB(rgb2,0,0,0,0);//wall lights off
+       setRGB(rgb3,0,0,0,0);
+       setRGB(rgb0,0,0,0,0);//Right front off
+
+
+
+
+     } else if (state == 8) {
+       //Animation only (Very dim siger lights)
+       setRGB(rgb10,0,255,0,0);
+     } else if (state == 9) {
+       //Slowly fade backlightsin
+     } else if (state == 10) {
+
+     }
+
+
+    /*Constantly write to all lights, therefore only calculations
+      need to happen in the above if statements.
+    */
+      writeToLights(0,rgb0);
+      writeToLights(1,rgb1);
+      writeToLights(2,rgb2);
+      writeToLights(3,rgb3);
+      writeToLights(4,rgb4);
+      writeToLights(5,rgb5);
+      writeToLights(6,rgb6);
+      writeToLights(7,rgb7);
+      writeToLights(8,rgb8);
+      writeToLights(9,rgb9);
+      writeToLights(10,rgb10);//APPARENTLY LIGHT 10 CH101 - 104 FUCKS SHT UP!?!?!?!
+
+      // writeMovement(0,move0);
+      // writeMovement(1,move1);
+      // writeMovement(2,move2);
+      // writeMovement(3,move3);
+      // writeMovement(4,move4);
 
   /*------------------------------FOR TESTING WITH ONE LIGHT ONLY------------------------------*/
 

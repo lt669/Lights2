@@ -11,6 +11,41 @@ taken from the HSBColor.h file
 //#include "RGBVariables.h"
 //#include "pitchToColourFunctions.h"
 
+/*------------------------------Set Cues------------------------------*/
+void setCues(){
+  cueArray[0] = 0;
+  cueArray[1] = 68000;
+  cueArray[2] = 180000;
+  cueArray[3] = 240000;
+  cueArray[4] = 300000;
+  cueArray[5] = 408000;
+  cueArray[6] = 496000;
+  cueArray[7] = 564000;
+  cueArray[8] = 624000;
+  cueArray[9] = 708000;
+  cueArray[10] = 717000;
+  cueArray[11] = 735000;
+  cueArray[12] = 753000;
+  cueArray[13] = 762000;
+  cueArray[14] = 768000;
+  cueArray[15] = 830000;
+  cueArray[16] = 856000;
+  cueArray[17] = 916000;
+  cueArray[18] = 930000;
+  cueArray[19] = 935000;
+  cueArray[20] = 940000;
+  cueArray[21] = 945000;
+  cueArray[22] = 950000;
+  cueArray[23] = 955000;
+  cueArray[24] = 1000000;
+  cueArray[25] = 1036000;
+  cueArray[26] = 1100000;
+  cueArray[27] = 1140000;
+  cueArray[28] = 1170000;
+
+}
+/*------------------------------Set Cues------------------------------*/
+
 /*------------------------------Set Ranges------------------------------*/
 void setRanges(){
 
@@ -38,10 +73,10 @@ void setRanges(){
 /*------------------------------Set Ranges------------------------------*/
 
 /*------------------------------Set Addresses------------------------------*/
-void setAddresses(){
-  int address = 1;
+void setLargeAddresses(){
+  int address = 15;
   int z;
-  for(z = 0; z<9; z++){
+  for(z = 0; z<6; z++){
   panArray[z] = address;
   tiltArray[z] = address + 1;
   movementSpeedArray[z] = address + 2;
@@ -56,6 +91,53 @@ void setAddresses(){
 
   }
 }
+
+void setSmallAddresses(){
+
+  //Must manually set adresses to skip out 101 - 104
+
+  redArray[5] = 85;
+  greenArray[5] = 86;
+  blueArray[5] = 87;
+  whiteArray[5] = 88;
+
+  redArray[6] = 89;
+  greenArray[6] = 90;
+  blueArray[6] = 91;
+  whiteArray[6] = 92;
+
+  redArray[7] = 93;
+  greenArray[7] = 94;
+  blueArray[7] = 95;
+  whiteArray[7] = 96;
+
+  redArray[8] = 97;
+  greenArray[8] = 98;
+  blueArray[8] = 99;
+  whiteArray[8] = 100;
+
+  redArray[9] = 105;
+  greenArray[9] = 106;
+  blueArray[9] = 107;
+  whiteArray[9] = 108;
+
+  redArray[10] = 109;
+  greenArray[10] = 110;
+  blueArray[10] = 111;
+  whiteArray[10] = 112;
+
+  // int address = 85;
+  // int z;
+  // for(z = 6; z<12 ; z++){
+  // redArray[z] = address;
+  // greenArray[z] = address + 1;
+  // blueArray[z] = address + 2;
+  // whiteArray[z] = address + 3;
+
+  // address += 4;
+
+  // }
+}
 /*------------------------------Set Addresses------------------------------*/
 
 
@@ -69,14 +151,14 @@ void RGBShift(int rgb[3], int rgbCompare[3]) {
   rgb[2] = rgbCompare[2];
 }
 
-void mapHSB(int freq, int count, int count2, int HUE[14], int SAT[14], int BRI[14]) {
+void mapHSB(int freq, int count, int count2/*, int HUE[14], int SAT[14], int BRI[14]*/) {
   //Maps
-    HUE[count] = (int)map(freq, minPitch[count2], maxPitch[count2], 0, 360);
+    hue[count] = (int)map(freq, minPitch[count2], maxPitch[count2], 0, 360);
     int tempSat =  (int)map(freq, minPitch[count2], maxPitch[count2], 0, 100 /*100*/);
     int tempBri = (int)map(freq, minPitch[count2], maxPitch[count2], 0, 70 /*70*/);
 
-    SAT[count] =  map(tempSat, 0, 360, 0, 360 /*100*/);
-    BRI[count] =  map(tempBri, 0, 360, 0, 360 /*70*/);
+    sat[count] =  map(tempSat, 0, 360, 0, 360 /*100*/);
+    bri[count] =  map(tempBri, 0, 360, 0, 360 /*70*/);
 
 
 //  /*-------FOR TESTING ONLY-------*/

@@ -15,9 +15,13 @@ void slowBright(int x, int rgb[4], int fadeSpeed){
     rgb[3] = 255;
   }
 }
-  DmxMaster.write(whiteArray[x], rgb[3]);
-  DmxMaster.write(dimmerArray[x], 255);
-  DmxMaster.write(shutterArray[x], 255);
+
+    rgb[0] = 0;
+    rgb[1] = 0;
+    rgb[2] = 0;
+  // DmxMaster.write(whiteArray[x], rgb[3]);
+  // DmxMaster.write(dimmerArray[x], 255);
+  // DmxMaster.write(shutterArray[x], 255);
 }
 
 //Function to turn selected lights off
@@ -29,7 +33,7 @@ void lightsOff(int x){
 }
 
 //Set the colour of a light manually
-void setRGB(int rgb[3],int red, int green, int blue, int white){
+void setRGB(int rgb[4],int red, int green, int blue, int white){
 	rgb[0] = red;
 	rgb[1] = green;
 	rgb[2] = blue;
@@ -42,10 +46,34 @@ void setRotation(int x, int rotation, int tilt, int movementSpeed){
 	DmxMaster.write(movementSpeedArray[x],movementSpeed);
 }
 
+void movingLight(int x, int movement[3]){
+
+
+  movement[2] = 200; //Set speed
+  movement[0] += increment;
+
+  if(movement[0] >= 212){
+    maxReached = true;
+  } else if (movement[0] <= 128){
+    maxReached = false;
+  }
+
+    if(maxReached == true){
+      increment = -1;
+    } else if (maxReached == false){
+      increment = 1;
+    }
+  
+  DmxMaster.write(panArray[x],movement[0]);
+  DmxMaster.write(tiltArray[x],movement[1]);
+  DmxMaster.write(movementSpeedArray[x],movement[2]);
+
+}
+
 //Used to convert data from Processing into the same colour as shown on screen(ish)
-void pitchToColourCalc(int frequency, int light, int singer, int rgb[4], int hue[14], int sat[14], int bri[14]) {
+void pitchToColourCalc(int frequency, int light, int singer, int rgb[4]/*, int hue[14], int sat[14], int bri[14]*/) {
   //Map the frequency to color (using map)
-  mapHSB(frequency, light, singer, hue, sat, bri); //SingerPitch, Light, Singer, (arrays to save data to)
+  mapHSB(frequency, light, singer/*, hue, sat, bri*/); //SingerPitch, Light, Singer, (arrays to save data to)
   //Convert HSB to RGB (Overwrites first three addresses of RGB)
   H2R_HSBtoRGB(hue[light], sat[light], bri[light], rgb);
   //Set whiteLight to 0
@@ -58,32 +86,48 @@ void writeToLights(int x, int colour[4]) { //x = channel
   DmxMaster.write(greenArray[x], colour[1]);
   DmxMaster.write(blueArray[x], colour[2]);
   DmxMaster.write(whiteArray[x], colour[3]);
+  if(x < 6){
   DmxMaster.write(dimmerArray[x], 255);
   DmxMaster.write(shutterArray[x], 255);
 }
+}
 
-void softWhiteGlow(int x, int rgb[4]){
+void writeMovement(int x, int movement[3]){
+  DmxMaster.write(panArray[x],movement[0]);
+  DmxMaster.write(tiltArray[x],movement[1]);
+  DmxMaster.write(movementSpeedArray[x],movement[2]);
+}
 
-  int whiteMin = 10;
-  int whiteMax = 255;
-  boolean maxDone, minDone;
+void softWhiteGlow(int x, int rgb[4], int fadeSpeed){
 
-  if(rgb[3] >= 100){
+  int whiteMin = 50;
+  int whiteMax = 120;
+
+
+    rgb[3] += increment;
+
+  if(rgb[3] >= whiteMax){
     maxDone = true;
-  } else if(rgb[3] <= 10){
+  } else if(rgb[3] <= whiteMin){
     maxDone = false;
   }
 
+
   if(maxDone == false){
-    rgb[3]++;
+    increment = 1;
   } else if (maxDone == true){
-    rgb[3]--;
+    increment = -1;
   }
+
+  //Set rest of colours to 0
+  rgb[0] = 0;
+  rgb[1] = 0;
+  rgb[2] = 0;
     
-  DmxMaster.write(redArray[x], 0);
-  DmxMaster.write(greenArray[x], 0);
-  DmxMaster.write(blueArray[x], 0);
-  DmxMaster.write(whiteArray[x], rgb[3]);
+  // DmxMaster.write(redArray[x], 0);
+  // DmxMaster.write(greenArray[x], 0);
+  // DmxMaster.write(blueArray[x], 0);
+  // DmxMaster.write(whiteArray[x], rgb[3]);
 }
 
 
