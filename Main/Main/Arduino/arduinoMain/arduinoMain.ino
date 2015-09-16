@@ -19,6 +19,7 @@ void setup() {
   setRanges();
   setLargeAddresses();
   setSmallAddresses();
+  setIncrement();
   setCues();
 
   
@@ -33,7 +34,7 @@ void loop() {
       in[1] = Serial.parseInt(); //pitch
       in[2] = Serial.parseInt(); //duration
       in[3] = Serial.parseInt(); //state
-      in[4] = Serial.parseInt();//Run function (FOR TESTING ONLY!)
+    //  in[4] = Serial.parseInt();//Run function (FOR TESTING ONLY!)
       Serial.write(1); //Tell processing we're done receiving data
     }
     //Serial.write(0);
@@ -58,9 +59,8 @@ void loop() {
       fre6 = in[1];
       dur6 = in[2];
     }
-    //Always store the state
-    state = in[3];
-    function = in[4];
+   
+    //function = in[4];
 
     //    function = 3; //For testing with processing
 
@@ -81,6 +81,10 @@ void loop() {
     //    }
   }
 
+
+   //Always store the state
+    state = in[3];
+  
   //Run test function
   // if (function == 1) {
   //   spin(2, in[0], in[1], in[2]); //Light 3
@@ -146,8 +150,8 @@ void loop() {
        setRotation(1,85,100,0); //TEST
        setRGB(rgb1,0,0,0,200);
 
-       setRotation(2, 85, 100, 0); //Set position of wall lights
-       setRotation(3, 85, 100, 0); 
+       setRotation(2, 233, 70, 0); //Set position of wall lights
+       setRotation(3, 106, 70, 0); 
 
        setRGB(rgb2,0,0,0,200); //Set colours to white
        setRGB(rgb3,0,0,0,200);
@@ -170,12 +174,12 @@ void loop() {
        if(fadeCounter >= fadeSpeed){
         fadeCounter = 0;
          //softWhiteGlow(1, rgb1, 50);//TEST LIGHT
-         softWhiteGlow(6, rgb6, 50); //Singer spots glow white
-         softWhiteGlow(7, rgb7, 50);
-         softWhiteGlow(8, rgb8, 50);
-         softWhiteGlow(9, rgb9, 50);
-         softWhiteGlow(10, rgb10, 50);
-         softWhiteGlow(11, rgb11, 50);
+         softWhiteGlow(6, rgb6); //Singer spots glow white
+         softWhiteGlow(7, rgb7);
+         softWhiteGlow(8, rgb8);
+         softWhiteGlow(9, rgb9);
+         softWhiteGlow(10, rgb10);
+         softWhiteGlow(11, rgb11);
        } 
 
       // writeToLights(2, rgb2);     //Set wall lights to white (copy rgb2)
@@ -195,15 +199,16 @@ void loop() {
        fadeCounter++;
        if(fadeCounter >= fadeSpeed){
         fadeCounter = 0;
-        softWhiteGlow(0, rgb0, 200);//Side lights throb       
-        softWhiteGlow(1, rgb1, 200);
+        softWhiteGlow(0, rgb0);//Side lights throb       
+        softWhiteGlow(1, rgb1);
         }
      } else if (state == 7) {
        pitchToColourCalc(fre1,6,0,rgb6); //Only Soprano map pitch
        //pitchToColourCalc(fre1,1,0,rgb1); //Map front left to sporano pitch
-       setRGB(rgb1,255,0,0,0);
-       //setRotation(1,in[0],in[1],in[2]);
-       movingLight(1,move1); //HAVING PROBLEMS WITH THIS
+       setRGB(rgb1,255,0,0,0);// CHANGE THIS TO MAP PITCH
+
+       movingLight(1, move1, 50, 240, 212, 128); //Left front light moves
+                                                 //Light,Array,tilt,speed,max/min
 
        setRGB(rgb7,0,0,0,70); //Rest of singers on low white
        setRGB(rgb8,0,0,0,70);
@@ -215,16 +220,256 @@ void loop() {
        setRGB(rgb3,0,0,0,0);
        setRGB(rgb0,0,0,0,0);//Right front off
 
-
-
-
      } else if (state == 8) {
-       //Animation only (Very dim siger lights)
-       setRGB(rgb10,0,255,0,0);
-     } else if (state == 9) {
-       //Slowly fade backlightsin
+       setRGB(rgb6,0,0,0,70);//All singers on low white
+       setRGB(rgb7,0,0,0,70); 
+       setRGB(rgb8,0,0,0,70);
+       setRGB(rgb9,0,0,0,70);
+       setRGB(rgb10,0,0,0,70);
+       setRGB(rgb11,0,0,0,70);
+
+       setRGB(rgb1,0,0,0,0);      //Set front left back to position and off
+       setRotation(1,45,50,0);
+
+       setRGB(rgb4,0,0,0,100); //Dim backlights
+       setRGB(rgb5,0,0,0,100);
+
+     } else if (state == 9) {//Animation Only
+       setRGB(rgb0,0,0,0,0);//All lights off
+       setRGB(rgb1,0,0,0,0);
+       setRGB(rgb2,0,0,0,0);
+       setRGB(rgb3,0,0,0,0);
+       setRGB(rgb4,0,0,0,0); 
+       setRGB(rgb5,0,0,0,0);
+       setRGB(rgb6,0,0,0,0);
+       setRGB(rgb7,0,0,0,0); 
+       setRGB(rgb8,0,0,0,0);
+       setRGB(rgb9,0,0,0,0);
+       setRGB(rgb10,0,0,0,0);
+       setRGB(rgb11,0,0,0,0);
      } else if (state == 10) {
 
+       slowBright(4, rgb4, 400); //Fade backlights in
+       slowBright(5, rgb5, 400);
+
+       // if(timer >= time + 9){   //Fade in right wall
+       //  slowBright(2,rgb2,400);
+       // }
+
+       // if(timer >= time + 18){  //Fade in left wall
+       //  slowBright(3,rgb3,400);
+       // }
+
+       // if(timer >= time + 27){ //Fade in right front
+       //  slowBright(0,rgb0,400);
+       //  setRotation(0,128,128,200);
+       // }
+
+       // if(timer >= time + 36){  //Fade in left front
+       //  slowBright(1,rgb1,400);
+       //  setRotation(1,45,128,200);
+       // }
+ 
+     } else if(state == 11){
+
+      pitchToColourCalc(fre6,0,6,rgb0);  //Lights map pitch in pairs one at a time
+      pitchToColourCalc(fre6,11,6,rgb11);
+
+      pitchToColourCalc(fre6,1,6,rgb1); //TEST
+
+
+
+      // if(timer >= time + 9){
+      //   pitchToColourCalc(fre5,4,5,rgb4);
+      //   pitchToColourCalc(fre5,10,5,rgb10);
+      // }
+
+      // if(timer >= time + 18){
+      //   pitchToColourCalc(fre4,2,4,rgb4);
+      //   pitchToColourCalc(fre4,9,4,rgb9);
+      // }
+
+      // if(timer >= time + 27){
+      //   pitchToColourCalc(fre3,5,3,rgb5);
+      //   pitchToColourCalc(fre3,8,3,rgb8);
+      // }
+
+      // if(timer >= time + 36){
+      //   pitchToColourCalc(fre2,3,2,rgb3);
+      //   pitchToColourCalc(fre2,7,2,rgb7);
+      // }
+
+      // if(timer >= time + 45){
+      //   pitchToColourCalc(fre1,1,1,rgb1);
+      //   pitchToColourCalc(fre1,6,1,rgb6);
+      // }
+
+     } else if(state == 12){
+
+       int fadeSpeed = 70;
+       fadeCounter++;
+       if(fadeCounter >= fadeSpeed){
+          fadeCounter = 0;
+          brightness += brightnessDirection;
+
+          if(brightness >= 200){
+            brightnessDONE = true;
+          } else if(brightness <= 0){
+            brightnessDONE = false;
+          }
+
+          if(brightnessDONE == true){
+            brightnessDirection = -1;
+          } else if (brightnessDONE == false){
+            brightnessDirection = 1;
+          }
+           setRGB(rgb1,0,0,0,brightness); //Set left side to white
+           setRGB(rgb3,0,0,0,brightness);
+           setRGB(rgb5,0,0,0,brightness);
+           setRGB(rgb6,0,0,0,brightness);
+           setRGB(rgb7,0,0,0,brightness);
+           setRGB(rgb8,0,0,0,brightness);
+
+           setRGB(rgb0,200 - brightness,0,0,0); //Set right side to red
+           setRGB(rgb2,200 - brightness,0,0,0);
+           setRGB(rgb4,200 - brightness,0,0,0);
+           setRGB(rgb9,200 - brightness,0,0,0);
+           setRGB(rgb10,200 - brightness,0,0,0);
+           setRGB(rgb11,200 - brightness,0,0,0);
+     }
+
+       setRotation(0, 128, 50, 0); //Front lights face each other
+       setRotation(1, 45, 50, 0);
+
+     } else if(state == 13){ //Swap colours around
+
+      int fadeSpeed = 70;
+       fadeCounter++;
+       if(fadeCounter >= fadeSpeed){
+          fadeCounter = 0;
+          brightness += brightnessDirection;
+          if(brightness >= 200){
+            brightnessDONE = true;
+          } else if(brightness <= 0){
+            brightnessDONE = false;
+          }
+
+          if(brightnessDONE == true){
+            brightnessDirection = -1;
+          } else if (brightnessDONE == false){
+            brightnessDirection = 1;
+          }
+           setRGB(rgb1,0,200 - brightness,0,0); //Set left side to white
+           setRGB(rgb3,0,200 - brightness,0,0);
+           setRGB(rgb5,0,200 - brightness,0,0);
+           setRGB(rgb6,0,200 - brightness,0,0);
+           setRGB(rgb7,0,200 - brightness,0,0);
+           setRGB(rgb8,0,200 - brightness,0,0);
+
+           setRGB(rgb0,0,0,0,brightness); //Set right side to red
+           setRGB(rgb2,0,0,0,brightness);
+           setRGB(rgb4,0,0,0,brightness);
+           setRGB(rgb9,0,0,0,brightness);
+           setRGB(rgb10,0,0,0,brightness);
+           setRGB(rgb11,0,0,0,brightness);
+     }
+
+
+     } else if(state == 14){ // All Lights go nice purply colour
+       setRGB(rgb0,177,0,200,0);
+       setRGB(rgb1,177,0,200,0);
+       setRGB(rgb2,177,0,200,0);
+       setRGB(rgb3,177,0,200,0);
+       setRGB(rgb4,177,0,200,0);
+       setRGB(rgb5,177,0,200,0);
+       setRGB(rgb6,177,0,200,0);
+       setRGB(rgb7,177,0,200,0);
+       setRGB(rgb8,177,0,200,0);
+       setRGB(rgb9,177,0,200,0);
+       setRGB(rgb10,177,0,200,0);
+       setRGB(rgb11,177,0,200,0);
+
+       setRotation(0,128,128,230); //Front and wall lights face upwards
+       setRotation(1,128,128,230);
+       setRotation(2,128,128,230);
+       setRotation(3,128,128,230);
+     } else if(state == 15){ //Fades lights out one at a time
+        setRGB(rgb0,0,0,0,0);
+
+        // if(timer >= time + 5000){
+        //   setRGB(rgb1,0,0,0,0);
+        // }
+
+        // if(timer >= time + 10000){
+        //   setRGB(rgb1,0,0,0,0);
+        // }
+
+        // if(timer >= time + 15000){
+        //   setRGB(rgb2,0,0,0,0);
+        // }
+
+        // if(timer >= time + 20000){
+        //   setRGB(rgb3,0,0,0,0);
+        // }
+
+        // if(timer >= time + 25000){
+        //   setRGB(rgb4,0,0,0,0);
+        //   setRGB(rgb5,0,0,0,0);
+        // }
+
+     } else if(state == 16){ //Spotlights go dim white
+        setRGB(rgb6,0,0,0,100);
+        setRGB(rgb7,0,0,0,100);
+        setRGB(rgb8,0,0,0,100);
+        setRGB(rgb9,0,0,0,100);
+        setRGB(rgb10,0,0,0,100);
+        setRGB(rgb11,0,0,0,100);
+     } else if(state == 17){ //Spotlights off
+        setRGB(rgb6,0,0,0,0);
+        setRGB(rgb7,0,0,0,0);
+        setRGB(rgb8,0,0,0,0);
+        setRGB(rgb9,0,0,0,0);
+        setRGB(rgb10,0,0,0,0);
+        setRGB(rgb11,0,0,0,0);
+     } else if(state == 18){ //Face front lights up and glow
+      /*RUN THIS FOR THE NEXT ONE TOO*/
+       int fadeSpeed = 70;
+       fadeCounter++;
+       if(fadeCounter >= fadeSpeed){
+        fadeCounter = 0;
+        softWhiteGlow(0,rgb0);
+        softWhiteGlow(1,rgb1);
+      }
+     } else if(state == 19){ // Wall lights also glow
+
+        setRotation(2,233,50,0);//Wall lights back to position
+        setRotation(3,106,50,0);
+        setRotation(1,64,50,0);//Front lights face singers
+        setRotation(0,106,50,0);
+
+        int fadeSpeed = 70;
+        fadeCounter++;
+       if(fadeCounter >= fadeSpeed){
+        fadeCounter = 0;
+          softWhiteGlow(2,rgb2);
+          softWhiteGlow(3,rgb3);
+      }
+      
+     } else if(state == 20){ //Singers only
+        setRGB(rgb0,0,0,0,0);
+        setRGB(rgb1,0,0,0,0);
+        setRGB(rgb2,0,0,0,0);
+        setRGB(rgb3,0,0,0,0);
+        setRGB(rgb4,0,0,0,0);
+        setRGB(rgb5,0,0,0,0);
+
+     } else if(state == 21){ //Fade singers out
+        setRGB(rgb6,0,0,0,0);
+        setRGB(rgb7,0,0,0,0);
+        setRGB(rgb8,0,0,0,0);
+        setRGB(rgb9,0,0,0,0);
+        setRGB(rgb10,0,0,0,0);
+        setRGB(rgb11,0,0,0,0);
      }
 
 

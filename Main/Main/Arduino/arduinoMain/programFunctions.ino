@@ -1,6 +1,6 @@
 /**
 	This file will contain all the functions called throughout the program
-	in 'sequency'
+	in 'sequence'
 */
 
 
@@ -46,23 +46,40 @@ void setRotation(int x, int rotation, int tilt, int movementSpeed){
 	DmxMaster.write(movementSpeedArray[x],movementSpeed);
 }
 
-void movingLight(int x, int movement[3]){
+void movingLight(int x, int movement[3], int tilt, int movementSpeed, int maxRot, int minRot){
 
+  movement[1] = tilt;
+  movement[2] = movementSpeed; //Set speed
+ // movement[0] += increment;
+ // Serial.print("Counter2: ");
+ // Serial.println(counter2);
 
-  movement[2] = 200; //Set speed
-  movement[0] += increment;
-
-  if(movement[0] >= 212){
-    maxReached = true;
-  } else if (movement[0] <= 128){
-    maxReached = false;
+  counter++;
+  if(counter >= 10000){
+    counter = 0;
+    counter2++;
+    if(counter2 > 1){
+      counter2 = 0;
+    }
   }
 
-    if(maxReached == true){
-      increment = -1;
-    } else if (maxReached == false){
-      increment = 1;
-    }
+  if(counter2 == 0){
+    movement[0] = maxRot;
+  } else if (counter2 == 1){
+    movement[0] = minRot;
+  }
+
+  // if(movement[0] >= 212){
+  //   maxReached = true;
+  // } else if (movement[0] <= 128){
+  //   maxReached = false;
+  // }
+
+  //   if(maxReached == true){
+  //     increment = -1;
+  //   } else if (maxReached == false){
+  //     increment = 1;
+  //   }
   
   DmxMaster.write(panArray[x],movement[0]);
   DmxMaster.write(tiltArray[x],movement[1]);
@@ -98,13 +115,12 @@ void writeMovement(int x, int movement[3]){
   DmxMaster.write(movementSpeedArray[x],movement[2]);
 }
 
-void softWhiteGlow(int x, int rgb[4], int fadeSpeed){
+void softWhiteGlow(int x, int rgb[4]){
 
   int whiteMin = 50;
   int whiteMax = 120;
 
-
-    rgb[3] += increment;
+  rgb[3] += increment[x];
 
   if(rgb[3] >= whiteMax){
     maxDone = true;
@@ -114,9 +130,9 @@ void softWhiteGlow(int x, int rgb[4], int fadeSpeed){
 
 
   if(maxDone == false){
-    increment = 1;
+    increment[x] = 1;
   } else if (maxDone == true){
-    increment = -1;
+    increment[x] = -1;
   }
 
   //Set rest of colours to 0

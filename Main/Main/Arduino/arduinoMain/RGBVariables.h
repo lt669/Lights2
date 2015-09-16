@@ -38,11 +38,16 @@ int lightFaderSpeed = 5; //Speed of lights fade
 int fadeCounter;
 
 int whiteValue; //For softWhiteGlow();
-int increment; 	//For softWhiteGlow();
+int increment[12]; 	//For softWhiteGlow();
 boolean maxDone, minDone;
 int count; //To run certain functions only once
+int counter;
+int counter2;
+boolean maxReached;
 
-  boolean maxReached;
+int brightness;			//For the dissonance bit
+int brightnessDirection;
+boolean brightnessDONE;
 
 int rgb0[4]; //Stores Target RGBW Value
 int rgb1[4];

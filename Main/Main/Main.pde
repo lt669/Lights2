@@ -74,8 +74,8 @@ void setup() {
   // video.start();
 
   //Initialise Port to send serial data to arduino
-  // port = new Serial(this, "/dev/cu.usbmodem641", 9600); 
-  // port.bufferUntil('\n');
+  port = new Serial(this, "/dev/cu.usbmodem411", 9600); 
+  port.bufferUntil('\n');
 
   // videoExport2 = new VideoExport(this, "/Users/Lewis/Desktop/export.mp4");
   // videoExport2.setQuality(70);
@@ -90,8 +90,8 @@ void setup() {
   //  player.play();
 
   //Mac
-   player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
-   player.play();
+   // player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
+   // player.play();
 
 
   //Setup PD patch
@@ -203,7 +203,7 @@ void draw() {
     noStroke();
     fill(BGhue, BGsat, BGbri, 10);
     rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
-  } else if (choice == 4 || choice == 5 || choice == 6) {
+  } else if (choice == 4 || choice == 5 /*|| choice == 6*/) {
     //    noStroke();
     //    fill(BGhue, BGsat, BGbri, 5);
     //    rect(0, 0, canX, canY);
@@ -313,7 +313,7 @@ void mouseReleased() {
 }
 
 void graphicChoice() {
-  if (graphicChooser ==1) {
+  if (graphicChooser == 1) {
     choice = 1;
     select = 5;
   } else if (graphicChooser == 2) {
@@ -369,6 +369,11 @@ void keyPressed() {
   println("Select: ", select);
   if (select == 0) {
     fadedDONE = false;
+    state++;
+  }
+
+  if(select == 1){
+    state--;
   }
   pressed = true;
 }

@@ -92,6 +92,12 @@ void setLargeAddresses(){
   }
 }
 
+void setIncrement(){
+  for(int i = 0;i<12;i++){
+    increment[i] = 1;
+  }
+}
+
 void setSmallAddresses(){
 
   //Must manually set adresses to skip out 101 - 104

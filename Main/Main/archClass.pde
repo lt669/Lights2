@@ -1,6 +1,6 @@
 class archClass{
 
-	int xStartPos, yStartPos, xEndPos, yEndPos, size;
+	float xStartPos, yStartPos, xEndPos, yEndPos, size;
 	int extraHeight;
 	int minPitch1, minPitch2, maxPitch1, maxPitch2, pitch1, pitch2;
 	int [] pitchCompare1 = new int [2];
@@ -13,8 +13,10 @@ class archClass{
 	int transparency = 2;
 	reverbRings reverb1;
 	reverbRings reverb2;
-	int [] startPosition = new int[2];
-	int [] endPosition = new int[2];
+	int [] xStartPosition = new int[2];
+	int [] xEndPosition = new int[2];
+	int [] yStartPosition = new int[2];
+	int [] yEndPosition = new int[2];
 	int movementCounter = 0;
 	
 
@@ -30,35 +32,65 @@ class archClass{
 		reverb1 = new reverbRings(xStartPos,yStartPos);
 		reverb2 = new reverbRings(xEndPos,yEndPos);
 
+		yStartPosition[1] = iYStartPos;
+		yEndPosition[1] = iYEndPos;
+
 	}
 
 
 void drawArch(){
 
 	extraHeight = int(random(0,50));
+
 	movementCounter++;
-	if(movementCounter >= 10){
+	if(movementCounter >= 30){
 		movementCounter = 0;
-	startPosition[1] = startPosition[0];
-	startPosition[0] = int(random(0,canX/3));
-	endPosition[1] = endPosition[0];
-	endPosition[0] = int(random(canX,canX*2/3));
+	xStartPosition[1] = xStartPosition[0];
+	xStartPosition[0] = int(random(0,100));
+	xEndPosition[1] = xEndPosition[0];
+	xEndPosition[0] = int(random(0,100));
+
+	yStartPosition[0] = int(random(-1,1));
+	yEndPosition[0] = int(random(-1,1));
 	}
 
-	if (startPosition[0] > startPosition[1]){
-		xStartPos+= 10;
-	} else if(startPosition[0] > startPosition[1]){
-		xStartPos-= 10;
+	if (xStartPosition[0] > xStartPosition[1]){
+		xStartPos+= 0.1;
+		if(xStartPos >= canX/3 + 10){
+			xStartPos = canX/3 + 10;
+		}
+	} else if(xStartPosition[0] < xStartPosition[1]){
+		xStartPos-= 0.1;
+		if(xStartPos <= canX/3 - 10){
+			xStartPos = canX/3 - 10;
+		}
 	}
 
-	if (endPosition[0] > endPosition[1]){
-		xEndPos++;
-	} else if(endPosition[0] > endPosition[1]){
-		xEndPos--;
+	if (xEndPosition[0] > xEndPosition[1]){
+		xEndPos += 0.1;
+		if(xEndPos >= canX*2/3 + 10){
+			xEndPos = canX*2/3 + 10;
+		}
+	} else if(xEndPosition[0] < xEndPosition[1]){
+		xEndPos -= 0.1;
+		if(xEndPos <= canX*2/3 - 10){
+			xEndPos = canX*2/3 - 10;
+		}
 	}
+
+		yStartPos += yStartPosition[1] + yStartPosition[0];
+		if(yStartPos >= yStartPosition[1] + 10){
+			yStartPos = yStartPosition[1] + 10;
+		}
+	
+
+		yEndPos += yEndPosition[1] + yEndPosition[0];
+		if(yEndPos >= yEndPosition[1] + 10){
+			yEndPos = yEndPosition[1] + 10;
+		}
 
 	colorMode(HSB,360,100,100,100);
-	int midPoint = xEndPos - (xEndPos-xStartPos)/2;
+	float midPoint = xEndPos - (xEndPos-xStartPos)/2;
 
 	if(pitchCompare1[0] > pitchCompare1[1]){
 		pitch1 -= colourGlide;
@@ -154,12 +186,12 @@ void drawArch(){
 
 class reverbRings{
 
-int xPos, yPos;
+float xPos, yPos;
 int r = 0;
 int alpha = 100;
 
 	//Constructor
-	reverbRings(int iXPos, int iYPos){
+	reverbRings(float iXPos, float iYPos){
 		xPos = iXPos;
 		yPos = iYPos;
 	}

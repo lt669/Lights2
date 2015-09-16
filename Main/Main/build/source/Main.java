@@ -96,8 +96,8 @@ public void setup() {
   // video.start();
 
   //Initialise Port to send serial data to arduino
-  // port = new Serial(this, "/dev/cu.usbmodem641", 9600); 
-  // port.bufferUntil('\n');
+  port = new Serial(this, "/dev/cu.usbmodem411", 9600); 
+  port.bufferUntil('\n');
 
   // videoExport2 = new VideoExport(this, "/Users/Lewis/Desktop/export.mp4");
   // videoExport2.setQuality(70);
@@ -112,8 +112,8 @@ public void setup() {
   //  player.play();
 
   //Mac
-   player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
-   player.play();
+   // player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
+   // player.play();
 
 
   //Setup PD patch
@@ -225,7 +225,7 @@ public void draw() {
     noStroke();
     fill(BGhue, BGsat, BGbri, 10);
     rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
-  } else if (choice == 4 || choice == 5 || choice == 6) {
+  } else if (choice == 4 || choice == 5 /*|| choice == 6*/) {
     //    noStroke();
     //    fill(BGhue, BGsat, BGbri, 5);
     //    rect(0, 0, canX, canY);
@@ -335,7 +335,7 @@ public void mouseReleased() {
 }
 
 public void graphicChoice() {
-  if (graphicChooser ==1) {
+  if (graphicChooser == 8) {
     choice = 1;
     select = 5;
   } else if (graphicChooser == 2) {
@@ -356,7 +356,7 @@ public void graphicChoice() {
   } else if (graphicChooser == 7) {
     choice = 5;
     select = 4;
-  } else if (graphicChooser == 8) {
+  } else if (graphicChooser == 1) {
     choice = 6;
     select = 3;
   }
@@ -391,6 +391,11 @@ public void keyPressed() {
   println("Select: ", select);
   if (select == 0) {
     fadedDONE = false;
+    state++;
+  }
+
+  if(select == 1){
+    state--;
   }
   pressed = true;
 }
@@ -787,7 +792,7 @@ int cueAddress;
 
 int[] comp = new int[2];
 
-int state = 1; //What the Arduino should run
+int state; //What the Arduino should run
 
 /*---------------CUES---------------*/
 int[] cueArray = new int[17];
@@ -813,7 +818,7 @@ cueArray[16] = 1176000;
 /*---------------CUES---------------*/
 class archClass{
 
-	int xStartPos, yStartPos, xEndPos, yEndPos, size;
+	float xStartPos, yStartPos, xEndPos, yEndPos, size;
 	int extraHeight;
 	int minPitch1, minPitch2, maxPitch1, maxPitch2, pitch1, pitch2;
 	int [] pitchCompare1 = new int [2];
@@ -826,8 +831,10 @@ class archClass{
 	int transparency = 2;
 	reverbRings reverb1;
 	reverbRings reverb2;
-	int [] startPosition = new int[2];
-	int [] endPosition = new int[2];
+	int [] xStartPosition = new int[2];
+	int [] xEndPosition = new int[2];
+	int [] yStartPosition = new int[2];
+	int [] yEndPosition = new int[2];
 	int movementCounter = 0;
 	
 
@@ -843,35 +850,65 @@ class archClass{
 		reverb1 = new reverbRings(xStartPos,yStartPos);
 		reverb2 = new reverbRings(xEndPos,yEndPos);
 
+		yStartPosition[1] = iYStartPos;
+		yEndPosition[1] = iYEndPos;
+
 	}
 
 
 public void drawArch(){
 
 	extraHeight = PApplet.parseInt(random(0,50));
+
 	movementCounter++;
-	if(movementCounter >= 10){
+	if(movementCounter >= 30){
 		movementCounter = 0;
-	startPosition[1] = startPosition[0];
-	startPosition[0] = PApplet.parseInt(random(0,canX/3));
-	endPosition[1] = endPosition[0];
-	endPosition[0] = PApplet.parseInt(random(canX,canX*2/3));
+	xStartPosition[1] = xStartPosition[0];
+	xStartPosition[0] = PApplet.parseInt(random(0,100));
+	xEndPosition[1] = xEndPosition[0];
+	xEndPosition[0] = PApplet.parseInt(random(0,100));
+
+	yStartPosition[0] = PApplet.parseInt(random(-1,1));
+	yEndPosition[0] = PApplet.parseInt(random(-1,1));
 	}
 
-	if (startPosition[0] > startPosition[1]){
-		xStartPos+= 10;
-	} else if(startPosition[0] > startPosition[1]){
-		xStartPos-= 10;
+	if (xStartPosition[0] > xStartPosition[1]){
+		xStartPos+= 0.1f;
+		if(xStartPos >= canX/3 + 10){
+			xStartPos = canX/3 + 10;
+		}
+	} else if(xStartPosition[0] < xStartPosition[1]){
+		xStartPos-= 0.1f;
+		if(xStartPos <= canX/3 - 10){
+			xStartPos = canX/3 - 10;
+		}
 	}
 
-	if (endPosition[0] > endPosition[1]){
-		xEndPos++;
-	} else if(endPosition[0] > endPosition[1]){
-		xEndPos--;
+	if (xEndPosition[0] > xEndPosition[1]){
+		xEndPos += 0.1f;
+		if(xEndPos >= canX*2/3 + 10){
+			xEndPos = canX*2/3 + 10;
+		}
+	} else if(xEndPosition[0] < xEndPosition[1]){
+		xEndPos -= 0.1f;
+		if(xEndPos <= canX*2/3 - 10){
+			xEndPos = canX*2/3 - 10;
+		}
 	}
+
+		yStartPos += yStartPosition[1] + yStartPosition[0];
+		if(yStartPos >= yStartPosition[1] + 10){
+			yStartPos = yStartPosition[1] + 10;
+		}
+	
+
+		yEndPos += yEndPosition[1] + yEndPosition[0];
+		if(yEndPos >= yEndPosition[1] + 10){
+			yEndPos = yEndPosition[1] + 10;
+		}
 
 	colorMode(HSB,360,100,100,100);
-	int midPoint = xEndPos - (xEndPos-xStartPos)/2;
+	float midPoint = xEndPos - (xEndPos-xStartPos)/2;
 
 	if(pitchCompare1[0] > pitchCompare1[1]){
 		pitch1 -= colourGlide;
@@ -967,12 +1004,12 @@ public void drawArch(){
 
 class reverbRings{
 
-int xPos, yPos;
+float xPos, yPos;
 int r = 0;
 int alpha = 100;
 
 	//Constructor
-	reverbRings(int iXPos, int iYPos){
+	reverbRings(float iXPos, float iYPos){
 		xPos = iXPos;
 		yPos = iYPos;
 	}
@@ -1642,7 +1679,7 @@ class textFileReader {
       println("END OF FILE");
     }
 
-    //sendToArduino(TAG);
+    sendToArduino(TAG);
   }
 
   public void sendToArduino(int inTAG) {
@@ -1661,7 +1698,7 @@ class textFileReader {
         val = port.read();
         waitingCount++;
         println("waitingCount: ",waitingCount);
-        if (waitingCount >=10) {//break out if there is an error
+        if (waitingCount >=20) {//break out if there is an error
           val = 1;
           waitingCount = 0;
         }
