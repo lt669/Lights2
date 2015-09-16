@@ -7,6 +7,7 @@ import org.puredata.processing.PureData;
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import processing.serial.*; 
+import codeanticode.gsvideo.*; 
 
 import java.util.HashMap; 
 import java.util.ArrayList; 
@@ -23,8 +24,14 @@ public class Main extends PApplet {
 
 
 
+
+//import com.hamoid.*;
 Serial port;
 
+//Quicktime Variables
+//VideoExport videoExport2;
+//GSMovieMaker video;
+boolean recordVideo, stopVideo;
 //import processing.sound.*;
 //SoundFile file;
 
@@ -56,10 +63,10 @@ Cir singer4;
 Cir singer5;
 Cir singer6;
 
-//Singer s1;
-//Singer s2;
-//Singer s3;
-//Singer s4;
+archClass arch1;
+archClass arch2;
+archClass arch3;
+
 
 textFileReader PART1;
 textFileReader PART2;
@@ -83,10 +90,18 @@ boolean fadedDONE;
 
 public void setup() {
 
+  //Setup video rendering
+  // video = new GSMovieMaker(this,canX,canY,"ProcessingVideo.mov", GSMovieMaker.THEORA, GSMovieMaker.MEDIUM, fps);
+  // video.setQueueSize(50,10);
+  // video.start();
+
   //Initialise Port to send serial data to arduino
-  port = new Serial(this, "/dev/cu.usbmodem641", 9600); 
+  port = new Serial(this, "/dev/cu.usbmodem411", 9600); 
   port.bufferUntil('\n');
 
+  // videoExport2 = new VideoExport(this, "/Users/Lewis/Desktop/export.mp4");
+  // videoExport2.setQuality(70);
+  // videoExport2.setFrameRate(60);
   //Create PGraphics
   Circles = createGraphics(canX, canY);
   //Squigles = createGraphics(squigleCanX, squigleCanY);
@@ -97,15 +112,15 @@ public void setup() {
   //  player.play();
 
   //Mac
-  // player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
-  // player.play();
+   // player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
+   // player.play();
 
 
   //Setup PD patch
-   pd = new PureData(this, 44100, 0, 2); //6 outputs
-   //  pd.openPatch("/Users/Lewis/Developer/Lights_Project/Lights/Main/Main/patch.pd");  
-   pd.openPatch("patch.pd");
-   pd.start();
+//   pd = new PureData(this, 44100, 0, 2); //6 outputs
+//   //  pd.openPatch("/Users/Lewis/Developer/Lights_Project/Lights/Main/Main/patch.pd");  
+//   pd.openPatch("patch.pd");
+//   pd.start();
 
   //Load cues into array
   setCues();
@@ -158,6 +173,11 @@ public void setup() {
   reverb1 = new reverbRings(canX/4, canY/2,0,100);
   reverb2 = new reverbRings(canX*3/4, canY/2,0,100);
 
+  //archClass objects
+  arch1 = new archClass(canX/4,canY/4,canX*3/4,canY/4,50);
+  arch2 = new archClass(canX/4,canY/2,canX*3/4,canY/2,50);
+  arch3 = new archClass(canX/4,canY*3/4,canX*3/4,canY*3/4,50);
+
 
   //Set the Pitch and Duration ranges in the appropriate classes
   singer1.setRange(PART1.getMinPitch(), PART1.getMaxPitch(), PART1.getMinDuration(), PART1.getMaxDuration());
@@ -174,6 +194,11 @@ public void setup() {
   sq5.setRange(PART5.getMinPitch(), PART5.getMaxPitch(), PART5.getMinDuration(), PART5.getMaxDuration());
   sq6.setRange(PART6.getMinPitch(), PART6.getMaxPitch(), PART6.getMinDuration(), PART6.getMaxDuration());
 
+  arch1.setRange(PART1.getMinPitch(), PART1.getMaxPitch(), PART1.getMinDuration(), PART1.getMaxDuration());
+  arch2.setRange(PART2.getMinPitch(), PART2.getMaxPitch(), PART2.getMinDuration(), PART2.getMaxDuration());
+  arch3.setRange(PART3.getMinPitch(), PART3.getMaxPitch(), PART3.getMinDuration(), PART3.getMaxDuration());
+  
+
   //Send start bang to PD
   // pd.sendFloat("bang",startBang);
 
@@ -186,6 +211,9 @@ public void setup() {
 }
 
 public void draw() {
+
+  //recordSketch();
+
   colorMode(HSB, 360, 100, 100, 100);
 
   if (alphaDONE == true) {
@@ -197,7 +225,7 @@ public void draw() {
     noStroke();
     fill(BGhue, BGsat, BGbri, 10);
     rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
-  } else if (choice == 4 || choice == 5) {
+  } else if (choice == 4 || choice == 5 /*|| choice == 6*/) {
     //    noStroke();
     //    fill(BGhue, BGsat, BGbri, 5);
     //    rect(0, 0, canX, canY);
@@ -206,15 +234,16 @@ public void draw() {
   }
 
   PART1.timer(1);
-   //PART2.timer(1);
-  // PART3.timer("C");
-  // PART4.timer("D");
-  // PART5.timer("E");
-  // PART6.timer("F");
+  PART2.timer(2);
+  PART3.timer(3);
+  PART4.timer(4);
+  PART5.timer(5);
+  PART6.timer(6);
 
   graphicChoice();
   runCircleClass();
   runSquigleClass();
+  runArchClass();
   //writeToArduino();
 
   //runReverbClass();
@@ -222,9 +251,38 @@ public void draw() {
   //runRectangles();
 
 
+  screenFader();
+  //graphicChooser = 8;
+  //Cue Reader
+  if(millis() == cueArray[cueAddress]){
+    println("Cue["+cueAddress+"}");
+    x++;
+  }
+  
+  //Run PD function
+  //PD();
+}
 
-  //  if (check == 1) {
-  if (fadedDONE == false) {
+public void recordSketch(){
+
+  if(millis() < 50000){
+
+//videoExport2.saveFrame();
+    
+    //saveFrame("/Users/Lewis/Desktop/Images/sketch-#######.png");
+    // loadPixels();
+    // video.addFrame(pixels);
+    // println("Number of queued frames : " + video.getQueuedFrames());
+    // println("Number of dropped frames: " + video.getDroppedFrames());
+  } else {
+    //video.finish();
+    println("Done Recording");
+  }
+
+}
+
+public void screenFader(){
+   if (fadedDONE == false) {
     if (just == true) {
       alpha = 1;
     }
@@ -237,7 +295,7 @@ public void draw() {
     if (alpha >= 100) {
       alphaDONE = true;
       graphicChooser += 1 /* round(random(1, 7))*/;
-      if (graphicChooser > 7) {
+      if (graphicChooser > 8) {
         graphicChooser = 1;
       }
     }
@@ -252,12 +310,6 @@ public void draw() {
       alpha = -2;
     }
 
-    //    println("just: ", just);
-    //    println("Alpha: ", alpha);
-    //    println("FadedDONE: ",fadedDONE);
-
-    //println("Choice: "+choice+" Select: "+select+" BGbri: "+BGbri);
-
     //Extra canvas used for the fade effect
     Circles.beginDraw();
     Circles.colorMode(HSB, 360, 100, 100, 100);
@@ -268,11 +320,6 @@ public void draw() {
     Circles.endDraw();
     image(Circles, 0, 0, canX, canY);
   }
-
-  //println("graphicChooser: "+graphicChooser+" choice: "+choice+ " select: "+select);
-
-  //Run PD function
-  PD();
 }
 
 public void mousePressed() {
@@ -288,7 +335,7 @@ public void mouseReleased() {
 }
 
 public void graphicChoice() {
-  if (graphicChooser == 1) {
+  if (graphicChooser == 8) {
     choice = 1;
     select = 5;
   } else if (graphicChooser == 2) {
@@ -309,6 +356,9 @@ public void graphicChoice() {
   } else if (graphicChooser == 7) {
     choice = 5;
     select = 4;
+  } else if (graphicChooser == 1) {
+    choice = 6;
+    select = 3;
   }
 
   if (select == 3) { //Black BG, flat colours
@@ -341,35 +391,13 @@ public void keyPressed() {
   println("Select: ", select);
   if (select == 0) {
     fadedDONE = false;
+    state++;
   }
-  //  if (select == 1) {
-  //    choice++;
-  //  } else if (select == 2) {
-  //    choice--;
-  //  } else if (select == 3) { //Black BG, flat colours
-  //    BGhue = 0;
-  //    BGsat = 0;
-  //    BGbri = 0;
-  //    colorBright = 1;
-  //  } else if (select == 4) { //Black BG, bright colours
-  //    BGhue = 0;
-  //    BGsat = 0;
-  //    BGbri = 0;
-  //    colorBright = 2;
-  //  } else if (select == 5) { //White BG, flat colours
-  //    BGhue = 0;
-  //    BGsat = 0;
-  //    BGbri = 100;
-  //    colorBright = 1;
-  //  } else if (select == 6) { //White BG, bright colours
-  //    BGhue = 0;
-  //    BGsat = 0;
-  //    BGbri = 100;
-  //    colorBright = 2;
-  //  }
+
+  if(select == 1){
+    state--;
+  }
   pressed = true;
-  //  println("Select", select);
-  //  println("Choice: ", choice);
 }
 
 public void keyReleased() {
@@ -503,6 +531,23 @@ public void runRectangles() {
   drawRect(colour4, 100, 100, 70, 10);
   drawRect(colour5, 100, 100, 70, 10);
   drawRect(colour6, 100, 100, 70, 10);
+}
+
+public void runArchClass(){
+  if(choice == 6){
+
+  arch1.getNext(PART1.getNext(),PART2.getNext());
+  arch2.getNext(PART3.getNext(),PART4.getNext());
+  arch3.getNext(PART5.getNext(),PART6.getNext());
+
+  arch1.getPitch(PART1.getPitch(),PART2.getPitch());
+  arch2.getPitch(PART3.getPitch(),PART4.getPitch());
+  arch3.getPitch(PART5.getPitch(),PART6.getPitch());
+
+  arch1.drawArch();
+  arch2.drawArch();
+  arch3.drawArch();
+  }
 }
 
 public void drawRect(int col, int posX, int posY, int size, int tran) {
@@ -709,6 +754,9 @@ class Cir {
 int canX = 800;
 int canY = 400;
 
+//MovieMaker
+int fps = 60;
+
 boolean first, second;
 int backCount = 0;
 int BGhue = 0;
@@ -740,10 +788,11 @@ float startBang = 1.0f;
 float stopBang = 1.0f;
 
 int x =0;
+int cueAddress;
 
 int[] comp = new int[2];
 
-int state = 1; //What the Arduino should run
+int state; //What the Arduino should run
 
 /*---------------CUES---------------*/
 int[] cueArray = new int[17];
@@ -767,6 +816,255 @@ cueArray[15] = 1100000;
 cueArray[16] = 1176000;
 }
 /*---------------CUES---------------*/
+class archClass{
+
+	float xStartPos, yStartPos, xEndPos, yEndPos, size;
+	int extraHeight;
+	int minPitch1, minPitch2, maxPitch1, maxPitch2, pitch1, pitch2;
+	int [] pitchCompare1 = new int [2];
+	int [] pitchCompare2 = new int [2];
+	int colourGlide = 1;
+	boolean NEXT1, NEXT2;
+	int radius1, radius2;
+	int alpha1 = 100;
+	int alpha2 = 100;
+	int transparency = 2;
+	reverbRings reverb1;
+	reverbRings reverb2;
+	int [] xStartPosition = new int[2];
+	int [] xEndPosition = new int[2];
+	int [] yStartPosition = new int[2];
+	int [] yEndPosition = new int[2];
+	int movementCounter = 0;
+	
+
+	//Constructor
+	archClass(int iXStartPos, int iYStartPos, int iXEndPos, int iYEndPos, int iSize){
+		xStartPos = iXStartPos;
+		yStartPos = iYStartPos;
+		xEndPos = iXEndPos;
+		yEndPos = iYEndPos;
+
+		size = iSize;
+
+		reverb1 = new reverbRings(xStartPos,yStartPos);
+		reverb2 = new reverbRings(xEndPos,yEndPos);
+
+		yStartPosition[1] = iYStartPos;
+		yEndPosition[1] = iYEndPos;
+
+	}
+
+
+public void drawArch(){
+
+	extraHeight = PApplet.parseInt(random(0,50));
+
+	movementCounter++;
+	if(movementCounter >= 30){
+		movementCounter = 0;
+	xStartPosition[1] = xStartPosition[0];
+	xStartPosition[0] = PApplet.parseInt(random(0,100));
+	xEndPosition[1] = xEndPosition[0];
+	xEndPosition[0] = PApplet.parseInt(random(0,100));
+
+	yStartPosition[0] = PApplet.parseInt(random(-1,1));
+	yEndPosition[0] = PApplet.parseInt(random(-1,1));
+	}
+
+	if (xStartPosition[0] > xStartPosition[1]){
+		xStartPos+= 0.1f;
+		if(xStartPos >= canX/3 + 10){
+			xStartPos = canX/3 + 10;
+		}
+	} else if(xStartPosition[0] < xStartPosition[1]){
+		xStartPos-= 0.1f;
+		if(xStartPos <= canX/3 - 10){
+			xStartPos = canX/3 - 10;
+		}
+	}
+
+	if (xEndPosition[0] > xEndPosition[1]){
+		xEndPos += 0.1f;
+		if(xEndPos >= canX*2/3 + 10){
+			xEndPos = canX*2/3 + 10;
+		}
+	} else if(xEndPosition[0] < xEndPosition[1]){
+		xEndPos -= 0.1f;
+		if(xEndPos <= canX*2/3 - 10){
+			xEndPos = canX*2/3 - 10;
+		}
+	}
+
+		yStartPos += yStartPosition[1] + yStartPosition[0];
+		if(yStartPos >= yStartPosition[1] + 10){
+			yStartPos = yStartPosition[1] + 10;
+		}
+	
+
+		yEndPos += yEndPosition[1] + yEndPosition[0];
+		if(yEndPos >= yEndPosition[1] + 10){
+			yEndPos = yEndPosition[1] + 10;
+		}
+
+	colorMode(HSB,360,100,100,100);
+	float midPoint = xEndPos - (xEndPos-xStartPos)/2;
+
+	if(pitchCompare1[0] > pitchCompare1[1]){
+		pitch1 -= colourGlide;
+		if(pitch1 <= 0){
+			pitch1 = 360;
+		}
+	} else if (pitchCompare1[0] < pitchCompare1[1]){
+		pitch1 += colourGlide;
+		if(pitch1 >= 360){
+			pitch1 = 0;
+		}
+	}
+
+	if(pitchCompare2[0] > pitchCompare2[1]){
+		pitch2 -= colourGlide;
+		if(pitch2 <= 0){
+			pitch2 = 360;
+		}
+	} else if (pitchCompare2[0] < pitchCompare2[1]){
+		pitch2 += colourGlide;
+		if(pitch2 >= 360){
+			pitch2 = 0;
+		}
+	}
+
+	// int bri1 = int(map(pitch1,0,360,0,100));
+	// int bri2 = int(map(pitch1,0,360,0,100));
+	// int sat1 = int(map(pitch1,0,360,0,100));
+	// int sat2 = int(map(pitch1,0,360,0,100));
+
+	int bri1 = 70;
+	int bri2 = 70;
+	int sat1 = 70;
+	int sat2 = 70;	
+
+	//drawArch for first circle
+	noStroke();
+	fill(pitch1,bri1,sat1,transparency);
+	beginShape();
+	curveVertex(xStartPos, yStartPos);
+	curveVertex(midPoint, yStartPos + extraHeight);
+	curveVertex(xEndPos,yEndPos);
+	curveVertex(midPoint, yStartPos - extraHeight);
+	curveVertex(xStartPos, yStartPos);
+	endShape(CLOSE);
+	noStroke();
+	fill(pitch1,bri1,sat1,transparency);
+	beginShape();
+	curveVertex(xEndPos, yEndPos);
+	curveVertex(midPoint, yStartPos + extraHeight);
+	curveVertex(xStartPos,yStartPos);
+	curveVertex(midPoint, yStartPos - extraHeight);
+	curveVertex(xStartPos, yStartPos);
+	endShape();
+
+
+	noStroke();
+	fill(pitch2,bri2,sat2,transparency);
+	beginShape();
+	curveVertex(xEndPos, yEndPos);
+	curveVertex(midPoint, yStartPos + extraHeight);
+	curveVertex(xStartPos,yStartPos);
+	curveVertex(midPoint, yStartPos - extraHeight);
+	curveVertex(xStartPos, yStartPos);
+	endShape();
+	noStroke();
+	fill(pitch2,bri2,sat2,transparency);
+	beginShape();
+	curveVertex(xStartPos, yStartPos);
+	curveVertex(midPoint, yStartPos + extraHeight);
+	curveVertex(xEndPos,yEndPos);
+	curveVertex(midPoint, yStartPos - extraHeight);
+	curveVertex(xStartPos, yStartPos);
+	endShape(CLOSE);
+
+		//Draw circles
+	fill(pitch1,bri1,sat1);
+	ellipse(xStartPos, yStartPos, size, size);
+
+	//End Circle
+	fill(pitch2,bri2,sat2);
+	ellipse(xEndPos, yEndPos, size, size);
+
+
+	// if(NEXT1 == true || alpha1 != 0){
+	// 	reverb1.drawRings();
+	// }
+	// if(NEXT2 == true || alpha2 != 0){
+	// 	reverb2.drawRings();
+	// }
+
+}
+
+class reverbRings{
+
+float xPos, yPos;
+int r = 0;
+int alpha = 100;
+
+	//Constructor
+	reverbRings(float iXPos, float iYPos){
+		xPos = iXPos;
+		yPos = iYPos;
+	}
+
+	public void drawRings(){
+	r += 2;
+    alpha -= 1;
+
+    if (alpha <= 0) {
+        r = 0;
+        alpha = 100;
+    }
+
+    stroke(0, 0, 0, alpha);
+    fill(0, 0, 0, 0);
+    beginShape();
+    for (int i = 0; i < r; i++) {
+      float x = cos(radians(i*360/r))*r;
+      float y = sin(radians(i*360/r))*r;
+      vertex(x+xPos, y+yPos);
+    }
+    endShape(CLOSE);
+	}
+
+}
+
+public void reverbRings(int xPos, int yPos, int r, int alpha){
+
+}
+
+public void setRange(int MinPitch1, int MaxPitch1, int MinPitch2, int MaxPitch2) {
+    minPitch1 = MinPitch1;
+    maxPitch1 = MaxPitch1;
+    minPitch2 = MinPitch2;
+    maxPitch2 = MaxPitch2;
+    
+  }
+
+public void getPitch(int inPitch1, int inPitch2){
+
+	 if(NEXT1 == true){ pitchCompare1[1] = pitchCompare1[0];
+	}
+	if(NEXT2 == true){	pitchCompare2[1] = pitchCompare2[0];
+	}
+	 pitchCompare1[0] = PApplet.parseInt(map(inPitch1,minPitch1,maxPitch1,0,360));
+	 pitchCompare2[0] = PApplet.parseInt(map(inPitch2,minPitch2,maxPitch2,0,360));
+}
+
+public void getNext(boolean Next1, boolean Next2){
+	NEXT1 = Next1;
+	NEXT2 = Next2;
+}
+
+
+}
 class Singer {
 
   //Initialise Arrays to store elements for each singer
@@ -1329,6 +1627,7 @@ class textFileReader {
   int h = 0;
 
   int val; //Flag sent by Arduino
+  int waitingCount = 0;
 
   //Constructor
   textFileReader(String iFile) {
@@ -1379,14 +1678,13 @@ class textFileReader {
     } else {
       println("END OF FILE");
     }
-    
+
     sendToArduino(TAG);
-    
   }
-  
-  public void sendToArduino(int inTAG){
+
+  public void sendToArduino(int inTAG) {
     //Send data to arduino when new data is needed
-    if(NEXT == true){
+    if (NEXT == true) {
 
       println("TAG: "+inTAG+" pitch: "+singerInfo[1][z]+" duration: "+singerInfo[2][z]+" state: "+state);
       String tagS = str(inTAG);
@@ -1394,13 +1692,19 @@ class textFileReader {
       String durationS = str(singerInfo[2][z]);
       String stateS = str(state); //Takes global variable 'state'
 
-      while(val != 1){
-      port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
-      println("Waiting...");
-      val = port.read();
-      if(val == 1){
-        break;
-      }
+      while (val != 1) {
+        port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
+        //println("Waiting...");
+        val = port.read();
+        waitingCount++;
+        println("waitingCount: ",waitingCount);
+        if (waitingCount >=20) {//break out if there is an error
+          val = 1;
+          waitingCount = 0;
+        }
+        if (val == 1) {
+          break;
+        }
       }
       val = port.read();
     }

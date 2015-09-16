@@ -91,7 +91,7 @@ class textFileReader {
         val = port.read();
         waitingCount++;
         println("waitingCount: ",waitingCount);
-        if (waitingCount >=10) {//break out if there is an error
+        if (waitingCount >=20) {//break out if there is an error
           val = 1;
           waitingCount = 0;
         }

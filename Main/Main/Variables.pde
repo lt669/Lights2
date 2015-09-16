@@ -2,6 +2,9 @@
 int canX = 800;
 int canY = 400;
 
+//MovieMaker
+int fps = 60;
+
 boolean first, second;
 int backCount = 0;
 int BGhue = 0;
@@ -37,7 +40,7 @@ int cueAddress;
 
 int[] comp = new int[2];
 
-int state = 1; //What the Arduino should run
+int state; //What the Arduino should run
 
 /*---------------CUES---------------*/
 int[] cueArray = new int[17];

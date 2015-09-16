@@ -2,10 +2,14 @@
 RGB data variables and arrays
 */
 
+float timer; //Time program runs
+
+int cueArray[36];
+
 int fre1, fre2, fre3, fre4, fre5, fre6;
 int dur1, dur2, dur3, dur4, dur5, dur6;
 
-int in[3]; // Input from Processing
+int in[3]; //Input from Processing
 
 int state; //Function to run will change depending on where we are in the program/music
 int function; //Used to manually select which test function to run
@@ -18,10 +22,10 @@ int maxDuration[6];
 int panArray[8];
 int tiltArray[8];
 int movementSpeedArray[8];
-int redArray[8];
-int greenArray[8];
-int blueArray[8];
-int whiteArray[8];
+int redArray[10];
+int greenArray[10];
+int blueArray[10];
+int whiteArray[10];
 int dimmerArray[8];
 int shutterArray[8];
 
@@ -33,7 +37,20 @@ int sat[14];
 int lightFaderSpeed = 5; //Speed of lights fade
 int fadeCounter;
 
-int rgb1[4]; //Stores Target RGBW Value
+int whiteValue; //For softWhiteGlow();
+int increment[12]; 	//For softWhiteGlow();
+boolean maxDone, minDone;
+int count; //To run certain functions only once
+int counter;
+int counter2;
+boolean maxReached;
+
+int brightness;			//For the dissonance bit
+int brightnessDirection;
+boolean brightnessDONE;
+
+int rgb0[4]; //Stores Target RGBW Value
+int rgb1[4];
 int rgb2[4];
 int rgb3[4];
 int rgb4[4];
@@ -44,9 +61,13 @@ int rgb8[4];
 int rgb9[4];
 int rgb10[4];
 int rgb11[4];
-int rgb12[4];
-int rgb13[4];
-int rgb14[4];
+
+
+int move0[3];//Pan, rotation, Speed
+int move1[3];
+int move2[3];
+int move3[3];
+int move4[3];
 
 int compareRGB1[3]; //Stores previous RGB Value
 int compareRGB2[3];
