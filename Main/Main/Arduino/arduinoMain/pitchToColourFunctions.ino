@@ -23,26 +23,17 @@ void setCues(){
   cueArray[7] = 564000;
   cueArray[8] = 624000;
   cueArray[9] = 708000;
-  cueArray[10] = 717000;
-  cueArray[11] = 735000;
-  cueArray[12] = 753000;
-  cueArray[13] = 762000;
-  cueArray[14] = 768000;
-  cueArray[15] = 830000;
-  cueArray[16] = 856000;
-  cueArray[17] = 916000;
-  cueArray[18] = 930000;
-  cueArray[19] = 935000;
-  cueArray[20] = 940000;
-  cueArray[21] = 945000;
-  cueArray[22] = 950000;
-  cueArray[23] = 955000;
-  cueArray[24] = 1000000;
-  cueArray[25] = 1036000;
-  cueArray[26] = 1100000;
-  cueArray[27] = 1140000;
-  cueArray[28] = 1170000;
-
+  cueArray[10] = 768000;
+  cueArray[11] = 830000;
+  cueArray[12] = 856000;
+  cueArray[13] = 916000;
+  cueArray[14] = 930000;
+  cueArray[25] = 955000;
+  cueArray[26] = 1000000;
+  cueArray[27] = 1036000;
+  cueArray[28] = 1100000;
+  cueArray[29] = 1140000;
+  cueArray[30] = 1216000;
 }
 /*------------------------------Set Cues------------------------------*/
 

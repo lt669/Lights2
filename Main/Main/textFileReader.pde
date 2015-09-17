@@ -42,7 +42,7 @@ class textFileReader {
 
   //Measure time passed and send new values from the arrays
   void timer(int TAG) {
-    if (z < text.length - 1) {
+    if (z < text.length/3 - 1) {
       //      println("Length: ", text.length);
       //      println("Millis: "+millis()+" Next Millis: " + singerInfo[0][z+1] + " SecondPasses: " + secondPassed);
       //Initialise counters
@@ -69,10 +69,10 @@ class textFileReader {
         NEXT = false;
       }
     } else {
-      println("END OF FILE");
+      println("END OF FILE: ",TAG);
     }
 
-    sendToArduino(TAG);
+    //sendToArduino(TAG);
   }
 
   void sendToArduino(int inTAG) {

@@ -451,17 +451,31 @@ void loop() {
         fadeCounter++;
        if(fadeCounter >= fadeSpeed){
         fadeCounter = 0;
-          softWhiteGlow(2,rgb2);
+          softWhiteGlow(2,rgb2);//WallLights Glow
           softWhiteGlow(3,rgb3);
+          softWhiteGlow(3,rgb6);//Singer Lights Glow
+          softWhiteGlow(3,rgb7);
+          softWhiteGlow(3,rgb8);
+          softWhiteGlow(3,rgb9);
+          softWhiteGlow(3,rgb10);
+          softWhiteGlow(3,rgb11);
       }
       
      } else if(state == 20){ //Singers only
-        setRGB(rgb0,0,0,0,0);
+        setRGB(rgb0,0,0,0,0);//Turn off
         setRGB(rgb1,0,0,0,0);
         setRGB(rgb2,0,0,0,0);
         setRGB(rgb3,0,0,0,0);
         setRGB(rgb4,0,0,0,0);
         setRGB(rgb5,0,0,0,0);
+
+        setRGB(rgb6,0,0,0,70);//Dim singer lights
+        setRGB(rgb7,0,0,0,70);
+        setRGB(rgb8,0,0,0,70);
+        setRGB(rgb9,0,0,0,70);
+        setRGB(rgb10,0,0,0,70);
+        setRGB(rgb11,0,0,0,70);
+
 
      } else if(state == 21){ //Fade singers out
         setRGB(rgb6,0,0,0,0);

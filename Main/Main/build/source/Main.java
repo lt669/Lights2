@@ -85,7 +85,7 @@ PGraphics Squigles;
 int alpha;
 boolean alphaDONE;
 boolean just;
-float graphicChooser;
+int [] graphicChooser = new int[2];
 boolean fadedDONE;
 
 public void setup() {
@@ -96,8 +96,8 @@ public void setup() {
   // video.start();
 
   //Initialise Port to send serial data to arduino
-  port = new Serial(this, "/dev/cu.usbmodem411", 9600); 
-  port.bufferUntil('\n');
+  // port = new Serial(this, "/dev/cu.usbmodem411", 9600); 
+  // port.bufferUntil('\n');
 
   // videoExport2 = new VideoExport(this, "/Users/Lewis/Desktop/export.mp4");
   // videoExport2.setQuality(70);
@@ -212,7 +212,7 @@ public void setup() {
 
 public void draw() {
 
-  //recordSketch();
+  recordSketch();
 
   colorMode(HSB, 360, 100, 100, 100);
 
@@ -240,17 +240,12 @@ public void draw() {
   PART5.timer(5);
   PART6.timer(6);
 
-  graphicChoice();
+  graphicsOrder(); //Listens for cues and changes graphics accordingly
+  graphicChoice(); //Sets all settings for each graphic
   runCircleClass();
   runSquigleClass();
   runArchClass();
-  //writeToArduino();
-
-  //runReverbClass();
-
-  //runRectangles();
-
-
+  halfScreen();
   screenFader();
   //graphicChooser = 8;
   //Cue Reader
@@ -258,18 +253,98 @@ public void draw() {
     println("Cue["+cueAddress+"}");
     x++;
   }
-  
   //Run PD function
   //PD();
 }
 
+public void graphicsOrder(){
+   if(millis() < cueArray[2]){
+     graphicChooser[0] = 11; //New graphic choise
+    } else if(millis() > cueArray[2] && millis() < cueArray[4]){
+       if(millis() < cueArray[2]+100){
+        setFader();
+   }
+
+    graphicChooser[0] = 1; //New graphic choise
+    } else if(millis() > cueArray[4] && millis() < cueArray[5]){
+     if(millis() < cueArray[4]+100){
+     setFader();
+   }
+     graphicChooser[0] = 3; //New graphic choise
+    } else if(millis() > cueArray[5] && millis() < cueArray[6]){
+     if(millis() < cueArray[5]+100){
+     setFader();
+   }
+     graphicChooser[0] = 4; //New graphic choise
+    } else if(millis() > cueArray[6] && millis() < cueArray[7]){
+     if(millis() < cueArray[6]+100){
+     setFader();
+   }
+     graphicChooser[0] = 11; //New graphic choise
+    } else if(millis() > cueArray[7] && millis() < cueArray[9]){
+     if(millis() < cueArray[7]+100){
+     setFader();
+   }
+     graphicChooser[0] = 7; //New graphic choise
+    } else if(millis() > cueArray[9] && millis() < cueArray[10]){
+     if(millis() < cueArray[9]+100){
+     setFader();
+   }
+     graphicChooser[0] = 2; //New graphic choise
+    } else if(millis() > cueArray[10] && millis() < cueArray[11]){
+     if(millis() < cueArray[10]+100){
+     setFader();
+   }
+     graphicChooser[0] = 3; //New graphic choise else if(millis() > cueArray[11] && millis() < cueArray[12]){
+     if(millis() < cueArray[11]+100){
+     setFader();
+   }
+     graphicChooser[0] = 9; //New graphic choise
+    } else if(millis() > cueArray[12] && millis() < cueArray[13]){
+     if(millis() < cueArray[12]+100){
+     setFader();
+   }
+     graphicChooser[0] = 10; //New graphic choise
+    } else if(millis() > cueArray[13] && millis() < cueArray[16]){
+     if(millis() < cueArray[13]+200){
+     setFader();
+   }
+     graphicChooser[0] = 6; //New graphic choise
+    } else if(millis() > cueArray[16] && millis() < cueArray[18]){
+     if(millis() < cueArray[16]+100){
+     setFader();
+   }
+     graphicChooser[0] = 7; //New graphic choise
+    } else if(millis() > cueArray[18] && millis() < cueArray[19]){
+     if(millis() < cueArray[18]+100){
+     setFader();
+   }
+     graphicChooser[0] = 11; //New graphic choise
+    } else if(millis() > cueArray[19] && millis() < cueArray[20]){
+     if(millis() < cueArray[19]+100){
+     setFader();
+   }
+     graphicChooser[0] = 1; //New graphic choise
+    } else if(millis() > cueArray[20]){
+     if(millis() < cueArray[20]+100){
+     setFader();
+   }
+     graphicChooser[0] = 11; //New graphic choise
+    }
+  }
+
+public void setFader(){
+      fadedDONE = false;
+      just = true;
+}
+
 public void recordSketch(){
 
-  if(millis() < 50000){
+  if(millis() < cueArray[20] + 10000){
 
 //videoExport2.saveFrame();
     
-    //saveFrame("/Users/Lewis/Desktop/Images/sketch-#######.png");
+    saveFrame("/Users/Lewis/Desktop/Images/sketch-#######.png");
     // loadPixels();
     // video.addFrame(pixels);
     // println("Number of queued frames : " + video.getQueuedFrames());
@@ -294,10 +369,8 @@ public void screenFader(){
 
     if (alpha >= 100) {
       alphaDONE = true;
-      graphicChooser += 1 /* round(random(1, 7))*/;
-      if (graphicChooser > 8) {
-        graphicChooser = 1;
-      }
+      //graphicChooser += 1 /* round(random(1, 7))*/;
+      graphicChooser[1] = graphicChooser[0];
     }
 
     if (alphaDONE == true) {
@@ -323,7 +396,7 @@ public void screenFader(){
 }
 
 public void mousePressed() {
-  just = true;
+  //just = true;
   check = 1;
   redraw();
   //port.write('A');
@@ -335,30 +408,39 @@ public void mouseReleased() {
 }
 
 public void graphicChoice() {
-  if (graphicChooser == 8) {
+  if (graphicChooser[1] == 1) {
     choice = 1;
     select = 5;
-  } else if (graphicChooser == 2) {
+  } else if (graphicChooser[1] == 2) {
     choice = 2;
     select = 3;
-  } else if (graphicChooser == 3) {
+  } else if (graphicChooser[1] == 3) {
     choice = 3;
     select = 5;
-  } else if (graphicChooser == 4) {
+  } else if (graphicChooser[1] == 4) {
     choice = 4;
     select = 5;
-  } else if (graphicChooser == 5) {
+  } else if (graphicChooser[1] == 5) {
     choice = 4;
     select = 4;
-  } else if (graphicChooser == 6) {
+  } else if (graphicChooser[1] == 6) {
     choice = 5;
     select = 5;
-  } else if (graphicChooser == 7) {
+  } else if (graphicChooser[1] == 7) {
     choice = 5;
     select = 4;
-  } else if (graphicChooser == 1) {
+  } else if (graphicChooser[1] == 8) {
     choice = 6;
     select = 3;
+  } else if (graphicChooser[1] == 9) {
+    choice = 7;
+    select = 6;
+  } else if (graphicChooser[1] == 10) {
+    choice = 8;
+    select = 6;
+  } else if (graphicChooser[1] == 11) {
+    choice = 0;
+    select = 4;
   }
 
   if (select == 3) { //Black BG, flat colours
@@ -384,13 +466,37 @@ public void graphicChoice() {
   }
 }
 
+public void halfScreen(){
+
+  if(choice == 7){
+    //LeftSide
+    noStroke();
+    fill(0,0,100);
+    rect(0,0,canX/2,canY);
+    //RightSide
+    noStroke();
+    fill(0,100,70);
+    rect(canX/2,0,canX/2,canY);
+  } else if(choice == 8){
+    //LeftSide
+    noStroke();
+    fill(108,94,30);
+    rect(0,0,canX/2,canY);
+    //RightSide
+    noStroke();
+    fill(0,0,100);
+    rect(canX/2,0,canX/2,canY);
+  }
+}
+
 public void keyPressed() {
 
   select = Character.digit(key, 10);
   //state = select;
   println("Select: ", select);
   if (select == 0) {
-    fadedDONE = false;
+    // just = true;
+    // fadedDONE = false;
     state++;
   }
 
@@ -751,8 +857,8 @@ class Cir {
 }
 
 //Mac
-int canX = 800;
-int canY = 400;
+int canX = 1920;
+int canY = 1080;
 
 //MovieMaker
 int fps = 60;
@@ -794,26 +900,32 @@ int[] comp = new int[2];
 
 int state; //What the Arduino should run
 
+int count; //Prevent screen from fading multiple times
+
 /*---------------CUES---------------*/
-int[] cueArray = new int[17];
+int[] cueArray = new int[31];
 public void setCues(){
-cueArray[0] = 8000;
-cueArray[1] = 68000;
-cueArray[2] = 180000;
-cueArray[3] = 256000;
-cueArray[4] = 408000;
-cueArray[5] = 496000;
-cueArray[6] = 564000;
-cueArray[7] = 708000;
-cueArray[8] = 764000;
-cueArray[9] = 784000;
-cueArray[10] = 856000;
-cueArray[11] = 916000;
-cueArray[12] = 968000;
-cueArray[13] = 984000;
-cueArray[14] = 1036000;
-cueArray[15] = 1100000;
-cueArray[16] = 1176000;
+  cueArray[0] = 0;
+  cueArray[1] = 68000;
+  cueArray[2] = 180000;
+  cueArray[3] = 240000;
+  cueArray[4] = 300000;
+  cueArray[5] = 408000;
+  cueArray[6] = 496000;
+  cueArray[7] = 564000;
+  cueArray[8] = 624000;
+  cueArray[9] = 708000;
+  cueArray[10] = 768000;
+  cueArray[11] = 830000;
+  cueArray[12] = 856000;
+  cueArray[13] = 916000;
+  cueArray[14] = 930000;
+  cueArray[15] = 955000;
+  cueArray[16] = 1000000;
+  cueArray[17] = 1036000;
+  cueArray[18] = 1100000;
+  cueArray[19] = 1176000;
+  cueArray[20] = 1216000;
 }
 /*---------------CUES---------------*/
 class archClass{
@@ -1649,7 +1761,7 @@ class textFileReader {
 
   //Measure time passed and send new values from the arrays
   public void timer(int TAG) {
-    if (z < text.length - 1) {
+    if (z < text.length/3 - 1) {
       //      println("Length: ", text.length);
       //      println("Millis: "+millis()+" Next Millis: " + singerInfo[0][z+1] + " SecondPasses: " + secondPassed);
       //Initialise counters
@@ -1676,10 +1788,10 @@ class textFileReader {
         NEXT = false;
       }
     } else {
-      println("END OF FILE");
+      println("END OF FILE: ",TAG);
     }
 
-    sendToArduino(TAG);
+    //sendToArduino(TAG);
   }
 
   public void sendToArduino(int inTAG) {
