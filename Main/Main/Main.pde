@@ -187,14 +187,17 @@ void setup() {
   colorMode(HSB, 360, 100, 100);
   background(0, 0, 100);
 
+  frameRate(30);
+
 }
 
 void draw() {
   //reDraw = false;
 
-  timer = (loopCounter/60)*1000; //In milliseconds
+  timer = (loopCounter/30)*1000; //In milliseconds
   println("Timer: ",timer);
-  //recordSketch();
+  
+  recordSketch();
 
   colorMode(HSB, 360, 100, 100, 100);
 
@@ -323,9 +326,8 @@ void graphicsOrder(){
    if(timer < cueArray[2]){
      graphicChooser[0] = 11; //New graphic choise
     } else if(timer > cueArray[2] && timer < cueArray[4]){
-       if(timer < cueArray[2]+1000){
+       if(timer < cueArray[2]+2000){
         setFader();
-         
    }
       graphicChooser[0] = 1; //New graphic choise
     } else if(timer > cueArray[4] && timer < cueArray[5]){
@@ -339,61 +341,64 @@ void graphicsOrder(){
    }
      graphicChooser[0] = 4; //New graphic choise
     } else if(timer > cueArray[6] && timer < cueArray[7]){
-     if(timer < cueArray[6]+100){
+     if(timer < cueArray[6]+2000){
      setFader();
    }
      graphicChooser[0] = 11; //New graphic choise
     } else if(timer > cueArray[7] && timer < cueArray[9]){
-     if(timer < cueArray[7]+100){
+     if(timer < cueArray[7]+2000){
      setFader();
    }
      graphicChooser[0] = 7; //New graphic choise
     } else if(timer > cueArray[9] && timer < cueArray[10]){
-     if(timer < cueArray[9]+100){
+     if(timer < cueArray[9]+2000){
      setFader();
    }
      graphicChooser[0] = 2; //New graphic choise
     } else if(timer > cueArray[10] && timer < cueArray[11]){
-     if(timer < cueArray[10]+100){
+     if(timer < cueArray[10]+2000){
      setFader();
    }
-     graphicChooser[0] = 3; //New graphic choise else if(millis() > cueArray[11] && millis() < cueArray[12]){
-     if(timer < cueArray[11]+100){
+     graphicChooser[0] = 3;
+   } else if(millis() > cueArray[11] && millis() < cueArray[12]){
+     graphicChooser[0] = 3; //New graphic choise 
+     if(timer < cueArray[11]+2000){
      setFader();
    }
      graphicChooser[0] = 9; //New graphic choise
     } else if(timer > cueArray[12] && timer < cueArray[13]){
-     if(timer < cueArray[12]+100){
+     if(timer < cueArray[12]+2000){
      setFader();
    }
      graphicChooser[0] = 10; //New graphic choise
     } else if(timer > cueArray[13] && timer < cueArray[16]){
-     if(timer < cueArray[13]+200){
+     if(timer < cueArray[13]+2000){
      setFader();
    }
      graphicChooser[0] = 6; //New graphic choise
     } else if(timer > cueArray[16] && timer < cueArray[18]){
-     if(timer < cueArray[16]+100){
+     if(timer < cueArray[16]+2000){
      setFader();
    }
      graphicChooser[0] = 7; //New graphic choise
     } else if(timer > cueArray[18] && timer < cueArray[19]){
-     if(timer < cueArray[18]+100){
+     if(timer < cueArray[18]+2000){
      setFader();
    }
      graphicChooser[0] = 11; //New graphic choise
     } else if(timer > cueArray[19] && timer < cueArray[20]){
-     if(timer < cueArray[19]+100){
+     if(timer < cueArray[19]+2000){
      setFader();
    }
      graphicChooser[0] = 1; //New graphic choise
     } else if(timer > cueArray[20]){
-     if(timer < cueArray[20]+100){
+     if(timer < cueArray[20]+2000){
      setFader();
    }
      graphicChooser[0] = 11; //New graphic choise
     }
   }
+
 
 
 void setFader(){
@@ -407,7 +412,7 @@ void recordSketch(){
 
 //videoExport2.saveFrame();
     
-    saveFrame("/Users/Lewis/Desktop/Images/sketch-#######.png");
+    saveFrame("/Users/Lewis/Desktop/Images2/sketch-#######.png");
     // loadPixels();
     // video.addFrame(pixels);
     // println("Number of queued frames : " + video.getQueuedFrames());

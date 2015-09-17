@@ -55,7 +55,7 @@ class textFileReader {
       secondArray[0] = seconds;
 
       //Determine whether a second has passed
-      if (secondArray[0] > secondArray[1]) {
+      if (secondArray[0] > secondArray[1]){
         secondPassed = true;
       } else if (secondArray[0] <= secondArray [1]) {
         secondPassed = false;
