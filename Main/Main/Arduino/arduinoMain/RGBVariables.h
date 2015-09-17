@@ -3,6 +3,7 @@ RGB data variables and arrays
 */
 
 float timer; //Time program runs
+float last;
 
 int cueArray[36];
 
@@ -11,7 +12,7 @@ int dur1, dur2, dur3, dur4, dur5, dur6;
 
 int in[3]; //Input from Processing
 
-int state; //Function to run will change depending on where we are in the program/music
+int state = 0; //Function to run will change depending on where we are in the program/music
 int function; //Used to manually select which test function to run
 
 //Hardcode range variables (Taken from Processing)

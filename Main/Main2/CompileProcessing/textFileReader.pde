@@ -72,36 +72,36 @@ class textFileReader {
       println("END OF FILE: ",TAG);
     }
 
-    //sendToArduino(TAG);
+    sendToArduino(TAG);
   }
 
-  // void sendToArduino(int inTAG) {
-  //   //Send data to arduino when new data is needed
-  //   if (NEXT == true) {
+  void sendToArduino(int inTAG) {
+    //Send data to arduino when new data is needed
+    if (NEXT == true) {
 
-  //     println("TAG: "+inTAG+" pitch: "+singerInfo[1][z]+" duration: "+singerInfo[2][z]);
-  //     String tagS = str(inTAG);
-  //     String pitchS = str(singerInfo[1][z]);
-  //     String durationS = str(singerInfo[2][z]);
-  
+      println("TAG: "+inTAG+" pitch: "+singerInfo[1][z]+" duration: "+singerInfo[2][z]+" state: "+state);
+      String tagS = str(inTAG);
+      String pitchS = str(singerInfo[1][z]);
+      String durationS = str(singerInfo[2][z]);
+      String stateS = str(state); //Takes global variable 'state'
 
-  //     while (val != 1) {
-  //       port.write(""+tagS+","+pitchS+","+durationS);
-  //       //println("Waiting...");
-  //       val = port.read();
-  //       waitingCount++;
-  //       println("waitingCount: ",waitingCount);
-  //       if (waitingCount >=20) {//break out if there is an error
-  //         val = 1;
-  //         waitingCount = 0;
-  //       }
-  //       if (val == 1) {
-  //         break;
-  //       }
-  //     }
-  //     val = port.read();
-  //   }
-  // }
+      while (val != 1) {
+        port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
+        //println("Waiting...");
+        val = port.read();
+        waitingCount++;
+        println("waitingCount: ",waitingCount);
+        if (waitingCount >=2000) {//break out if there is an error
+          val = 1;
+          waitingCount = 0;
+        }
+        if (val == 1) {
+          break;
+        }
+      }
+      val = port.read();
+    }
+  }
 
   void rangeCalc() { //Calculates the maximum & minimum pitch and duration within the text file
     //Max Pitch

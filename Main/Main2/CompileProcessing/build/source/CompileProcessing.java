@@ -4,6 +4,8 @@ import processing.event.*;
 import processing.opengl.*; 
 
 import processing.video.*; 
+import ddf.minim.*; 
+import processing.serial.*; 
 
 import java.util.HashMap; 
 import java.util.ArrayList; 
@@ -19,6 +21,12 @@ public class CompileProcessing extends PApplet {
 
 Movie myMovie;
 
+
+Serial port;
+
+Minim minim;
+AudioPlayer player;
+
 textFileReader PART1;
 textFileReader PART2;
 textFileReader PART3;
@@ -26,10 +34,23 @@ textFileReader PART4;
 textFileReader PART5;
 textFileReader PART6;
 
+int state = 1; //Always send 1 to arduino
+int count = 0;
+
 public void setup() {
-  size(1920, 1080);
-  myMovie = new Movie(this, "processingMovie30fps.mov");
-  myMovie.play();
+  size(20, 20);
+  // myMovie = new Movie(this, "processingMovie30fps.mov");
+  // myMovie.play();
+
+  //Initialise Port to send serial data to arduino
+  port = new Serial(this, "/dev/cu.usbmodem411", 9600); 
+  port.bufferUntil('\n');
+
+
+  minim = new Minim(this);
+  //Mac
+  // player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
+  // player.play();
 
   PART1 = new textFileReader("Part1.txt");
   PART2 = new textFileReader("Part2.txt");
@@ -50,14 +71,20 @@ public void setup() {
 }
 
 public void draw() {
-  image(myMovie, 0, 0);
+  if(count > 0){
+ // image(myMovie, 0, 0);
 
-  // PART1.timer(1);
-  // PART2.timer(2);
-  // PART3.timer(3);
-  // PART4.timer(4);
-  // PART5.timer(5);
-  // PART6.timer(6);
+  PART1.timer(1);
+  PART2.timer(2);
+  PART3.timer(3);
+  PART4.timer(4);
+  PART5.timer(5);
+  PART6.timer(6);
+ }
+}
+
+public void mousePressed(){
+  count++;
 }
 
 public void movieEvent(Movie m) {
@@ -137,36 +164,36 @@ class textFileReader {
       println("END OF FILE: ",TAG);
     }
 
-    //sendToArduino(TAG);
+    sendToArduino(TAG);
   }
 
-  // void sendToArduino(int inTAG) {
-  //   //Send data to arduino when new data is needed
-  //   if (NEXT == true) {
+  public void sendToArduino(int inTAG) {
+    //Send data to arduino when new data is needed
+    if (NEXT == true) {
 
-  //     println("TAG: "+inTAG+" pitch: "+singerInfo[1][z]+" duration: "+singerInfo[2][z]);
-  //     String tagS = str(inTAG);
-  //     String pitchS = str(singerInfo[1][z]);
-  //     String durationS = str(singerInfo[2][z]);
-  
+      println("TAG: "+inTAG+" pitch: "+singerInfo[1][z]+" duration: "+singerInfo[2][z]+" state: "+state);
+      String tagS = str(inTAG);
+      String pitchS = str(singerInfo[1][z]);
+      String durationS = str(singerInfo[2][z]);
+      String stateS = str(state); //Takes global variable 'state'
 
-  //     while (val != 1) {
-  //       port.write(""+tagS+","+pitchS+","+durationS);
-  //       //println("Waiting...");
-  //       val = port.read();
-  //       waitingCount++;
-  //       println("waitingCount: ",waitingCount);
-  //       if (waitingCount >=20) {//break out if there is an error
-  //         val = 1;
-  //         waitingCount = 0;
-  //       }
-  //       if (val == 1) {
-  //         break;
-  //       }
-  //     }
-  //     val = port.read();
-  //   }
-  // }
+      while (val != 1) {
+        port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
+        //println("Waiting...");
+        val = port.read();
+        waitingCount++;
+        println("waitingCount: ",waitingCount);
+        if (waitingCount >=2000) {//break out if there is an error
+          val = 1;
+          waitingCount = 0;
+        }
+        if (val == 1) {
+          break;
+        }
+      }
+      val = port.read();
+    }
+  }
 
   public void rangeCalc() { //Calculates the maximum & minimum pitch and duration within the text file
     //Max Pitch

@@ -1,6 +1,11 @@
 import processing.video.*;
 Movie myMovie;
 import ddf.minim.*;
+import processing.serial.*;
+Serial port;
+
+Minim minim;
+AudioPlayer player;
 
 textFileReader PART1;
 textFileReader PART2;
@@ -9,18 +14,23 @@ textFileReader PART4;
 textFileReader PART5;
 textFileReader PART6;
 
+int state = 1; //Always send 1 to arduino
+int count = 0;
+
 void setup() {
-  size(1920, 1080);
-  myMovie = new Movie(this, "processingMovie30fps.mov");
-  myMovie.play();
+  size(20, 20);
+  // myMovie = new Movie(this, "processingMovie30fps.mov");
+  // myMovie.play();
 
   //Initialise Port to send serial data to arduino
   port = new Serial(this, "/dev/cu.usbmodem411", 9600); 
   port.bufferUntil('\n');
 
+
+  minim = new Minim(this);
   //Mac
-  player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
-  player.play();
+  // player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
+  // player.play();
 
   PART1 = new textFileReader("Part1.txt");
   PART2 = new textFileReader("Part2.txt");
@@ -41,7 +51,8 @@ void setup() {
 }
 
 void draw() {
-  image(myMovie, 0, 0);
+  if(count > 0){
+ // image(myMovie, 0, 0);
 
   PART1.timer(1);
   PART2.timer(2);
@@ -49,6 +60,11 @@ void draw() {
   PART4.timer(4);
   PART5.timer(5);
   PART6.timer(6);
+ }
+}
+
+void mousePressed(){
+  count++;
 }
 
 void movieEvent(Movie m) {
