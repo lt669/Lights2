@@ -50,26 +50,26 @@ int count; //Prevent screen from fading multiple times
 /*---------------CUES---------------*/
 int[] cueArray = new int[31];
 void setCues(){
-  cueArray[0] = 0 - 180000;
-  cueArray[1] = 68000 - 180000;
-  cueArray[2] = 180000 - 180000;
-  cueArray[3] = 240000 - 180000;
-  cueArray[4] = 300000 - 180000;
-  cueArray[5] = 408000 - 180000;
-  cueArray[6] = 496000 - 180000;
-  cueArray[7] = 564000 - 180000;
-  cueArray[8] = 624000 - 180000;
-  cueArray[9] = 708000 - 180000;
-  cueArray[10] = 768000 - 180000;
-  cueArray[11] = 830000 - 180000;
-  cueArray[12] = 856000 - 180000;
-  cueArray[13] = 916000 - 180000;
-  cueArray[14] = 930000 - 180000;
-  cueArray[15] = 955000 - 180000;
-  cueArray[16] = 1000000 - 180000;
-  cueArray[17] = 1036000 - 180000;
-  cueArray[18] = 1100000 - 180000;
-  cueArray[19] = 1176000 - 180000;
-  cueArray[20] = 1216000 - 180000;
+  cueArray[0] = 0;
+  cueArray[1] = 68000;
+  cueArray[2] = 180000;
+  cueArray[3] = 240000;
+  cueArray[4] = 300000;
+  cueArray[5] = 408000;
+  cueArray[6] = 496000;
+  cueArray[7] = 564000;
+  cueArray[8] = 624000;
+  cueArray[9] = 708000;
+  cueArray[10] = 768000;
+  cueArray[11] = 830000;
+  cueArray[12] = 856000;
+  cueArray[13] = 916000;
+  cueArray[14] = 930000;
+  cueArray[15] = 955000;
+  cueArray[16] = 1000000;
+  cueArray[17] = 1036000;
+  cueArray[18] = 1100000;
+  cueArray[19] = 1176000;
+  cueArray[20] = 1216000;
 }
 /*---------------CUES---------------*/ 

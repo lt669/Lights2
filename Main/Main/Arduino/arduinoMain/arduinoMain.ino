@@ -111,7 +111,7 @@ void loop() {
      // rgb0[2] = in[2];
 
      //Lights Program
-     if (state == 1) {
+     if (millis() > cueArray[0] && millis() < cueArray[1]) {
        //BackLights only
        setRotation(1,212,80,100);//TEST LIGHT
        slowBright(1, rgb1, 400);//TEST LIGHT
@@ -121,24 +121,24 @@ void loop() {
 
        slowBright(4, rgb4, 400); //Set backlights to glow
        slowBright(5, rgb5, 400);
-     } else if (state == 2) {     /*-------------FADE IN SINGERS-------------*/
+     } else if (millis() > cueArray[1] && millis() < cueArray[2]) {     /*-------------FADE IN SINGERS-------------*/
        slowBright(6, rgb6, 400);  
-       if(timer >= cueArray[2] + 5){
+       if(millis() >= cueArray[2] + 5000){
         slowBright(7, rgb7, 400);
        }
-       if(timer >= cueArray[2] + 10){
+       if(millis() >= cueArray[2] + 10000){
         slowBright(8, rgb8, 400);
        }
-       if(timer >= cueArray[2] + 15){
+       if(millis() >= cueArray[2] + 15000){
         slowBright(9, rgb9, 400);
        }
-       if(timer >= cueArray[2] + 20){
+       if(millis() >= cueArray[2] + 20000){
         slowBright(10, rgb10, 400);
        }
-       if(timer >= cueArray[2] + 25){
+       if(millis() >= cueArray[2] + 25000){
         slowBright(11, rgb11, 400);
        }                                  /*-------------FADE IN SINGERS-------------*/
-     } else if (state == 3) {
+     } else if (millis() > cueArray[1] && millis() < cueArray[2]) {
        /*Wall Lights Only (Set white light to 0)*/
        setRGB(rgb6,0,0,0,0); //Fade out singer lights
        setRGB(rgb7,0,0,0,0);
@@ -155,7 +155,7 @@ void loop() {
 
        setRGB(rgb2,0,0,0,200); //Set colours to white
        setRGB(rgb3,0,0,0,200);
-     } else if (state == 4) { //Wall colours + spots white
+     } else if (millis() > cueArray[2] && millis() < cueArray[3]) { //Wall colours + spots white
        if(count == 0){
         setRGB(rgb0,0,0,0,0);
         setRGB(rgb1,0,0,0,0);
@@ -184,17 +184,23 @@ void loop() {
 
       // writeToLights(2, rgb2);     //Set wall lights to white (copy rgb2)
       // writeToLights(3, rgb2);
-     } else if (state == 5 /*Run this untill state 7*/) {
+     } else if (millis() > cueArray[4] && millis() < cueArray[6] /*Run this untill state 7*/) {
        //Continue above + sideLights throb white
        /*----------INSTER TIMER STATEMENT----------*/
        pitchToColourCalc(fre1,6,0,rgb6); //Singer spots map pitch
+       if(millis() > cueArray[4] + 5000){
        pitchToColourCalc(fre2,7,1,rgb7);
+     } if(millis() > cueArray[4] + 10000){
        pitchToColourCalc(fre3,8,2,rgb8);
+     } if(millis() > cueArray[4] + 15000){
        pitchToColourCalc(fre4,9,3,rgb9);
+     } if(millis() > cueArray[4] + 20000){
        pitchToColourCalc(fre5,10,4,rgb10);
+     } if(millis() > cueArray[4] + 25000){
        pitchToColourCalc(fre6,11,5,rgb11);
+     }
 
-     } else if (state == 6) { // Side lights throb, singers still map to pitch
+     } else if (millis() > cueArray[5] && millis() < cueArray[6]) { // Side lights throb, singers still map to pitch
        int fadeSpeed = 70;
        fadeCounter++;
        if(fadeCounter >= fadeSpeed){
@@ -202,7 +208,7 @@ void loop() {
         softWhiteGlow(0, rgb0);//Side lights throb       
         softWhiteGlow(1, rgb1);
         }
-     } else if (state == 7) {
+     } else if (millis() > cueArray[6] && millis() < cueArray[7]) {
        pitchToColourCalc(fre1,6,0,rgb6); //Only Soprano map pitch
        //pitchToColourCalc(fre1,1,0,rgb1); //Map front left to sporano pitch
        setRGB(rgb1,255,0,0,0);// CHANGE THIS TO MAP PITCH
@@ -220,7 +226,7 @@ void loop() {
        setRGB(rgb3,0,0,0,0);
        setRGB(rgb0,0,0,0,0);//Right front off
 
-     } else if (state == 8) {
+     } else if (millis() > cueArray[7] && millis() < cueArray[8]) {
        setRGB(rgb6,0,0,0,70);//All singers on low white
        setRGB(rgb7,0,0,0,70); 
        setRGB(rgb8,0,0,0,70);
@@ -234,7 +240,7 @@ void loop() {
        setRGB(rgb4,0,0,0,100); //Dim backlights
        setRGB(rgb5,0,0,0,100);
 
-     } else if (state == 9) {//Animation Only
+     } else if (millis() > cueArray[8] && millis() < cueArray[9]) {//Animation Only
        setRGB(rgb0,0,0,0,0);//All lights off
        setRGB(rgb1,0,0,0,0);
        setRGB(rgb2,0,0,0,0);
@@ -247,64 +253,62 @@ void loop() {
        setRGB(rgb9,0,0,0,0);
        setRGB(rgb10,0,0,0,0);
        setRGB(rgb11,0,0,0,0);
-     } else if (state == 10) {
+     } else if (millis() > cueArray[9] && millis() < cueArray[10]) {
 
        slowBright(4, rgb4, 400); //Fade backlights in
        slowBright(5, rgb5, 400);
 
-       // if(timer >= time + 9){   //Fade in right wall
-       //  slowBright(2,rgb2,400);
-       // }
+       if(millis() >= cueArray[9] + 9000){   //Fade in right wall
+        slowBright(2,rgb2,400);
+       }
 
-       // if(timer >= time + 18){  //Fade in left wall
-       //  slowBright(3,rgb3,400);
-       // }
+       if(millis() >= cueArray[9] + 18000){  //Fade in left wall
+        slowBright(3,rgb3,400);
+       }
 
-       // if(timer >= time + 27){ //Fade in right front
-       //  slowBright(0,rgb0,400);
-       //  setRotation(0,128,128,200);
-       // }
+       if(millis() >= cueArray[9] + 27000){ //Fade in right front
+        slowBright(0,rgb0,400);
+        setRotation(0,128,128,200);
+       }
 
-       // if(timer >= time + 36){  //Fade in left front
-       //  slowBright(1,rgb1,400);
-       //  setRotation(1,45,128,200);
-       // }
+       if(millis() >= cueArray[9] + 36000){  //Fade in left front
+        slowBright(1,rgb1,400);
+        setRotation(1,45,128,200);
+       }
  
-     } else if(state == 11){
+     } else if(millis() > cueArray[10] && millis() < cueArray[11]){
 
       pitchToColourCalc(fre6,0,6,rgb0);  //Lights map pitch in pairs one at a time
       pitchToColourCalc(fre6,11,6,rgb11);
 
       pitchToColourCalc(fre6,1,6,rgb1); //TEST
 
+      if(millis() >= cueArray[10] + 9000){
+        pitchToColourCalc(fre5,4,5,rgb4);
+        pitchToColourCalc(fre5,10,5,rgb10);
+      }
 
+      if(millis() >= cueArray[10] + 18000){
+        pitchToColourCalc(fre4,2,4,rgb4);
+        pitchToColourCalc(fre4,9,4,rgb9);
+      }
 
-      // if(timer >= time + 9){
-      //   pitchToColourCalc(fre5,4,5,rgb4);
-      //   pitchToColourCalc(fre5,10,5,rgb10);
-      // }
+      if(millis() >= cueArray[10] + 27000){
+        pitchToColourCalc(fre3,5,3,rgb5);
+        pitchToColourCalc(fre3,8,3,rgb8);
+      }
 
-      // if(timer >= time + 18){
-      //   pitchToColourCalc(fre4,2,4,rgb4);
-      //   pitchToColourCalc(fre4,9,4,rgb9);
-      // }
+      if(millis() >= cueArray[10] + 36000){
+        pitchToColourCalc(fre2,3,2,rgb3);
+        pitchToColourCalc(fre2,7,2,rgb7);
+      }
 
-      // if(timer >= time + 27){
-      //   pitchToColourCalc(fre3,5,3,rgb5);
-      //   pitchToColourCalc(fre3,8,3,rgb8);
-      // }
+      if(millis() >= cueArray[10] + 45000){
+        pitchToColourCalc(fre1,1,1,rgb1);
+        pitchToColourCalc(fre1,6,1,rgb6);
+      }
 
-      // if(timer >= time + 36){
-      //   pitchToColourCalc(fre2,3,2,rgb3);
-      //   pitchToColourCalc(fre2,7,2,rgb7);
-      // }
-
-      // if(timer >= time + 45){
-      //   pitchToColourCalc(fre1,1,1,rgb1);
-      //   pitchToColourCalc(fre1,6,1,rgb6);
-      // }
-
-     } else if(state == 12){
+     } else if(millis() > cueArray[11] && millis() < cueArray[12]){
 
        int fadeSpeed = 70;
        fadeCounter++;
@@ -341,7 +345,7 @@ void loop() {
        setRotation(0, 128, 50, 0); //Front lights face each other
        setRotation(1, 45, 50, 0);
 
-     } else if(state == 13){ //Swap colours around
+     } else if(millis() > cueArray[11] && millis() < cueArray[12]){ //Swap colours around
 
       int fadeSpeed = 70;
        fadeCounter++;
@@ -375,7 +379,7 @@ void loop() {
      }
 
 
-     } else if(state == 14){ // All Lights go nice purply colour
+     } else if(millis() > cueArray[12] && millis() < cueArray[13]){ // All Lights go nice purply colour
        setRGB(rgb0,177,0,200,0);
        setRGB(rgb1,177,0,200,0);
        setRGB(rgb2,177,0,200,0);
@@ -393,45 +397,45 @@ void loop() {
        setRotation(1,128,128,230);
        setRotation(2,128,128,230);
        setRotation(3,128,128,230);
-     } else if(state == 15){ //Fades lights out one at a time
+     } else if(millis() > cueArray[13] && millis() < cueArray[14]){ //Fades lights out one at a time
         setRGB(rgb0,0,0,0,0);
 
-        // if(timer >= time + 5000){
-        //   setRGB(rgb1,0,0,0,0);
-        // }
+        if(millis() >= cueArray[13] + 5000){
+          setRGB(rgb1,0,0,0,0);
+        }
 
-        // if(timer >= time + 10000){
-        //   setRGB(rgb1,0,0,0,0);
-        // }
+        if(millis() >= cueArray[13] + 10000){
+          setRGB(rgb1,0,0,0,0);
+        }
 
-        // if(timer >= time + 15000){
-        //   setRGB(rgb2,0,0,0,0);
-        // }
+        if(millis() >= cueArray[13] + 15000){
+          setRGB(rgb2,0,0,0,0);
+        }
 
-        // if(timer >= time + 20000){
-        //   setRGB(rgb3,0,0,0,0);
-        // }
+        if(millis() >= cueArray[13] + 20000){
+          setRGB(rgb3,0,0,0,0);
+        }
 
-        // if(timer >= time + 25000){
-        //   setRGB(rgb4,0,0,0,0);
-        //   setRGB(rgb5,0,0,0,0);
-        // }
+        if(millis() >= cueArray[13] + 25000){
+          setRGB(rgb4,0,0,0,0);
+          setRGB(rgb5,0,0,0,0);
+        }
 
-     } else if(state == 16){ //Spotlights go dim white
+     } else if(millis() > cueArray[15] && millis() < cueArray[16]){ //Spotlights go dim white
         setRGB(rgb6,0,0,0,100);
         setRGB(rgb7,0,0,0,100);
         setRGB(rgb8,0,0,0,100);
         setRGB(rgb9,0,0,0,100);
         setRGB(rgb10,0,0,0,100);
         setRGB(rgb11,0,0,0,100);
-     } else if(state == 17){ //Spotlights off
+     } else if(millis() > cueArray[16] && millis() < cueArray[17]){ //Spotlights off
         setRGB(rgb6,0,0,0,0);
         setRGB(rgb7,0,0,0,0);
         setRGB(rgb8,0,0,0,0);
         setRGB(rgb9,0,0,0,0);
         setRGB(rgb10,0,0,0,0);
         setRGB(rgb11,0,0,0,0);
-     } else if(state == 18){ //Face front lights up and glow
+     } else if(millis() > cueArray[17] && millis() < cueArray[19]){ //Face front lights up and glow
       /*RUN THIS FOR THE NEXT ONE TOO*/
        int fadeSpeed = 70;
        fadeCounter++;
@@ -440,7 +444,7 @@ void loop() {
         softWhiteGlow(0,rgb0);
         softWhiteGlow(1,rgb1);
       }
-     } else if(state == 19){ // Wall lights also glow
+     } else if(millis() > cueArray[18] && millis() < cueArray[19]){ // Wall lights also glow
 
         setRotation(2,233,50,0);//Wall lights back to position
         setRotation(3,106,50,0);
@@ -461,7 +465,7 @@ void loop() {
           softWhiteGlow(3,rgb11);
       }
       
-     } else if(state == 20){ //Singers only
+     } else if(millis() > cueArray[19] && millis() < cueArray[20]){ //Singers only
         setRGB(rgb0,0,0,0,0);//Turn off
         setRGB(rgb1,0,0,0,0);
         setRGB(rgb2,0,0,0,0);
@@ -477,7 +481,7 @@ void loop() {
         setRGB(rgb11,0,0,0,70);
 
 
-     } else if(state == 21){ //Fade singers out
+     } else if(millis() > cueArray[20]){ //Fade singers out
         setRGB(rgb6,0,0,0,0);
         setRGB(rgb7,0,0,0,0);
         setRGB(rgb8,0,0,0,0);
