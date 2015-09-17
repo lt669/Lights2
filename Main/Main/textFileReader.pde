@@ -48,7 +48,7 @@ class textFileReader {
       //Initialise counters
       //      millis = millis() - last;
 
-      seconds = round(millis()/1000);
+      seconds = round(timer /*millis()*//1000);
 
       //Move last value down the array
       secondArray[1] = secondArray[0];
@@ -61,7 +61,7 @@ class textFileReader {
         secondPassed = false;
       }
 
-      if (millis() >= singerInfo[0][z+1]) {
+      if (timer /*millis()*/ >= singerInfo[0][z+1]) {
         NEXT = true;
         //last = millis();
         z++; // Increase array address

@@ -208,11 +208,15 @@ public void setup() {
   size(canX, canY);
   colorMode(HSB, 360, 100, 100);
   background(0, 0, 100);
+
 }
 
 public void draw() {
+  //reDraw = false;
 
-  recordSketch();
+  timer = (loopCounter/60)*1000; //In milliseconds
+  println("Timer: ",timer);
+  //recordSketch();
 
   colorMode(HSB, 360, 100, 100, 100);
 
@@ -240,19 +244,23 @@ public void draw() {
   PART5.timer(5);
   PART6.timer(6);
 
-  graphicsOrder(); //Listens for cues and changes graphics accordingly
+  //graphicsOrder(); //Listens for cues and changes graphics accordingly
+  graphicsOrder2();
   graphicChoice(); //Sets all settings for each graphic
   runCircleClass();
   runSquigleClass();
   runArchClass();
   halfScreen();
   screenFader();
-  //graphicChooser = 8;
+
   //Cue Reader
   if(millis() == cueArray[cueAddress]){
     println("Cue["+cueAddress+"}");
     x++;
   }
+
+  loopCounter++; //Increase loopCounter
+
   //Run PD function
   //PD();
 }
@@ -333,6 +341,83 @@ public void graphicsOrder(){
     }
   }
 
+  public void graphicsOrder2(){
+   if(timer < cueArray[2]){
+     graphicChooser[0] = 11; //New graphic choise
+    } else if(timer > cueArray[2] && timer < cueArray[4]){
+       if(timer < cueArray[2]+1000){
+        setFader();
+         
+   }
+      graphicChooser[0] = 1; //New graphic choise
+    } else if(timer > cueArray[4] && timer < cueArray[5]){
+     if(timer < cueArray[4]+2000){
+     setFader();
+   }
+     graphicChooser[0] = 3; //New graphic choise
+    } else if(timer > cueArray[5] && timer < cueArray[6]){
+     if(timer < cueArray[5]+2000){
+     setFader();
+   }
+     graphicChooser[0] = 4; //New graphic choise
+    } else if(timer > cueArray[6] && timer < cueArray[7]){
+     if(timer < cueArray[6]+100){
+     setFader();
+   }
+     graphicChooser[0] = 11; //New graphic choise
+    } else if(timer > cueArray[7] && timer < cueArray[9]){
+     if(timer < cueArray[7]+100){
+     setFader();
+   }
+     graphicChooser[0] = 7; //New graphic choise
+    } else if(timer > cueArray[9] && timer < cueArray[10]){
+     if(timer < cueArray[9]+100){
+     setFader();
+   }
+     graphicChooser[0] = 2; //New graphic choise
+    } else if(timer > cueArray[10] && timer < cueArray[11]){
+     if(timer < cueArray[10]+100){
+     setFader();
+   }
+     graphicChooser[0] = 3; //New graphic choise else if(millis() > cueArray[11] && millis() < cueArray[12]){
+     if(timer < cueArray[11]+100){
+     setFader();
+   }
+     graphicChooser[0] = 9; //New graphic choise
+    } else if(timer > cueArray[12] && timer < cueArray[13]){
+     if(timer < cueArray[12]+100){
+     setFader();
+   }
+     graphicChooser[0] = 10; //New graphic choise
+    } else if(timer > cueArray[13] && timer < cueArray[16]){
+     if(timer < cueArray[13]+200){
+     setFader();
+   }
+     graphicChooser[0] = 6; //New graphic choise
+    } else if(timer > cueArray[16] && timer < cueArray[18]){
+     if(timer < cueArray[16]+100){
+     setFader();
+   }
+     graphicChooser[0] = 7; //New graphic choise
+    } else if(timer > cueArray[18] && timer < cueArray[19]){
+     if(timer < cueArray[18]+100){
+     setFader();
+   }
+     graphicChooser[0] = 11; //New graphic choise
+    } else if(timer > cueArray[19] && timer < cueArray[20]){
+     if(timer < cueArray[19]+100){
+     setFader();
+   }
+     graphicChooser[0] = 1; //New graphic choise
+    } else if(timer > cueArray[20]){
+     if(timer < cueArray[20]+100){
+     setFader();
+   }
+     graphicChooser[0] = 11; //New graphic choise
+    }
+  }
+
+
 public void setFader(){
       fadedDONE = false;
       just = true;
@@ -340,7 +425,7 @@ public void setFader(){
 
 public void recordSketch(){
 
-  if(millis() < cueArray[20] + 10000){
+  if(timer /*millis()*/ < cueArray[20] + 10000){
 
 //videoExport2.saveFrame();
     
@@ -782,7 +867,7 @@ class Cir {
 
     //New Size Altering Algorithm
     float increaseTime = durationInMS/(maxSize + 1); //+1 to prevent from being 0
-    float currentTime = millis() - last;
+    float currentTime = timer/*millis()*/ - last;
 
     //Alter circle size
     if (size >= maxSize && DONE != true) { //Once circle has reached maxSize, DONE
@@ -790,7 +875,7 @@ class Cir {
       //      print("\n DONE");
     } else if (DONE != true && currentTime >= increaseTime) { //If its maximum size is not reached, increase size
       size++;
-      last = millis();
+      last = PApplet.parseInt(timer) /*millis()*/;
     } else if (DONE == true && size != 0 /*|| size > maxSize*/) {
       // size = abs(size-1);
       size--;
@@ -863,6 +948,9 @@ int canY = 1080;
 //MovieMaker
 int fps = 60;
 
+int loopCounter;
+float timer;
+
 boolean first, second;
 int backCount = 0;
 int BGhue = 0;
@@ -927,7 +1015,7 @@ public void setCues(){
   cueArray[19] = 1176000;
   cueArray[20] = 1216000;
 }
-/*---------------CUES---------------*/
+/*---------------CUES---------------*/ 
 class archClass{
 
 	float xStartPos, yStartPos, xEndPos, yEndPos, size;
@@ -1767,7 +1855,7 @@ class textFileReader {
       //Initialise counters
       //      millis = millis() - last;
 
-      seconds = round(millis()/1000);
+      seconds = round(timer /*millis()*//1000);
 
       //Move last value down the array
       secondArray[1] = secondArray[0];
@@ -1780,7 +1868,7 @@ class textFileReader {
         secondPassed = false;
       }
 
-      if (millis() >= singerInfo[0][z+1]) {
+      if (timer /*millis()*/ >= singerInfo[0][z+1]) {
         NEXT = true;
         //last = millis();
         z++; // Increase array address

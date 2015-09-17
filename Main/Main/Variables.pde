@@ -5,6 +5,9 @@ int canY = 1080;
 //MovieMaker
 int fps = 60;
 
+int loopCounter;
+float timer;
+
 boolean first, second;
 int backCount = 0;
 int BGhue = 0;
@@ -69,4 +72,4 @@ void setCues(){
   cueArray[19] = 1176000;
   cueArray[20] = 1216000;
 }
-/*---------------CUES---------------*/
+/*---------------CUES---------------*/ 

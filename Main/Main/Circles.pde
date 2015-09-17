@@ -100,7 +100,7 @@ class Cir {
 
     //New Size Altering Algorithm
     float increaseTime = durationInMS/(maxSize + 1); //+1 to prevent from being 0
-    float currentTime = millis() - last;
+    float currentTime = timer/*millis()*/ - last;
 
     //Alter circle size
     if (size >= maxSize && DONE != true) { //Once circle has reached maxSize, DONE
@@ -108,7 +108,7 @@ class Cir {
       //      print("\n DONE");
     } else if (DONE != true && currentTime >= increaseTime) { //If its maximum size is not reached, increase size
       size++;
-      last = millis();
+      last = int(timer) /*millis()*/;
     } else if (DONE == true && size != 0 /*|| size > maxSize*/) {
       // size = abs(size-1);
       size--;
