@@ -13,27 +13,93 @@ taken from the HSBColor.h file
 
 /*------------------------------Set Cues------------------------------*/
 void setCues(){
+//  cueArray[0] = 0;
+//  cueArray[1] = 68000;
+//  cueArray[2] = 180000;
+//  cueArray[3] = 240000;
+//  cueArray[4] = 300000;
+//  cueArray[5] = 408000;
+//  cueArray[6] = 496000;
+//  cueArray[7] = 564000;
+//  cueArray[8] = 624000;
+//  cueArray[9] = 708000;
+//  cueArray[10] = 768000;
+//  cueArray[11] = 830000;
+//  cueArray[12] = 856000;
+//  cueArray[13] = 916000;
+//  cueArray[14] = 930000;
+//  cueArray[15] = 955000;
+//  cueArray[16] = 1000000;
+//  cueArray[17] = 1036000;
+//  cueArray[18] = 1100000;
+//  cueArray[19] = 1140000;
+//  cueArray[20] = 1216000;
+
   cueArray[0] = 0;
-  cueArray[1] = 68000;
-  cueArray[2] = 180000;
-  cueArray[3] = 240000;
-  cueArray[4] = 300000;
-  cueArray[5] = 408000;
-  cueArray[6] = 496000;
-  cueArray[7] = 564000;
-  cueArray[8] = 624000;
-  cueArray[9] = 708000;
-  cueArray[10] = 768000;
-  cueArray[11] = 830000;
-  cueArray[12] = 856000;
-  cueArray[13] = 916000;
-  cueArray[14] = 930000;
-  cueArray[15] = 955000;
-  cueArray[16] = 1000000;
-  cueArray[17] = 1036000;
-  cueArray[18] = 1100000;
-  cueArray[19] = 1140000;
-  cueArray[20] = 1216000;
+  cueArray[1] = 68;
+  cueArray[2] = 180;
+  cueArray[3] = 240;
+  cueArray[4] = 300;
+  cueArray[5] = 408;
+  cueArray[6] = 496;
+  cueArray[7] = 564;
+  cueArray[8] = 624;
+  cueArray[9] = 708;
+  cueArray[10] = 768;
+  cueArray[11] = 830;
+  cueArray[12] = 856;
+  cueArray[13] = 916;
+  cueArray[14] = 930;
+  cueArray[15] = 955;
+  cueArray[16] = 1000;
+  cueArray[17] = 1036;
+  cueArray[18] = 1100;
+  cueArray[19] = 1140;
+  cueArray[20] = 1216;
+
+//   cueArray[0] = 0;
+//   cueArray[1] = 5;
+//   cueArray[2] = 10;
+//   cueArray[3] = 15;
+//   cueArray[4] = 20;
+//   cueArray[5] = 25;
+//   cueArray[6] = 30;
+//   cueArray[7] = 35;
+//   cueArray[8] = 40;
+//   cueArray[9] = 45;
+//  cueArray[10] = 50;
+//  cueArray[11] = 55;
+//  cueArray[12] = 60;
+//  cueArray[13] = 65;
+//  cueArray[14] = 70;
+//  cueArray[15] = 75;
+//  cueArray[16] = 80;
+//  cueArray[17] = 85;
+//  cueArray[18] = 90;
+//  cueArray[19] = 95;
+//  cueArray[20] = 100;
+
+//  cueArray[0] = 0;
+//  cueArray[1] = 1;
+//  cueArray[2] = 2;
+//  cueArray[3] = 3;
+//  cueArray[4] = 4;
+//  cueArray[5] = 5;
+//  cueArray[6] = 6;
+//  cueArray[7] = 7;
+//  cueArray[8] = 8;
+//  cueArray[9] = 9;
+//  cueArray[10] = 10;
+//  cueArray[11] = 11;
+//  cueArray[12] = 12;
+//  cueArray[13] = 13;
+//  cueArray[14] = 14;
+//  cueArray[15] = 15;
+//  cueArray[16] = 16;
+//  cueArray[17] = 17;
+//  cueArray[18] = 18;
+//  cueArray[19] = 19;
+//  cueArray[20] = 20;
 }
 /*------------------------------Set Cues------------------------------*/
 
@@ -65,9 +131,9 @@ void setRanges(){
 
 /*------------------------------Set Addresses------------------------------*/
 void setLargeAddresses(){
-  int address = 15;
+  int address = 1;
   int z;
-  for(z = 0; z<6; z++){
+  for(z = 1; z<7; z++){ //make 7, don't use first
   panArray[z] = address;
   tiltArray[z] = address + 1;
   movementSpeedArray[z] = address + 2;
@@ -92,48 +158,48 @@ void setIncrement(){
 void setSmallAddresses(){
 
   //Must manually set adresses to skip out 101 - 104
+//int  smallAddress = 98;
+//int x;
+//  for(x=6;x<12;x++){
+//    redArray[x] = smallAddress;
+//    greenArray[x] = smallAddress + 1;
+//    blueArray[x] = smallAddress + 2;
+//    whiteArray[x] = smallAddress + 3;
+//
+//    smallAddress += 4;
+//  }
+  
+int address1 = 85;
+int address2 = 88;
+int address3 = 91;
+int address4 = 94;
+int address5 = 97;
+int address6 = 100;
 
-  redArray[5] = 85;
-  greenArray[5] = 86;
-  blueArray[5] = 87;
-  whiteArray[5] = 88;
+  redArray[7] = address1;
+  greenArray[7] = address1 + 1;
+  blueArray[7] = address1 + 2;
 
-  redArray[6] = 89;
-  greenArray[6] = 90;
-  blueArray[6] = 91;
-  whiteArray[6] = 92;
+  redArray[8] = address2;
+  greenArray[8] = address2 + 1;
+  blueArray[8] = address2 + 2;
 
-  redArray[7] = 93;
-  greenArray[7] = 94;
-  blueArray[7] = 95;
-  whiteArray[7] = 96;
+  redArray[9] = address3;
+  greenArray[9] = address3 + 1;
+  blueArray[9] = address3 + 2;
 
-  redArray[8] = 97;
-  greenArray[8] = 98;
-  blueArray[8] = 99;
-  whiteArray[8] = 100;
+  redArray[10] = address4;
+  greenArray[10] = address4 + 1;
+  blueArray[10] = address4 + 2;
 
-  redArray[9] = 105;
-  greenArray[9] = 106;
-  blueArray[9] = 107;
-  whiteArray[9] = 108;
+  redArray[11] = address5;
+  greenArray[11] = address5 + 1;
+  blueArray[11] = address5 + 2;
+  
+  redArray[12] = address6;
+  greenArray[12] = address6 + 1;
+  blueArray[12] = address6 + 2;
 
-  redArray[10] = 109;
-  greenArray[10] = 110;
-  blueArray[10] = 111;
-  whiteArray[10] = 112;
-
-  // int address = 85;
-  // int z;
-  // for(z = 6; z<12 ; z++){
-  // redArray[z] = address;
-  // greenArray[z] = address + 1;
-  // blueArray[z] = address + 2;
-  // whiteArray[z] = address + 3;
-
-  // address += 4;
-
-  // }
 }
 /*------------------------------Set Addresses------------------------------*/
 

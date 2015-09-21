@@ -19,22 +19,22 @@ void spin(int x, int one, int two, int three) { // x = address
     strobe = three;
   }
 
-  colourCounter++;
-  if(colourCounter = 30){
-    colourCounter = 0;
-  red += 5;
-  if(red >= 255){
-    red = 0;
-  }
-  green += 3;
-  if(green >= 255){
-    green = 0;
-  }
-  blue += 1;
-  if(blue >= 255){
-    blue = 0;
-  }
-}
+//  colourCounter++;
+//  if(colourCounter = 30){
+//    colourCounter = 0;
+//  red += 5;
+//  if(red >= 255){
+//    red = 0;
+//  }
+//  green += 3;
+//  if(green >= 255){
+//    green = 0;
+//  }
+//  blue += 1;
+//  if(blue >= 255){
+//    blue = 0;
+//  }
+//}
 
   Serial.print("panArray[x] ");
   Serial.print(panArray[x]);
@@ -63,10 +63,6 @@ void spin(int x, int one, int two, int three) { // x = address
  DmxMaster.write(greenArray[x], green);
  DmxMaster.write(blueArray[x], blue);
  DmxMaster.write(whiteArray[x], white);
- // DmxMaster.write(10, dimmer);
- // DmxMaster.write(11, strobe); 
- // DmxMaster.write(24, dimmer);
- // DmxMaster.write(25, strobe); 
  DmxMaster.write(dimmerArray[x], dimmer);
  DmxMaster.write(shutterArray[x], strobe); 
 

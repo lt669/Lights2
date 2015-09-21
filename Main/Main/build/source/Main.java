@@ -219,7 +219,7 @@ public void draw() {
   timer = (loopCounter/30)*1000; //In milliseconds
   println("Timer: ",timer);
   
-  recordSketch();
+ // recordSketch();
 
   colorMode(HSB, 360, 100, 100, 100);
 
@@ -346,7 +346,7 @@ public void graphicsOrder(){
 
   public void graphicsOrder2(){
    if(timer < cueArray[2]){
-     graphicChooser[0] = 11; //New graphic choise
+     graphicChooser[0] = 2/*11*/; //New graphic choise
     } else if(timer > cueArray[2] && timer < cueArray[4]){
        if(timer < cueArray[2]+2000){
         setFader();
@@ -434,7 +434,7 @@ public void recordSketch(){
 
 //videoExport2.saveFrame();
     
-    saveFrame("/Users/Lewis/Desktop/Images2/sketch-#######.png");
+    saveFrame("/Users/Lewis/Desktop/Images3/sketch-#######.png");
     // loadPixels();
     // video.addFrame(pixels);
     // println("Number of queued frames : " + video.getQueuedFrames());
@@ -582,6 +582,7 @@ public void halfScreen(){
 public void keyPressed() {
 
   select = Character.digit(key, 10);
+  graphicChooser[0] = select;
   //state = select;
   println("Select: ", select);
   if (select == 0) {
@@ -947,8 +948,11 @@ class Cir {
 }
 
 //Mac
-int canX = 1920;
-int canY = 1080;
+int canX = 600;
+int canY = 300;
+
+// int canX = 2048;
+// int canY = 768;
 
 //MovieMaker
 int fps = 60;
@@ -998,27 +1002,27 @@ int count; //Prevent screen from fading multiple times
 /*---------------CUES---------------*/
 int[] cueArray = new int[31];
 public void setCues(){
-  cueArray[0] = 0 - 180000;
-  cueArray[1] = 68000 - 180000;
-  cueArray[2] = 180000 - 180000;
-  cueArray[3] = 240000 - 180000;
-  cueArray[4] = 300000 - 180000;
-  cueArray[5] = 408000 - 180000;
-  cueArray[6] = 496000 - 180000;
-  cueArray[7] = 564000 - 180000;
-  cueArray[8] = 624000 - 180000;
-  cueArray[9] = 708000 - 180000;
-  cueArray[10] = 768000 - 180000;
-  cueArray[11] = 830000 - 180000;
-  cueArray[12] = 856000 - 180000;
-  cueArray[13] = 916000 - 180000;
-  cueArray[14] = 930000 - 180000;
-  cueArray[15] = 955000 - 180000;
-  cueArray[16] = 1000000 - 180000;
-  cueArray[17] = 1036000 - 180000;
-  cueArray[18] = 1100000 - 180000;
-  cueArray[19] = 1176000 - 180000;
-  cueArray[20] = 1216000 - 180000;
+  cueArray[0] = 0;
+  cueArray[1] = 68000;
+  cueArray[2] = 180000;
+  cueArray[3] = 240000;
+  cueArray[4] = 300000;
+  cueArray[5] = 408000;
+  cueArray[6] = 496000;
+  cueArray[7] = 564000;
+  cueArray[8] = 624000;
+  cueArray[9] = 708000;
+  cueArray[10] = 768000;
+  cueArray[11] = 830000;
+  cueArray[12] = 856000;
+  cueArray[13] = 916000;
+  cueArray[14] = 930000;
+  cueArray[15] = 955000;
+  cueArray[16] = 1000000;
+  cueArray[17] = 1036000;
+  cueArray[18] = 1100000;
+  cueArray[19] = 1176000;
+  cueArray[20] = 1216000;
 }
 /*---------------CUES---------------*/ 
 class archClass{
@@ -1854,7 +1858,7 @@ class textFileReader {
 
   //Measure time passed and send new values from the arrays
   public void timer(int TAG) {
-    if (z < text.length/3 - 1) {
+    if (z < text.length - 1) {
       //      println("Length: ", text.length);
       //      println("Millis: "+millis()+" Next Millis: " + singerInfo[0][z+1] + " SecondPasses: " + secondPassed);
       //Initialise counters

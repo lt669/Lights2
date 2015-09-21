@@ -65,14 +65,13 @@ class textFileReader {
         NEXT = true;
         //last = millis();
         z++; // Increase array address
+        sendToArduino(TAG);
       } else {
         NEXT = false;
       }
     } else {
       println("END OF FILE: ",TAG);
     }
-
-    sendToArduino(TAG);
   }
 
   void sendToArduino(int inTAG) {
@@ -87,15 +86,19 @@ class textFileReader {
 
       while (val != 1) {
         port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
-        //println("Waiting...");
+        println("Waiting...",waitingCount);
         val = port.read();
         waitingCount++;
-        println("waitingCount: ",waitingCount);
-        if (waitingCount >=2000) {//break out if there is an error
+        // println("waitingCount: ",waitingCount);
+        if (waitingCount >=200) {//break out if there is an error
           val = 1;
           waitingCount = 0;
         }
         if (val == 1) {
+          //waitingCount = 0;
+          waitingCount = 0;
+          println("Val = ",val);
+          port.clear(); //Clear the buffer
           break;
         }
       }

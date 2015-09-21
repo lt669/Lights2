@@ -1,6 +1,9 @@
 //Mac
-int canX = 1920;
-int canY = 1080;
+int canX = 600;
+int canY = 300;
+
+// int canX = 2048;
+// int canY = 768;
 
 //MovieMaker
 int fps = 60;

@@ -197,7 +197,7 @@ void draw() {
   timer = (loopCounter/30)*1000; //In milliseconds
   println("Timer: ",timer);
   
-  recordSketch();
+ // recordSketch();
 
   colorMode(HSB, 360, 100, 100, 100);
 
@@ -324,7 +324,7 @@ void graphicsOrder(){
 
   void graphicsOrder2(){
    if(timer < cueArray[2]){
-     graphicChooser[0] = 11; //New graphic choise
+     graphicChooser[0] = 2/*11*/; //New graphic choise
     } else if(timer > cueArray[2] && timer < cueArray[4]){
        if(timer < cueArray[2]+2000){
         setFader();
@@ -412,7 +412,7 @@ void recordSketch(){
 
 //videoExport2.saveFrame();
     
-    saveFrame("/Users/Lewis/Desktop/Images2/sketch-#######.png");
+    saveFrame("/Users/Lewis/Desktop/Images3/sketch-#######.png");
     // loadPixels();
     // video.addFrame(pixels);
     // println("Number of queued frames : " + video.getQueuedFrames());
@@ -511,27 +511,32 @@ void graphicChoice() {
     select = 4;
   }
 
-  if (select == 3) { //Black BG, flat colours
-    BGhue = 0;
-    BGsat = 0;
-    BGbri = 0;
-    colorBright = 1;
-  } else if (select == 4) { //Black BG, bright colours
     BGhue = 0;
     BGsat = 0;
     BGbri = 0;
     colorBright = 2;
-  } else if (select == 5) { //White BG, flat colours
-    BGhue = 0;
-    BGsat = 0;
-    BGbri = 100;
-    colorBright = 1;
-  } else if (select == 6) { //White BG, bright colours
-    BGhue = 0;
-    BGsat = 0;
-    BGbri = 100;
-    colorBright = 2;
-  }
+
+  // if (select == 3) { //Black BG, flat colours
+  //   BGhue = 0;
+  //   BGsat = 0;
+  //   BGbri = 0;
+  //   colorBright = 1;
+  // } else if (select == 4) { //Black BG, bright colours
+  //   BGhue = 0;
+  //   BGsat = 0;
+  //   BGbri = 0;
+  //   colorBright = 2;
+  // } else if (select == 5) { //White BG, flat colours
+  //   BGhue = 0;
+  //   BGsat = 0;
+  //   BGbri = 100;
+  //   colorBright = 1;
+  // } else if (select == 6) { //White BG, bright colours
+  //   BGhue = 0;
+  //   BGsat = 0;
+  //   BGbri = 100;
+  //   colorBright = 2;
+  // }
 }
 
 void halfScreen(){
@@ -560,6 +565,7 @@ void halfScreen(){
 void keyPressed() {
 
   select = Character.digit(key, 10);
+  graphicChooser[0] = select;
   //state = select;
   println("Select: ", select);
   if (select == 0) {

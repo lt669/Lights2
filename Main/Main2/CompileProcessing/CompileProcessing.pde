@@ -23,7 +23,7 @@ void setup() {
   // myMovie.play();
 
   //Initialise Port to send serial data to arduino
-  port = new Serial(this, "/dev/cu.usbmodem411", 9600); 
+  port = new Serial(this, "/dev/cu.usbmodem641", 9600); 
   port.bufferUntil('\n');
 
 
@@ -47,7 +47,7 @@ void setup() {
   PART5.read();
   PART6.read();
 
-  frameRate(30);
+  //frameRate(30);
 }
 
 void draw() {
