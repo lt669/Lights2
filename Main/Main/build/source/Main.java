@@ -174,9 +174,9 @@ public void setup() {
   reverb2 = new reverbRings(canX*3/4, canY/2,0,100);
 
   //archClass objects
-  arch1 = new archClass(canX/4,canY/4,canX*3/4,canY/4,50);
-  arch2 = new archClass(canX/4,canY/2,canX*3/4,canY/2,50);
-  arch3 = new archClass(canX/4,canY*3/4,canX*3/4,canY*3/4,50);
+  arch1 = new archClass(canX/8,canY/4,canX*7/8,canY/4,30);
+  arch2 = new archClass(canX/6,canY/2,canX*5/6,canY/2,30);
+  arch3 = new archClass(canX/8,canY*3/4,canX*7/8,canY*3/4,30);
 
 
   //Set the Pitch and Duration ranges in the appropriate classes
@@ -232,7 +232,7 @@ public void draw() {
     noStroke();
     fill(BGhue, BGsat, BGbri, 10);
     rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
-  } else if (choice == 4 || choice == 5 /*|| choice == 6*/) {
+  } else if (choice == 4 || choice == 5 || choice == 6) {
     //    noStroke();
     //    fill(BGhue, BGsat, BGbri, 5);
     //    rect(0, 0, canX, canY);
@@ -258,7 +258,7 @@ public void draw() {
 
   //Cue Reader
   if(millis() == cueArray[cueAddress]){
-    println("Cue["+cueAddress+"}");
+    println("Cue ["+cueAddress+"}");
     x++;
   }
 
@@ -346,63 +346,57 @@ public void graphicsOrder(){
 
   public void graphicsOrder2(){
    if(timer < cueArray[2]){
-     graphicChooser[0] = 2/*11*/; //New graphic choise
-    } else if(timer > cueArray[2] && timer < cueArray[4]){
+     graphicChooser[0] = 11; //New graphic choise
+    } else if(timer > cueArray[2] && timer < cueArray[6]){
        if(timer < cueArray[2]+2000){
         setFader();
    }
       graphicChooser[0] = 1; //New graphic choise
-    } else if(timer > cueArray[4] && timer < cueArray[5]){
+    }/* else if(timer > cueArray[4] && timer < cueArray[6]){
      if(timer < cueArray[4]+2000){
      setFader();
    }
-     graphicChooser[0] = 3; //New graphic choise
-    } else if(timer > cueArray[5] && timer < cueArray[6]){
-     if(timer < cueArray[5]+2000){
-     setFader();
-   }
-     graphicChooser[0] = 4; //New graphic choise
-    } else if(timer > cueArray[6] && timer < cueArray[7]){
+     graphicChooser[0] = 2; //New graphic choise
+    } */else if(timer > cueArray[6] && timer < cueArray[7]){
      if(timer < cueArray[6]+2000){
      setFader();
    }
      graphicChooser[0] = 11; //New graphic choise
-    } else if(timer > cueArray[7] && timer < cueArray[9]){
+    } else if(timer > cueArray[7] && timer < cueArray[8]){
      if(timer < cueArray[7]+2000){
      setFader();
    }
      graphicChooser[0] = 7; //New graphic choise
-    } else if(timer > cueArray[9] && timer < cueArray[10]){
-     if(timer < cueArray[9]+2000){
+    } else if(timer > cueArray[8] && timer < cueArray[10]){
+     if(timer < cueArray[8]+2000){
      setFader();
    }
-     graphicChooser[0] = 2; //New graphic choise
+     graphicChooser[0] = 8; //New graphic choise
     } else if(timer > cueArray[10] && timer < cueArray[11]){
      if(timer < cueArray[10]+2000){
      setFader();
    }
-     graphicChooser[0] = 3;
-   } else if(millis() > cueArray[11] && millis() < cueArray[12]){
-     graphicChooser[0] = 3; //New graphic choise 
+     graphicChooser[0] = 10;
+   } else if(millis() > cueArray[11] && millis() < cueArray[13]){
      if(timer < cueArray[11]+2000){
      setFader();
    }
      graphicChooser[0] = 9; //New graphic choise
-    } else if(timer > cueArray[12] && timer < cueArray[13]){
-     if(timer < cueArray[12]+2000){
-     setFader();
-   }
-     graphicChooser[0] = 10; //New graphic choise
-    } else if(timer > cueArray[13] && timer < cueArray[16]){
+    } else if(timer > cueArray[13] && timer < cueArray[14]){
      if(timer < cueArray[13]+2000){
      setFader();
    }
-     graphicChooser[0] = 6; //New graphic choise
+     graphicChooser[0] = 11; //New graphic choise
+    } else if(timer > cueArray[14] && timer < cueArray[16]){
+     if(timer < cueArray[14]+2000){
+     setFader();
+   }
+     graphicChooser[0] = 10; //New graphic choise
     } else if(timer > cueArray[16] && timer < cueArray[18]){
      if(timer < cueArray[16]+2000){
      setFader();
    }
-     graphicChooser[0] = 7; //New graphic choise
+     graphicChooser[0] = 8; //New graphic choise
     } else if(timer > cueArray[18] && timer < cueArray[19]){
      if(timer < cueArray[18]+2000){
      setFader();
@@ -412,7 +406,7 @@ public void graphicsOrder(){
      if(timer < cueArray[19]+2000){
      setFader();
    }
-     graphicChooser[0] = 1; //New graphic choise
+     graphicChooser[0] = 2; //New graphic choise
     } else if(timer > cueArray[20]){
      if(timer < cueArray[20]+2000){
      setFader();
@@ -477,7 +471,7 @@ public void screenFader(){
     Circles.beginDraw();
     Circles.colorMode(HSB, 360, 100, 100, 100);
     Circles.background(0, 0, 0, 0);
-    Circles.fill(0, 0, 100, alpha);
+    Circles.fill(0, 0, 0, alpha);
     Circles.noStroke();
     Circles.rect(0, 0, canX, canY);
     Circles.endDraw();
@@ -498,62 +492,71 @@ public void mouseReleased() {
 }
 
 public void graphicChoice() {
-  if (graphicChooser[1] == 1) {
-    choice = 1;
-    select = 5;
+  //println("GraphicsChooser: ",graphicChooser[1]);
+  if (graphicChooser[1] == 1) { //Spots
+    choice = 1; //Solid
+    select = 5; //Diagonal
   } else if (graphicChooser[1] == 2) {
-    choice = 2;
-    select = 3;
+    choice = 1;
+    select = 3; //Splatter
   } else if (graphicChooser[1] == 3) {
-    choice = 3;
-    select = 5;
+    choice = 1;
+    select = 6; //Structural
   } else if (graphicChooser[1] == 4) {
-    choice = 4;
-    select = 5;
+    choice = 3; //Sketch
+    select = 5; //Diagonal
   } else if (graphicChooser[1] == 5) {
-    choice = 4;
-    select = 4;
+    choice = 3;
+    select = 3;//Splatter
   } else if (graphicChooser[1] == 6) {
-    choice = 5;
-    select = 5;
+    choice = 3;
+    select = 6;//Structural
   } else if (graphicChooser[1] == 7) {
-    choice = 5;
-    select = 4;
+    choice = 5; //Arches
+    select = 1; //Dull
   } else if (graphicChooser[1] == 8) {
-    choice = 6;
-    select = 3;
+    choice = 5;
+    select = 2; //Bright
   } else if (graphicChooser[1] == 9) {
-    choice = 7;
-    select = 6;
+    choice = 6; 
+    select = 3;
   } else if (graphicChooser[1] == 10) {
-    choice = 8;
+    choice = 4;
     select = 6;
   } else if (graphicChooser[1] == 11) {
     choice = 0;
     select = 4;
   }
 
-  if (select == 3) { //Black BG, flat colours
     BGhue = 0;
     BGsat = 0;
     BGbri = 0;
-    colorBright = 1;
-  } else if (select == 4) { //Black BG, bright colours
-    BGhue = 0;
-    BGsat = 0;
-    BGbri = 0;
-    colorBright = 2;
-  } else if (select == 5) { //White BG, flat colours
-    BGhue = 0;
-    BGsat = 0;
-    BGbri = 100;
-    colorBright = 1;
-  } else if (select == 6) { //White BG, bright colours
-    BGhue = 0;
-    BGsat = 0;
-    BGbri = 100;
-    colorBright = 2;
+    if(select == 1){
+     colorBright = 1;
+  } else {
+     colorBright = 2;
   }
+  // if (select == 3) { //Black BG, flat colours
+  //   BGhue = 0;
+  //   BGsat = 0;
+  //   BGbri = 0;
+  //   colorBright = 1;
+  // } else if (select == 4) { //Black BG, bright colours
+  //   BGhue = 0;
+  //   BGsat = 0;
+  //   BGbri = 0;
+  //   colorBright = 2;
+  // } else if (select == 5) { //White BG, flat colours
+  //   BGhue = 0;
+  //   BGsat = 0;
+  //   BGbri = 100;
+  //   colorBright = 1;
+  // } else if (select == 6) { //White BG, bright colours
+  //   BGhue = 0;
+  //   BGsat = 0;
+  //   BGbri = 100;
+  //   colorBright = 2;
+  // }
 }
 
 public void halfScreen(){
@@ -582,17 +585,20 @@ public void halfScreen(){
 public void keyPressed() {
 
   select = Character.digit(key, 10);
-  graphicChooser[0] = select;
+  
+  setFader();
   //state = select;
   println("Select: ", select);
   if (select == 0) {
     // just = true;
     // fadedDONE = false;
     state++;
+    graphicChooser[0] += 1;//select;
   }
 
   if(select == 1){
     state--;
+    graphicChooser[0] -= 1;//select;
   }
   pressed = true;
 }
@@ -899,7 +905,7 @@ class Cir {
     if (choice == 1) {
       noStroke();
       fill(bright + colorFlux, sizeBri, Brightness, Brightness);
-      ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
+      ellipse(posX, posY, size*sizeMultiplier*2, size*sizeMultiplier*2);
     } else if (choice == 2) {
       noStroke();
       fill(bright + colorFlux, sizeBri, Brightness, Brightness);
@@ -948,8 +954,8 @@ class Cir {
 }
 
 //Mac
-int canX = 600;
-int canY = 300;
+int canX = 900;
+int canY = 500;
 
 // int canX = 2048;
 // int canY = 768;
@@ -1002,32 +1008,54 @@ int count; //Prevent screen from fading multiple times
 /*---------------CUES---------------*/
 int[] cueArray = new int[31];
 public void setCues(){
-  cueArray[0] = 0;
-  cueArray[1] = 68000;
-  cueArray[2] = 180000;
-  cueArray[3] = 240000;
-  cueArray[4] = 300000;
-  cueArray[5] = 408000;
-  cueArray[6] = 496000;
-  cueArray[7] = 564000;
-  cueArray[8] = 624000;
-  cueArray[9] = 708000;
-  cueArray[10] = 768000;
-  cueArray[11] = 830000;
-  cueArray[12] = 856000;
-  cueArray[13] = 916000;
-  cueArray[14] = 930000;
-  cueArray[15] = 955000;
-  cueArray[16] = 1000000;
-  cueArray[17] = 1036000;
-  cueArray[18] = 1100000;
-  cueArray[19] = 1176000;
-  cueArray[20] = 1216000;
+  // cueArray[0] = 0;
+  // cueArray[1] = 68000;
+  // cueArray[2] = 180000;
+  // cueArray[3] = 240000;
+  // cueArray[4] = 300000;
+  // cueArray[5] = 408000;
+  // cueArray[6] = 496000;
+  // cueArray[7] = 564000;
+  // cueArray[8] = 624000;
+  // cueArray[9] = 708000;
+  // cueArray[10] = 768000;
+  // cueArray[11] = 830000;
+  // cueArray[12] = 856000;
+  // cueArray[13] = 916000;
+  // cueArray[14] = 930000;
+  // cueArray[15] = 955000;
+  // cueArray[16] = 1000000;
+  // cueArray[17] = 1036000;
+  // cueArray[18] = 1100000;
+  // cueArray[19] = 1176000;
+  // cueArray[20] = 1216000;
+
+    cueArray[0] = 0 - 20000;
+  cueArray[1] = 10000 - 20000;
+  cueArray[2] = 20000 - 20000;
+  cueArray[3] = 30000 - 20000;
+  cueArray[4] = 40000 - 20000;
+  cueArray[5] = 50000 - 20000;
+  cueArray[6] = 60000 - 20000;
+  cueArray[7] = 70000 - 20000;
+  cueArray[8] = 80000 - 20000;
+  cueArray[9] = 90000 - 20000;
+  cueArray[10] = 100000 - 20000;
+  cueArray[11] = 110000 - 20000;
+  cueArray[12] = 120000 - 20000;
+  cueArray[13] = 130000 - 20000;
+  cueArray[14] = 140000 - 20000;
+  cueArray[15] = 150000 - 20000;
+  cueArray[16] = 160000 - 20000;
+  cueArray[17] = 170000 - 20000;
+  cueArray[18] = 180000 - 20000;
+  cueArray[19] = 190000 - 20000;
+  cueArray[20] = 1000000 - 20000;
 }
 /*---------------CUES---------------*/ 
 class archClass{
 
-	float xStartPos, yStartPos, xEndPos, yEndPos, size;
+	float xStartPos, yStartPos, xEndPos, yEndPos, size, yStartInitial, yEndInitial, xStartInitial, xEndInitial;
 	int extraHeight;
 	int minPitch1, minPitch2, maxPitch1, maxPitch2, pitch1, pitch2;
 	int [] pitchCompare1 = new int [2];
@@ -1061,13 +1089,17 @@ class archClass{
 
 		yStartPosition[1] = iYStartPos;
 		yEndPosition[1] = iYEndPos;
+		yStartInitial = iYStartPos;
+		yEndInitial = iYEndPos;
+		xStartInitial = iXStartPos;
+		xEndInitial = iXEndPos;
 
 	}
 
 
 public void drawArch(){
 
-	extraHeight = PApplet.parseInt(random(0,50));
+	extraHeight = PApplet.parseInt(random(0,30));
 
 	movementCounter++;
 	if(movementCounter >= 30){
@@ -1077,44 +1109,57 @@ public void drawArch(){
 	xEndPosition[1] = xEndPosition[0];
 	xEndPosition[0] = PApplet.parseInt(random(0,100));
 
-	yStartPosition[0] = PApplet.parseInt(random(-1,1));
-	yEndPosition[0] = PApplet.parseInt(random(-1,1));
+	yStartPosition[0] = PApplet.parseInt(random(0,100));
+	yEndPosition[0] = PApplet.parseInt(random(0,100));
 	}
 
 	if (xStartPosition[0] > xStartPosition[1]){
 		xStartPos+= 0.1f;
-		if(xStartPos >= canX/3 + 10){
-			xStartPos = canX/3 + 10;
+		if(xStartPos >= xStartInitial + 10){
+			xStartPos = xStartInitial + 10;
 		}
 	} else if(xStartPosition[0] < xStartPosition[1]){
 		xStartPos-= 0.1f;
-		if(xStartPos <= canX/3 - 10){
-			xStartPos = canX/3 - 10;
+		if(xStartPos <= xStartInitial - 10){
+			xStartPos = xStartInitial - 10;
 		}
 	}
 
 	if (xEndPosition[0] > xEndPosition[1]){
 		xEndPos += 0.1f;
-		if(xEndPos >= canX*2/3 + 10){
-			xEndPos = canX*2/3 + 10;
+		if(xEndPos >= xEndInitial + 10){
+			xEndPos = xEndInitial + 10;
 		}
 	} else if(xEndPosition[0] < xEndPosition[1]){
 		xEndPos -= 0.1f;
-		if(xEndPos <= canX*2/3 - 10){
-			xEndPos = canX*2/3 - 10;
+		if(xEndPos <= xEndInitial - 10){
+			xEndPos = xEndInitial - 10;
 		}
 	}
 
-		yStartPos += yStartPosition[1] + yStartPosition[0];
-		if(yStartPos >= yStartPosition[1] + 10){
-			yStartPos = yStartPosition[1] + 10;
+	if(yStartPosition[0] > yStartPosition[1]){
+		yStartPos += 0.1f;
+		if(yStartPos >= yStartInitial + 10){
+			yStartPos = yStartInitial + 10;
 		}
+	} else if (yStartPosition[0] < yStartPosition[1]){
+		yStartPos -= 0.1f;
+		if(yStartPos <= yStartInitial - 10){
+			yStartPos = yStartInitial - 10;
+	}
+}
 	
-
-		yEndPos += yEndPosition[1] + yEndPosition[0];
-		if(yEndPos >= yEndPosition[1] + 10){
-			yEndPos = yEndPosition[1] + 10;
+		if(yEndPosition[0] > yEndPosition[1]){
+		yEndPos += 0.1f;
+		if(yEndPos >= yEndInitial + 10){
+			yEndPos = yEndInitial + 10;
 		}
+	} else if (yEndPosition[0] < yEndPosition[1]){
+		yEndPos -= 0.1f;
+		if(yEndPos <= yEndInitial - 10){
+			yEndPos = yEndInitial - 10;
+	}
+}
 
 	colorMode(HSB,360,100,100,100);
 	float midPoint = xEndPos - (xEndPos-xStartPos)/2;
@@ -1150,8 +1195,8 @@ public void drawArch(){
 
 	int bri1 = 70;
 	int bri2 = 70;
-	int sat1 = 70;
-	int sat2 = 70;	
+	int sat1 = 100;
+	int sat2 = 100;	
 
 	//drawArch for first circle
 	noStroke();
@@ -1194,11 +1239,13 @@ public void drawArch(){
 	endShape(CLOSE);
 
 		//Draw circles
-	fill(pitch1,bri1,sat1);
+	stroke(pitch1,bri1,sat1);
+	fill(pitch1,bri1,sat1,0);
 	ellipse(xStartPos, yStartPos, size, size);
 
 	//End Circle
-	fill(pitch2,bri2,sat2);
+	stroke(pitch2,bri2,sat2);
+	fill(pitch2,bri2,sat2,0);
 	ellipse(xEndPos, yEndPos, size, size);
 
 
@@ -1700,7 +1747,7 @@ class squigleClass {
       //      map(xDirection, 0, canX, 0, 360);
       //      map(yDirection, 0, canX, 0, 360);
       stroke(/*xDirection*/ xColour, /*yDirection*/ 100, 100);
-      strokeWeight(2);
+      strokeWeight(1);
       fill(0, 0, 0, 0);
       beginShape(); 
       if (largerUsed == true) {

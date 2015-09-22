@@ -1,6 +1,6 @@
 class archClass{
 
-	float xStartPos, yStartPos, xEndPos, yEndPos, size;
+	float xStartPos, yStartPos, xEndPos, yEndPos, size, yStartInitial, yEndInitial, xStartInitial, xEndInitial;
 	int extraHeight;
 	int minPitch1, minPitch2, maxPitch1, maxPitch2, pitch1, pitch2;
 	int [] pitchCompare1 = new int [2];
@@ -34,13 +34,17 @@ class archClass{
 
 		yStartPosition[1] = iYStartPos;
 		yEndPosition[1] = iYEndPos;
+		yStartInitial = iYStartPos;
+		yEndInitial = iYEndPos;
+		xStartInitial = iXStartPos;
+		xEndInitial = iXEndPos;
 
 	}
 
 
 void drawArch(){
 
-	extraHeight = int(random(0,50));
+	extraHeight = int(random(0,30));
 
 	movementCounter++;
 	if(movementCounter >= 30){
@@ -50,44 +54,57 @@ void drawArch(){
 	xEndPosition[1] = xEndPosition[0];
 	xEndPosition[0] = int(random(0,100));
 
-	yStartPosition[0] = int(random(-1,1));
-	yEndPosition[0] = int(random(-1,1));
+	yStartPosition[0] = int(random(0,100));
+	yEndPosition[0] = int(random(0,100));
 	}
 
 	if (xStartPosition[0] > xStartPosition[1]){
 		xStartPos+= 0.1;
-		if(xStartPos >= canX/3 + 10){
-			xStartPos = canX/3 + 10;
+		if(xStartPos >= xStartInitial + 10){
+			xStartPos = xStartInitial + 10;
 		}
 	} else if(xStartPosition[0] < xStartPosition[1]){
 		xStartPos-= 0.1;
-		if(xStartPos <= canX/3 - 10){
-			xStartPos = canX/3 - 10;
+		if(xStartPos <= xStartInitial - 10){
+			xStartPos = xStartInitial - 10;
 		}
 	}
 
 	if (xEndPosition[0] > xEndPosition[1]){
 		xEndPos += 0.1;
-		if(xEndPos >= canX*2/3 + 10){
-			xEndPos = canX*2/3 + 10;
+		if(xEndPos >= xEndInitial + 10){
+			xEndPos = xEndInitial + 10;
 		}
 	} else if(xEndPosition[0] < xEndPosition[1]){
 		xEndPos -= 0.1;
-		if(xEndPos <= canX*2/3 - 10){
-			xEndPos = canX*2/3 - 10;
+		if(xEndPos <= xEndInitial - 10){
+			xEndPos = xEndInitial - 10;
 		}
 	}
 
-		yStartPos += yStartPosition[1] + yStartPosition[0];
-		if(yStartPos >= yStartPosition[1] + 10){
-			yStartPos = yStartPosition[1] + 10;
+	if(yStartPosition[0] > yStartPosition[1]){
+		yStartPos += 0.1;
+		if(yStartPos >= yStartInitial + 10){
+			yStartPos = yStartInitial + 10;
 		}
+	} else if (yStartPosition[0] < yStartPosition[1]){
+		yStartPos -= 0.1;
+		if(yStartPos <= yStartInitial - 10){
+			yStartPos = yStartInitial - 10;
+	}
+}
 	
-
-		yEndPos += yEndPosition[1] + yEndPosition[0];
-		if(yEndPos >= yEndPosition[1] + 10){
-			yEndPos = yEndPosition[1] + 10;
+		if(yEndPosition[0] > yEndPosition[1]){
+		yEndPos += 0.1;
+		if(yEndPos >= yEndInitial + 10){
+			yEndPos = yEndInitial + 10;
 		}
+	} else if (yEndPosition[0] < yEndPosition[1]){
+		yEndPos -= 0.1;
+		if(yEndPos <= yEndInitial - 10){
+			yEndPos = yEndInitial - 10;
+	}
+}
 
 	colorMode(HSB,360,100,100,100);
 	float midPoint = xEndPos - (xEndPos-xStartPos)/2;
@@ -123,8 +140,8 @@ void drawArch(){
 
 	int bri1 = 70;
 	int bri2 = 70;
-	int sat1 = 70;
-	int sat2 = 70;	
+	int sat1 = 100;
+	int sat2 = 100;	
 
 	//drawArch for first circle
 	noStroke();
@@ -167,11 +184,13 @@ void drawArch(){
 	endShape(CLOSE);
 
 		//Draw circles
-	fill(pitch1,bri1,sat1);
+	stroke(pitch1,bri1,sat1);
+	fill(pitch1,bri1,sat1,0);
 	ellipse(xStartPos, yStartPos, size, size);
 
 	//End Circle
-	fill(pitch2,bri2,sat2);
+	stroke(pitch2,bri2,sat2);
+	fill(pitch2,bri2,sat2,0);
 	ellipse(xEndPos, yEndPos, size, size);
 
 

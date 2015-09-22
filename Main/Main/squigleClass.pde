@@ -281,7 +281,7 @@ class squigleClass {
       //      map(xDirection, 0, canX, 0, 360);
       //      map(yDirection, 0, canX, 0, 360);
       stroke(/*xDirection*/ xColour, /*yDirection*/ 100, 100);
-      strokeWeight(2);
+      strokeWeight(1);
       fill(0, 0, 0, 0);
       beginShape(); 
       if (largerUsed == true) {

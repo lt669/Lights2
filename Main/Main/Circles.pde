@@ -126,7 +126,7 @@ class Cir {
     if (choice == 1) {
       noStroke();
       fill(bright + colorFlux, sizeBri, Brightness, Brightness);
-      ellipse(posX, posY, size*sizeMultiplier, size*sizeMultiplier);
+      ellipse(posX, posY, size*sizeMultiplier*2, size*sizeMultiplier*2);
     } else if (choice == 2) {
       noStroke();
       fill(bright + colorFlux, sizeBri, Brightness, Brightness);
