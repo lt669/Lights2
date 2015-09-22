@@ -199,11 +199,7 @@ void loop() {
     }
 
     if (state >= 1) { //Only when processing starts, run the program
-      // DmxMaster.write(greenArray[2],255);
-      // DmxMaster.write(dimmerArray[2],255);
-      // DmxMaster.write(shutterArray[2],255);
       timer = (millis() - last)/1000;
-      //timer = 498/*in[0]*/;
 
       //Lights Program
       if (timer > cueArray[0] && timer < cueArray[1]) { //Fade in backlights
@@ -234,20 +230,20 @@ void loop() {
         slowBrightnessCounter(400,100);// Backlights slowly fade on
 
         setRGB(rgb6,0,0,0,brightness);
-        if (timer >= cueArray[2] + 5000) {
-          setRGB(rgb7,0,0,0,brightness);
+        if (timer >= cueArray[2] + 5) {
+          setRGB(rgb7,brightness,brightness,brightness,brightness);
         }
-        if (timer >= cueArray[2] + 10000) {
-          setRGB(rgb8,0,0,0,brightness);
+        if (timer >= cueArray[2] + 10) {
+          setRGB(rgb8,brightness,brightness,brightness,brightness);
         }
-        if (timer >= cueArray[2] + 15000) {
-          setRGB(rgb9,0,0,0,brightness);
+        if (timer >= cueArray[2] + 15) {
+          setRGB(rgb9,brightness,brightness,brightness,brightness);
         }
-        if (timer >= cueArray[2] + 20000) {
-          setRGB(rgb10,0,0,0,brightness);
+        if (timer >= cueArray[2] + 20) {
+          setRGB(rgb10,brightness,brightness,brightness,brightness);
         }
-        if (timer >= cueArray[2] + 25000) {
-          setRGB(rgb11,0,0,0,brightness);
+        if (timer >= cueArray[2] + 25) {
+          setRGB(rgb11,brightness,brightness,brightness,brightness);
         }                                  /*-------------FADE IN SINGERS-------------*/
       } else if (timer > cueArray[2] && timer < cueArray[3]) {
         if(timer < cueArray[2] + 1){
@@ -295,15 +291,15 @@ void loop() {
         //Continue above + sideLights throb white
 
         pitchToColourCalc(fre1, 6, 0, rgb6); //Singer spots map pitch
-        if (timer > cueArray[4] + 5000) {
+        if (timer > cueArray[4] + 5) {
           pitchToColourCalc(fre2, 7, 1, rgb7);
-        } if (timer > cueArray[4] + 10000) {
+        } if (timer > cueArray[4] + 10) {
           pitchToColourCalc(fre3, 8, 2, rgb8);
-        } if (timer > cueArray[4] + 15000) {
+        } if (timer > cueArray[4] + 15) {
           pitchToColourCalc(fre4, 9, 3, rgb9);
-        } if (timer > cueArray[4] + 20000) {
+        } if (timer > cueArray[4] + 20) {
           pitchToColourCalc(fre5, 10, 4, rgb10);
-        } if (timer > cueArray[4] + 25000) {
+        } if (timer > cueArray[4] + 25) {
           pitchToColourCalc(fre6, 11, 5, rgb11);
         }
 
@@ -336,7 +332,7 @@ void loop() {
         if(timer < cueArray[6] + 1){
           brightness = 0; //Reset variables
         }
-       // Serial.println("cue[6]");
+
         pitchToColourCalc(fre1, 6, 0, rgb6); //Only Soprano map pitch
         pitchToColourCalc(fre1,1,0,rgb1); //Map front left to sporano pitch
         //movingLight(1, move0, 50, 240, 212, 128, 50000); //Left front light 
@@ -346,11 +342,11 @@ void loop() {
         
         //Light,Array,tilt,speed,max/min
 
-        setRGB(rgb7, 0, 0, 0, 70); //Rest of singers on low white
-        setRGB(rgb8, 0, 0, 0, 70);
-        setRGB(rgb9, 0, 0, 0, 70);
-        setRGB(rgb10, 0, 0, 0, 70);
-        setRGB(rgb11, 0, 0, 0, 70);
+        setRGB(rgb7, 50, 50, 50, 0); //Rest of singers on low white
+        setRGB(rgb8, 50, 50, 50, 0);
+        setRGB(rgb9, 50, 50, 50, 0);
+        setRGB(rgb10, 50, 50, 50, 0);
+        setRGB(rgb11, 50, 50,50, 0);
 
        // setRGB(rgb2, 0, 0, 0, 0); //wall lights off
         //setRGB(rgb3, 0, 0, 0, 0);
@@ -358,12 +354,12 @@ void loop() {
 
       } else if (timer > cueArray[7] && timer < cueArray[8]) {
         Serial.println("cue[7]");
-        setRGB(rgb6, 0, 0, 0, 70); //All singers on low white
-        setRGB(rgb7, 0, 0, 0, 70);
-        setRGB(rgb8, 0, 0, 0, 70);
-        setRGB(rgb9, 0, 0, 0, 70);
-        setRGB(rgb10, 0, 0, 0, 70);
-        setRGB(rgb11, 0, 0, 0, 70);
+        setRGB(rgb6, 50, 50, 50, 0); //All singers on low white
+        setRGB(rgb7, 50, 50, 50, 0);
+        setRGB(rgb8, 50, 50, 50, 0);
+        setRGB(rgb9, 50, 50, 50, 0);
+        setRGB(rgb10, 50, 50, 50, 0);
+        setRGB(rgb11, 50, 50,50, 0);
 
         setRGB(rgb1, 0, 0, 0, 0);  //Set front left back to position and off
         setRotation(2, 45, 50, 0);
@@ -394,12 +390,12 @@ void loop() {
         // slowBright(4, rgb4, 400); //Fade backlights in
         // slowBright(5, rgb5, 400);
 
-        slowBrightnessCounter(170,200);
+        slowBrightnessCounter(170,200); //Fade backlights in
         setRGB(rgb4,0,0,0,brightness);
         setRGB(rgb5,0,0,0,brightness);
 
         if (timer >= cueArray[9] + 9) { //Fade in right wall
-          setRGB(rgb2,0,0,0,rgb2[3] + 1);
+          setRGB(rgb2,0,0,0,rgb2[3] + 1); /*---------Check to see if this works-------*/
           //slowBright(2, rgb2, 400);
         }
 
@@ -457,9 +453,6 @@ void loop() {
         if(timer < cueArray[11] + 1){
           brightness = 0; //Reset variables
         }
-        // Serial.print("brightness: ");
-        // Serial.print(brightness);
-        // Serial.println("cue[11]");
 
         glowBrightnessCounter(70,200,30);
 
@@ -487,14 +480,14 @@ void loop() {
         }
         Serial.println("cue[12]");
 
-        setRGB(rgb1, 0, 200 - brightness, 0, 0); //Set left side to white
+        setRGB(rgb1, 0, 200 - brightness, 0, 0); //Set left side to Green
         setRGB(rgb3, 0, 200 - brightness, 0, 0);
         setRGB(rgb5, 0, 200 - brightness, 0, 0);
         setRGB(rgb6, 0, 200 - brightness, 0, 0);
         setRGB(rgb7, 0, 200 - brightness, 0, 0);
         setRGB(rgb8, 0, 200 - brightness, 0, 0);
 
-        setRGB(rgb0, brightness,brightness,brightness,0); //Set right side to red
+        setRGB(rgb0, brightness,brightness,brightness,0); //Set right side to White
         setRGB(rgb2, brightness,brightness,brightness,0);
         setRGB(rgb4, brightness,brightness,brightness,0);
         setRGB(rgb9, brightness,brightness,brightness,0);

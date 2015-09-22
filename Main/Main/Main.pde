@@ -196,8 +196,6 @@ void draw() {
 
   timer = (loopCounter/30)*1000; //In milliseconds
   println("Timer: ",timer);
-  
- // recordSketch();
 
   colorMode(HSB, 360, 100, 100, 100);
 
@@ -244,6 +242,8 @@ void draw() {
 
   //Run PD function
   //PD();
+
+  // recordSketch();
 }
 
 void graphicsOrder(){

@@ -218,8 +218,6 @@ public void draw() {
 
   timer = (loopCounter/30)*1000; //In milliseconds
   println("Timer: ",timer);
-  
- // recordSketch();
 
   colorMode(HSB, 360, 100, 100, 100);
 
@@ -266,6 +264,8 @@ public void draw() {
 
   //Run PD function
   //PD();
+
+  // recordSketch();
 }
 
 public void graphicsOrder(){
@@ -347,17 +347,17 @@ public void graphicsOrder(){
   public void graphicsOrder2(){
    if(timer < cueArray[2]){
      graphicChooser[0] = 11; //New graphic choise
-    } else if(timer > cueArray[2] && timer < cueArray[6]){
+    } else if(timer > cueArray[2] && timer < cueArray[4]){
        if(timer < cueArray[2]+2000){
         setFader();
    }
       graphicChooser[0] = 1; //New graphic choise
-    }/* else if(timer > cueArray[4] && timer < cueArray[6]){
+    } else if(timer > cueArray[4] && timer < cueArray[6]){
      if(timer < cueArray[4]+2000){
      setFader();
    }
      graphicChooser[0] = 2; //New graphic choise
-    } */else if(timer > cueArray[6] && timer < cueArray[7]){
+    } else if(timer > cueArray[6] && timer < cueArray[7]){
      if(timer < cueArray[6]+2000){
      setFader();
    }
@@ -377,7 +377,7 @@ public void graphicsOrder(){
      setFader();
    }
      graphicChooser[0] = 10;
-   } else if(millis() > cueArray[11] && millis() < cueArray[13]){
+   } else if(timer > cueArray[11] && timer < cueArray[13]){
      if(timer < cueArray[11]+2000){
      setFader();
    }
@@ -905,7 +905,7 @@ class Cir {
     if (choice == 1) {
       noStroke();
       fill(bright + colorFlux, sizeBri, Brightness, Brightness);
-      ellipse(posX, posY, size*sizeMultiplier*2, size*sizeMultiplier*2);
+      ellipse(posX, posY, size*sizeMultiplier*4, size*sizeMultiplier*4);
     } else if (choice == 2) {
       noStroke();
       fill(bright + colorFlux, sizeBri, Brightness, Brightness);
@@ -914,7 +914,7 @@ class Cir {
       //strokeWeight(1);
       stroke(bright + colorFlux, Saturation, Brightness, 100 - Brightness);
       fill(0, 0, BGbri, Saturation); //Setting last value to 0 makes the circles centres transparent 
-      ellipse(posX, posY, size*sizeMultiplier*2, size*sizeMultiplier*2);
+      ellipse(posX, posY, size*sizeMultiplier*4, size*sizeMultiplier*4);
     }
   }
 

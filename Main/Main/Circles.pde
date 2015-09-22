@@ -126,7 +126,7 @@ class Cir {
     if (choice == 1) {
       noStroke();
       fill(bright + colorFlux, sizeBri, Brightness, Brightness);
-      ellipse(posX, posY, size*sizeMultiplier*2, size*sizeMultiplier*2);
+      ellipse(posX, posY, size*sizeMultiplier*4, size*sizeMultiplier*4);
     } else if (choice == 2) {
       noStroke();
       fill(bright + colorFlux, sizeBri, Brightness, Brightness);
@@ -135,7 +135,7 @@ class Cir {
       //strokeWeight(1);
       stroke(bright + colorFlux, Saturation, Brightness, 100 - Brightness);
       fill(0, 0, BGbri, Saturation); //Setting last value to 0 makes the circles centres transparent 
-      ellipse(posX, posY, size*sizeMultiplier*2, size*sizeMultiplier*2);
+      ellipse(posX, posY, size*sizeMultiplier*4, size*sizeMultiplier*4);
     }
   }
 
