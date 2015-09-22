@@ -355,7 +355,7 @@ void graphicsOrder(){
      setFader();
    }
      graphicChooser[0] = 10;
-   } else if(millis() > cueArray[11] && millis() < cueArray[13]){
+   } else if(timer > cueArray[11] && timer < cueArray[13]){
      if(timer < cueArray[11]+2000){
      setFader();
    }
