@@ -51,7 +51,7 @@ void setup() {
 void loop() { 
   timer = millis();
    if (Serial.available()) {
-    while (Serial.available() >= /*4*/ 6) {// wait for 3 ints to arrive (Keep having to change this?)
+    while (Serial.available() >= /*4*/ 4) {// wait for 3 ints to arrive (Keep having to change this?)
       in[0] = Serial.parseInt(); //TAG
       in[1] = Serial.parseInt(); //pitch
       in[2] = Serial.parseInt(); //duration
@@ -96,7 +96,7 @@ void loop() {
     }
 
     if(testing == false){
-    //state = 1; //If there is contact between programs
+   // state = 1; //If there is contact between programs
     }
     // Serial.print("in[0]: ");
     // Serial.print(in[0]);
@@ -200,13 +200,13 @@ void loop() {
 
     if (state >= 1) { //Only when processing starts, run the program
       timer = (millis() - last)/1000;
-
+      //timer = in[0];
       //Lights Program
       if (timer > cueArray[0] && timer < cueArray[1]) { //Fade in backlights
         if(timer < cueArray[0] + 1){
           brightness = 0; //Reset variables
         }
-        Serial.println("cue[0]");
+       // Serial.println("cue[0]");
 
         setRotation(1, 128, 128, 100); //TEST LIGHT
         setRGB(rgb1,0,0,0,brightness);
@@ -222,35 +222,35 @@ void loop() {
         if(timer < cueArray[1] + 1){
           brightness = 0; //Reset variables
         }
-        Serial.println("cue[1]");
+       // Serial.println("cue[1]");
         //TESTER
         setRGB(rgb1, 200, 200, 0, 0);
         setRotation(2, 0, 0, 200);
 
-        slowBrightnessCounter(400,100);// Backlights slowly fade on
+        slowBrightnessCounter(400,100);// Singers slowly fade in
 
-        setRGB(rgb6,0,0,0,brightness);
-        if (timer >= cueArray[2] + 5) {
+        setRGB(rgb6,brightness,brightness,brightness,0);
+        if (timer >= cueArray[1] + 5) {
           setRGB(rgb7,brightness,brightness,brightness,brightness);
         }
-        if (timer >= cueArray[2] + 10) {
+        if (timer >= cueArray[1] + 10) {
           setRGB(rgb8,brightness,brightness,brightness,brightness);
         }
-        if (timer >= cueArray[2] + 15) {
+        if (timer >= cueArray[1] + 15) {
           setRGB(rgb9,brightness,brightness,brightness,brightness);
         }
-        if (timer >= cueArray[2] + 20) {
+        if (timer >= cueArray[1] + 20) {
           setRGB(rgb10,brightness,brightness,brightness,brightness);
         }
-        if (timer >= cueArray[2] + 25) {
+        if (timer >= cueArray[1] + 25) {
           setRGB(rgb11,brightness,brightness,brightness,brightness);
         }                                  /*-------------FADE IN SINGERS-------------*/
-      } else if (timer > cueArray[2] && timer < cueArray[3]) {
+      } else if (timer > cueArray[2] && timer < cueArray[3]) { //Wall lights only
         if(timer < cueArray[2] + 1){
           brightness = 0; //Reset variables
         }
-        Serial.println("cue[2]");
-        /*Wall Lights Only (Set white light to 0)*/
+       // Serial.println("cue[2]");
+
         setRGB(rgb6, 0, 0, 0, 0); //Fade out singer lights
         setRGB(rgb7, 0, 0, 0, 0);
         setRGB(rgb8, 0, 0, 0, 0);
@@ -276,9 +276,11 @@ void loop() {
           setRGB(rgb11, 0, 0, 0, 0);
 
         }
-        Serial.println("cue[3]");
+       // Serial.println("cue[3]");
 
-        glowBrightnessCounter(170,100,50);
+         //glowBrightnessCounter(170,100,50);
+        glowBrightnessCounter(110,100,20);
+       // setRGB(rgb1, 0, 0, 0, brightness);
         setRGB(rgb6, brightness, brightness, brightness, 0); //Singer spotlights glow
         setRGB(rgb7, brightness, brightness, brightness, 0);
         setRGB(rgb8, brightness, brightness, brightness, 0);
@@ -287,7 +289,7 @@ void loop() {
         setRGB(rgb11, brightness, brightness, brightness, 0);
 
       } else if (timer > cueArray[4] && timer < cueArray[5] /*Run this untill state 7*/) {
-        Serial.println("cue[4]");
+        //Serial.println("cue[4]");
         //Continue above + sideLights throb white
 
         pitchToColourCalc(fre1, 6, 0, rgb6); //Singer spots map pitch
@@ -308,13 +310,6 @@ void loop() {
           brightness = 0; //Reset variables
         }
 
-        Serial.print("cue[5]: ");
-        Serial.print(cueArray[5]);
-        Serial.print("cue[6]: ");
-        Serial.print(cueArray[6]);
-        Serial.print("cue[7]: ");
-        Serial.println  (cueArray[7]);
-
         //Continue above + sideLights throb white
         pitchToColourCalc(fre1, 6, 0, rgb6); //Singer spots map pitch
         pitchToColourCalc(fre2, 7, 1, rgb7);
@@ -324,7 +319,7 @@ void loop() {
         pitchToColourCalc(fre6, 11, 5, rgb11);
 
 
-        glowBrightnessCounter(170,200,100); //Frontlights glow
+        glowBrightnessCounter(110,100,20); //Frontlights glow
         setRGB(rgb0,0,0,0,brightness);
         setRGB(rgb1,0,0,0,brightness);
 
@@ -353,7 +348,7 @@ void loop() {
         //setRGB(rgb0, 0, 0, 0, 0); //Right front off
 
       } else if (timer > cueArray[7] && timer < cueArray[8]) {
-        Serial.println("cue[7]");
+        //Serial.println("cue[7]");
         setRGB(rgb6, 50, 50, 50, 0); //All singers on low white
         setRGB(rgb7, 50, 50, 50, 0);
         setRGB(rgb8, 50, 50, 50, 0);
@@ -362,13 +357,14 @@ void loop() {
         setRGB(rgb11, 50, 50,50, 0);
 
         setRGB(rgb1, 0, 0, 0, 0);  //Set front left back to position and off
+        setRGB(rgb0, 0, 0, 0, 0); //Also set right right off
         setRotation(2, 45, 50, 0);
 
         setRGB(rgb4, 0, 0, 0, 100); //Dim backlights
         setRGB(rgb5, 0, 0, 0, 100);
 
       } else if (timer > cueArray[8] && timer < cueArray[9]) {//Animation Only
-        Serial.println("cue[8]");
+       // Serial.println("cue[8]");
         setRGB(rgb0, 0, 0, 0, 0); //All lights off
         setRGB(rgb1, 0, 0, 0, 0);
         setRGB(rgb2, 0, 0, 0, 0);
@@ -385,7 +381,7 @@ void loop() {
         if(timer < cueArray[9] + 1){
           brightness = 0; //Reset variables
         }
-        Serial.println("cue[9]");
+       // Serial.println("cue[9]");
 
         // slowBright(4, rgb4, 400); //Fade backlights in
         // slowBright(5, rgb5, 400);
@@ -417,7 +413,7 @@ void loop() {
         }
 
       } else if (timer > cueArray[10] && timer < cueArray[11]) {
-        Serial.println("cue[10]");
+      //  Serial.println("cue[10]");
 
         pitchToColourCalc(fre6, 0, 6, rgb0); //Lights map pitch in pairs one at a time
         pitchToColourCalc(fre6, 11, 6, rgb11);
@@ -459,9 +455,9 @@ void loop() {
           setRGB(rgb1, 0, 0, 0, brightness); //Set left side to white
           setRGB(rgb3, 0, 0, 0, brightness);
           setRGB(rgb5, 0, 0, 0, brightness);
-          setRGB(rgb6, 0, 0, 0, brightness);
-          setRGB(rgb7, 0, 0, 0, brightness);
-          setRGB(rgb8, 0, 0, 0, brightness);
+          setRGB(rgb6, brightness, brightness, brightness, 0);
+          setRGB(rgb7, brightness, brightness, brightness, 0);
+          setRGB(rgb8, brightness, brightness, brightness, 0);
 
           setRGB(rgb0, 200 - brightness, 0, 0, 0); //Set right side to red
           setRGB(rgb2, 200 - brightness, 0, 0, 0);
@@ -478,7 +474,7 @@ void loop() {
         if(timer < cueArray[12] + 1){
           brightness = 0; //Reset variables
         }
-        Serial.println("cue[12]");
+       // Serial.println("cue[12]");
 
         setRGB(rgb1, 0, 200 - brightness, 0, 0); //Set left side to Green
         setRGB(rgb3, 0, 200 - brightness, 0, 0);
@@ -487,15 +483,15 @@ void loop() {
         setRGB(rgb7, 0, 200 - brightness, 0, 0);
         setRGB(rgb8, 0, 200 - brightness, 0, 0);
 
-        setRGB(rgb0, brightness,brightness,brightness,0); //Set right side to White
-        setRGB(rgb2, brightness,brightness,brightness,0);
-        setRGB(rgb4, brightness,brightness,brightness,0);
+        setRGB(rgb0, 0,0,0,brightness); //Set right side to White
+        setRGB(rgb2, 0,0,0,brightness);
+        setRGB(rgb4, 0,0,0,brightness);
         setRGB(rgb9, brightness,brightness,brightness,0);
         setRGB(rgb10, brightness,brightness,brightness,0);
         setRGB(rgb11, brightness,brightness,brightness,0);
 
       } else if (timer > cueArray[13] && timer < cueArray[14]) { // All Lights go nice purply colour
-        Serial.println("cue[13]");
+     //   Serial.println("cue[13]");
         setRGB(rgb0, 177, 0, 200, 0);
         setRGB(rgb1, 177, 0, 200, 0);
         setRGB(rgb2, 177, 0, 200, 0);
@@ -514,7 +510,7 @@ void loop() {
         setRotation(2, 128, 128, 230);
         setRotation(3, 128, 128, 230);
       } else if (timer > cueArray[14] && timer < cueArray[15]) { //Fades lights out one at a time
-        Serial.println("cue[14]");
+     //   Serial.println("cue[14]");
         setRGB(rgb0, 0, 0, 0, 0);
 
         if (timer >= cueArray[13] + 5) {
@@ -535,7 +531,7 @@ void loop() {
         }
 
       } else if (timer > cueArray[15] && timer < cueArray[16]) { //Spotlights go dim white
-        Serial.println("cue[15]");
+     //   Serial.println("cue[15]");
         setRGB(rgb6, 50, 50, 50, 0);
         setRGB(rgb7, 50, 50, 50, 0);
         setRGB(rgb8, 50, 50, 50, 0);
@@ -543,7 +539,7 @@ void loop() {
         setRGB(rgb10, 50, 50, 50, 0);
         setRGB(rgb11, 50, 50, 50, 0);
       } else if (timer > cueArray[16] && timer < cueArray[17]) { //Spotlights off
-        Serial.println("cue[16]");
+     //   Serial.println("cue[16]");
         setRGB(rgb6, 0, 0, 0, 0);
         setRGB(rgb7, 0, 0, 0, 0);
         setRGB(rgb8, 0, 0, 0, 0);
@@ -554,7 +550,7 @@ void loop() {
         if(timer < cueArray[17] + 1){
           brightness = 0; //Reset variables
         }
-        Serial.println("cue[17]");
+     //   Serial.println("cue[17]");
         /*RUN THIS FOR THE NEXT ONE TWO*/
         slowBrightnessCounter(170, 200);
         setRGB(rgb0,0,0,0,brightness);
@@ -585,7 +581,7 @@ void loop() {
         setRGB(rgb11,brightness,brightness,brightness,0);
 
       } else if (timer > cueArray[19] && timer < cueArray[20]) { //Singers only
-        Serial.println("cue[19]");
+    //    Serial.println("cue[19]");
         setRGB(rgb0, 0, 0, 0, 0); //Turn off
         setRGB(rgb1, 0, 0, 0, 0);
         setRGB(rgb2, 0, 0, 0, 0);
@@ -593,16 +589,16 @@ void loop() {
         setRGB(rgb4, 0, 0, 0, 0);
         setRGB(rgb5, 0, 0, 0, 0);
 
-        setRGB(rgb6, 0, 0, 0, 70); //Dim singer lights
-        setRGB(rgb7, 0, 0, 0, 70);
-        setRGB(rgb8, 0, 0, 0, 70);
-        setRGB(rgb9, 0, 0, 0, 70);
-        setRGB(rgb10, 0, 0, 0, 70);
-        setRGB(rgb11, 0, 0, 0, 70);
+        setRGB(rgb6, 50, 50, 50, 0); //Dim singer lights
+        setRGB(rgb7, 50, 50, 50, 0);
+        setRGB(rgb8, 50, 50, 50, 0);
+        setRGB(rgb9, 50, 50, 50, 0);
+        setRGB(rgb10, 50, 50, 50, 0);
+        setRGB(rgb11, 50, 50, 50, 0);
 
       }
       else if (timer > cueArray[20]) { //Fade singers out
-        Serial.println("cue[20]");
+   //     Serial.println("cue[20]");
         setRGB(rgb6, 0, 0, 0, 0);
         setRGB(rgb7, 0, 0, 0, 0);
         setRGB(rgb8, 0, 0, 0, 0);

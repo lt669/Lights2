@@ -187,14 +187,14 @@ void setup() {
   colorMode(HSB, 360, 100, 100);
   background(0, 0, 100);
 
-  frameRate(30);
+  frameRate(25);
 
 }
 
 void draw() {
   //reDraw = false;
 
-  timer = (loopCounter/30)*1000; //In milliseconds
+  timer = (loopCounter/25)*1000; //In milliseconds
   println("Timer: ",timer);
 
   colorMode(HSB, 360, 100, 100, 100);
@@ -243,7 +243,7 @@ void draw() {
   //Run PD function
   //PD();
 
-  // recordSketch();
+   recordSketch();
 }
 
 void graphicsOrder(){
@@ -406,7 +406,7 @@ void recordSketch(){
 
 //videoExport2.saveFrame();
     
-    saveFrame("/Users/Lewis/Desktop/Images3/sketch-#######.png");
+    saveFrame("/Users/Lewis/Desktop/Images25fpsMac/sketch-#######.png");
     // loadPixels();
     // video.addFrame(pixels);
     // println("Number of queued frames : " + video.getQueuedFrames());

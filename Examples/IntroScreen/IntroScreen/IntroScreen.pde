@@ -1,10 +1,11 @@
 int canX = 2048;
 int canY = 768;
 
-// int canX = 1200;
-// int canY = 200;
+ // int canX = 1200;
+ // int canY = 200;
 boolean glow = false;
 int timeRunning;
+int totalTimeRunning;
 int last;
 int minutesLeft = 4; 
 int fontSize = 50;
@@ -44,7 +45,7 @@ void mouseReleased() {
 }
 
 void export(){
-  if(timeRunning < 5000*60 + 5000){
+  if(timeRunning < 5000*60 + 10000){
     saveFrame("/Users/Lewis/Desktop/IntroVideo2/sketch-#######.png");
   }
   else{
@@ -54,13 +55,15 @@ void export(){
 
 void timer() {
 
-  timeRunning = (loopCounter/30)*1000;
+  timeRunning = ((loopCounter/25)*1000)-last;
+  totalTimeRunning = (loopCounter/25)*1000;
 
   // timeRunning = millis() - last;
 
   int secondsLeft = (60000 - timeRunning)/1000;
-  if (secondsLeft < 0) {
+  if (secondsLeft < 0 && minutesLeft != 0) {
     //last = millis(); 
+    last = totalTimeRunning;
     minutesLeft -= 1;
   }
 
@@ -74,11 +77,15 @@ void timer() {
   //colorMode(HSB, 360, 100, 100, 100);
   textFont(f, fontSize);
   fill(255, 255, 255, 100);
+  if(secondsLeft <= 0 && minutesLeft <= 0){
+    text("Ready To Begin", canX/2, canY/2);
+  } else {
   if (secondsLeft < 10) {
     text("Time Remaining - "+(minutesLeft) + ":0" + secondsLeft +"", canX/2, canY/2);
   } else {
     text("Time Remaining - "+(minutesLeft) + ":" + secondsLeft +"", canX/2, canY/2);
   }
+}
   loopCounter++;
 }
 

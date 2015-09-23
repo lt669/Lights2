@@ -209,14 +209,14 @@ public void setup() {
   colorMode(HSB, 360, 100, 100);
   background(0, 0, 100);
 
-  frameRate(30);
+  frameRate(25);
 
 }
 
 public void draw() {
   //reDraw = false;
 
-  timer = (loopCounter/30)*1000; //In milliseconds
+  timer = (loopCounter/25)*1000; //In milliseconds
   println("Timer: ",timer);
 
   colorMode(HSB, 360, 100, 100, 100);
@@ -265,7 +265,7 @@ public void draw() {
   //Run PD function
   //PD();
 
-  // recordSketch();
+   recordSketch();
 }
 
 public void graphicsOrder(){
@@ -428,7 +428,7 @@ public void recordSketch(){
 
 //videoExport2.saveFrame();
     
-    saveFrame("/Users/Lewis/Desktop/Images3/sketch-#######.png");
+    saveFrame("/Users/Lewis/Desktop/Images25fpsMac/sketch-#######.png");
     // loadPixels();
     // video.addFrame(pixels);
     // println("Number of queued frames : " + video.getQueuedFrames());
@@ -954,11 +954,11 @@ class Cir {
 }
 
 //Mac
-int canX = 900;
-int canY = 500;
+// int canX = 900;
+// int canY = 500;
 
-// int canX = 2048;
-// int canY = 768;
+int canX = 2048;
+int canY = 768;
 
 //MovieMaker
 int fps = 60;
@@ -1008,49 +1008,49 @@ int count; //Prevent screen from fading multiple times
 /*---------------CUES---------------*/
 int[] cueArray = new int[31];
 public void setCues(){
-  // cueArray[0] = 0;
-  // cueArray[1] = 68000;
-  // cueArray[2] = 180000;
-  // cueArray[3] = 240000;
-  // cueArray[4] = 300000;
-  // cueArray[5] = 408000;
-  // cueArray[6] = 496000;
-  // cueArray[7] = 564000;
-  // cueArray[8] = 624000;
-  // cueArray[9] = 708000;
-  // cueArray[10] = 768000;
-  // cueArray[11] = 830000;
-  // cueArray[12] = 856000;
-  // cueArray[13] = 916000;
-  // cueArray[14] = 930000;
-  // cueArray[15] = 955000;
-  // cueArray[16] = 1000000;
-  // cueArray[17] = 1036000;
-  // cueArray[18] = 1100000;
-  // cueArray[19] = 1176000;
-  // cueArray[20] = 1216000;
+  cueArray[0] = 0;
+  cueArray[1] = 68000;
+  cueArray[2] = 180000;
+  cueArray[3] = 240000;
+  cueArray[4] = 300000;
+  cueArray[5] = 408000;
+  cueArray[6] = 496000;
+  cueArray[7] = 564000;
+  cueArray[8] = 624000;
+  cueArray[9] = 708000;
+  cueArray[10] = 768000;
+  cueArray[11] = 830000;
+  cueArray[12] = 856000;
+  cueArray[13] = 916000;
+  cueArray[14] = 930000;
+  cueArray[15] = 955000;
+  cueArray[16] = 1000000;
+  cueArray[17] = 1036000;
+  cueArray[18] = 1100000;
+  cueArray[19] = 1176000;
+  cueArray[20] = 1216000;
 
-    cueArray[0] = 0 - 20000;
-  cueArray[1] = 10000 - 20000;
-  cueArray[2] = 20000 - 20000;
-  cueArray[3] = 30000 - 20000;
-  cueArray[4] = 40000 - 20000;
-  cueArray[5] = 50000 - 20000;
-  cueArray[6] = 60000 - 20000;
-  cueArray[7] = 70000 - 20000;
-  cueArray[8] = 80000 - 20000;
-  cueArray[9] = 90000 - 20000;
-  cueArray[10] = 100000 - 20000;
-  cueArray[11] = 110000 - 20000;
-  cueArray[12] = 120000 - 20000;
-  cueArray[13] = 130000 - 20000;
-  cueArray[14] = 140000 - 20000;
-  cueArray[15] = 150000 - 20000;
-  cueArray[16] = 160000 - 20000;
-  cueArray[17] = 170000 - 20000;
-  cueArray[18] = 180000 - 20000;
-  cueArray[19] = 190000 - 20000;
-  cueArray[20] = 1000000 - 20000;
+  //   cueArray[0] = 0 - 20000;
+  // cueArray[1] = 10000 - 20000;
+  // cueArray[2] = 20000 - 20000;
+  // cueArray[3] = 30000 - 20000;
+  // cueArray[4] = 40000 - 20000;
+  // cueArray[5] = 50000 - 20000;
+  // cueArray[6] = 60000 - 20000;
+  // cueArray[7] = 70000 - 20000;
+  // cueArray[8] = 80000 - 20000;
+  // cueArray[9] = 90000 - 20000;
+  // cueArray[10] = 100000 - 20000;
+  // cueArray[11] = 110000 - 20000;
+  // cueArray[12] = 120000 - 20000;
+  // cueArray[13] = 130000 - 20000;
+  // cueArray[14] = 140000 - 20000;
+  // cueArray[15] = 150000 - 20000;
+  // cueArray[16] = 160000 - 20000;
+  // cueArray[17] = 170000 - 20000;
+  // cueArray[18] = 180000 - 20000;
+  // cueArray[19] = 190000 - 20000;
+  // cueArray[20] = 1000000 - 20000;
 }
 /*---------------CUES---------------*/ 
 class archClass{
