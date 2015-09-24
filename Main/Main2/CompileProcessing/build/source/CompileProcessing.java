@@ -27,6 +27,8 @@ Serial port;
 Minim minim;
 AudioPlayer player;
 
+int val;
+
 textFileReader PART1;
 textFileReader PART2;
 textFileReader PART3;
@@ -38,7 +40,9 @@ int state = 1; //Always send 1 to arduino
 int count = 0;
 
 public void setup() {
-  size(20, 20);
+  size(50, 50);
+  fill(255,0,0);
+  rect(0,0,50,50);
   // myMovie = new Movie(this, "processingMovie30fps.mov");
   // myMovie.play();
 
@@ -49,8 +53,8 @@ public void setup() {
 
   minim = new Minim(this);
   //Mac
-  // player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
-  // player.play();
+  player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
+  player.play();
 
   PART1 = new textFileReader("Part1.txt");
   PART2 = new textFileReader("Part2.txt");
@@ -66,20 +70,31 @@ public void setup() {
   PART4.read();
   PART5.read();
   PART6.read();
-
   //frameRate(30);
 }
 
 public void draw() {
-  if(count > 0){
+  if(count <= 0){
+  player.rewind();
+} else {
  // image(myMovie, 0, 0);
 
-  PART1.timer(1);
-  PART2.timer(2);
-  PART3.timer(3);
-  PART4.timer(4);
-  PART5.timer(5);
-  PART6.timer(6);
+    val = port.read();
+    //val = 1;
+    if(val == 1){
+    PART1.timer(1, val);
+   // delay(100);
+    PART2.timer(2, val);
+   // delay(100);
+    PART3.timer(3, val);
+   // delay(100);
+    PART4.timer(4, val);
+   // delay(100);
+    PART5.timer(5, val);
+   // delay(100);
+    PART6.timer(6, val);
+   // delay(100);
+    }
  }
 }
 
@@ -111,7 +126,7 @@ class textFileReader {
 
   int h = 0;
 
-  int val; //Flag sent by Arduino
+  //int val; //Flag sent by Arduino
   int waitingCount = 0;
 
   //Constructor
@@ -133,7 +148,7 @@ class textFileReader {
 
 
   //Measure time passed and send new values from the arrays
-  public void timer(int TAG) {
+  public void timer(int TAG, int sendData) {
     if (z < text.length/3 - 1) {
       //      println("Length: ", text.length);
       //      println("Millis: "+millis()+" Next Millis: " + singerInfo[0][z+1] + " SecondPasses: " + secondPassed);
@@ -157,43 +172,52 @@ class textFileReader {
         NEXT = true;
         //last = millis();
         z++; // Increase array address
-        sendToArduino(TAG);
       } else {
         NEXT = false;
       }
     } else {
       println("END OF FILE: ",TAG);
     }
+
+    if(sendData == 1){
+        sendToArduino(TAG);
+      }
   }
 
   public void sendToArduino(int inTAG) {
     //Send data to arduino when new data is needed
     if (NEXT == true) {
 
-      println("TAG: "+inTAG+" pitch: "+singerInfo[1][z]+" duration: "+singerInfo[2][z]+" state: "+state);
+     // println("TAG: "+inTAG+" pitch: "+singerInfo[1][z]+" duration: "+singerInfo[2][z]+" state: "+state);
       String tagS = str(inTAG);
       String pitchS = str(singerInfo[1][z]);
       String durationS = str(singerInfo[2][z]);
       String stateS = str(state); //Takes global variable 'state'
 
-      while (val != 1) {
-        port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
-        println("Waiting...",waitingCount);
-        val = port.read();
-        waitingCount++;
-        // println("waitingCount: ",waitingCount);
-        if (waitingCount >=200) {//break out if there is an error
-          val = 1;
-          waitingCount = 0;
-        }
-        if (val == 1) {
-          //waitingCount = 0;
-          waitingCount = 0;
-          println("Val = ",val);
-          port.clear(); //Clear the buffer
-          break;
-        }
-      }
+
+    //  val = port.read();
+    //  if(val == 1){
+        println("SEND: ",inTAG);
+       port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
+    //  }
+      // while (val != 1) {
+      //   port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
+      // //  println("Waiting...",waitingCount);
+      //   val = port.read();
+      //   waitingCount++;
+      //    println("waitingCount: ",waitingCount);
+      //   if (waitingCount >=200) {//break out if there is an error
+      //     val = 1;
+      //     waitingCount = 0;
+      //   }
+      //   if (val == 1) {
+      //     //waitingCount = 0;
+      //     waitingCount = 0;
+      // //    println("Val = ",val);
+      //     port.clear(); //Clear the buffer
+      //     break;
+      //   }
+      // }
       val = port.read();
     }
   }

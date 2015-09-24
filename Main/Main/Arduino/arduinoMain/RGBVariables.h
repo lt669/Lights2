@@ -2,6 +2,8 @@
 RGB data variables and arrays
 */
 
+boolean sendData = true;
+
 float timer; //Time program runs
 float last;
 
@@ -12,6 +14,7 @@ int dur1, dur2, dur3, dur4, dur5, dur6;
 
 int in[3]; //Input from Processing
 
+int inputState = 0; //First contact with processing
 int state = 0; //Function to run will change depending on where we are in the program/music
 int function; //Used to manually select which test function to run
 
@@ -31,9 +34,9 @@ int dimmerArray[13];
 int shutterArray[7];
 
 //circlesCopy variables
-int hue[14];
-int bri[14];
-int sat[14];
+int hue[12];
+int bri[12];
+int sat[12];
 
 int lightFaderSpeed = 5; //Speed of lights fade
 int fadeCounter;
@@ -49,6 +52,12 @@ boolean maxReached;
 int brightness;			//For the dissonance bit
 int brightnessDirection;
 boolean brightnessDONE;
+
+//SMALL LIGHT FADING
+int smallLightBrightness;
+int smallLightFadeCounter;
+boolean smallLightBrightnessBool;
+
 
 int rgb0[4]; //Unused Array
 int rgb1[4];//Stores Target RGBW Value

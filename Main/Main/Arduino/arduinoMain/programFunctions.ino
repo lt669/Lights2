@@ -43,6 +43,59 @@ void slowBrightnessCounter(int fadeSpeed, int maxBright){
     }
 }
 
+void singleLightFade(int rgb[4], int number, int max, int min){
+  rgb[0] += number;
+
+if(number > 0){
+    if(rgb[0] >= max){
+      rgb[0] = max;
+    }
+  } else if (number < 0){
+     if(rgb[0] <= min){
+      rgb[0] = min;
+    }
+  }
+}
+
+void singleLightFadeFromColour(int rgb[4], int target){
+  if(rgb[0] < target){
+    rgb[0] += 1;
+  } else {
+    rgb[0] -= 1;
+  }
+
+    if(rgb[1] < target){
+    rgb[1] += 1;
+  } else {
+    rgb[1] -= 1;
+  }
+
+    if(rgb[2] < target){
+    rgb[2] += 1;
+  } else {
+    rgb[2] -= 1;
+  }
+  
+}
+
+void smallLightFadeUp(int fadeSpeed, int maxBright){
+  smallLightFadeCounter++;
+  if(smallLightFadeCounter >= fadeSpeed){
+    smallLightFadeCounter = 0;
+    if(smallLightBrightness > maxBright){
+      smallLightBrightnessBool = true;
+    } else {
+      smallLightBrightnessBool = false;
+    }
+
+    if(smallLightBrightnessBool == true){
+      smallLightBrightness = smallLightBrightness;
+    } else if(smallLightBrightnessBool == false){
+      smallLightBrightness += 1;
+    }
+  }
+}
+
 //Slowly fades to bright white, can be used at begining of the show
 void slowBright(int x, int rgb[4], int fadeSpeed, int maxLight){
   //White light slowly fade

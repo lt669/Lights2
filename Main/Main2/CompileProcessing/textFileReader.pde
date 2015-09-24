@@ -19,7 +19,7 @@ class textFileReader {
 
   int h = 0;
 
-  int val; //Flag sent by Arduino
+  //int val; //Flag sent by Arduino
   int waitingCount = 0;
 
   //Constructor
@@ -41,7 +41,7 @@ class textFileReader {
 
 
   //Measure time passed and send new values from the arrays
-  void timer(int TAG) {
+  void timer(int TAG, int sendData) {
     if (z < text.length/3 - 1) {
       //      println("Length: ", text.length);
       //      println("Millis: "+millis()+" Next Millis: " + singerInfo[0][z+1] + " SecondPasses: " + secondPassed);
@@ -65,43 +65,52 @@ class textFileReader {
         NEXT = true;
         //last = millis();
         z++; // Increase array address
-        sendToArduino(TAG);
       } else {
         NEXT = false;
       }
     } else {
       println("END OF FILE: ",TAG);
     }
+
+    if(sendData == 1){
+        sendToArduino(TAG);
+      }
   }
 
   void sendToArduino(int inTAG) {
     //Send data to arduino when new data is needed
     if (NEXT == true) {
 
-      println("TAG: "+inTAG+" pitch: "+singerInfo[1][z]+" duration: "+singerInfo[2][z]+" state: "+state);
+     // println("TAG: "+inTAG+" pitch: "+singerInfo[1][z]+" duration: "+singerInfo[2][z]+" state: "+state);
       String tagS = str(inTAG);
       String pitchS = str(singerInfo[1][z]);
       String durationS = str(singerInfo[2][z]);
       String stateS = str(state); //Takes global variable 'state'
 
-      while (val != 1) {
-        port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
-        println("Waiting...",waitingCount);
-        val = port.read();
-        waitingCount++;
-        // println("waitingCount: ",waitingCount);
-        if (waitingCount >=200) {//break out if there is an error
-          val = 1;
-          waitingCount = 0;
-        }
-        if (val == 1) {
-          //waitingCount = 0;
-          waitingCount = 0;
-          println("Val = ",val);
-          port.clear(); //Clear the buffer
-          break;
-        }
-      }
+
+    //  val = port.read();
+    //  if(val == 1){
+        println("SEND: ",inTAG);
+       port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
+    //  }
+      // while (val != 1) {
+      //   port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
+      // //  println("Waiting...",waitingCount);
+      //   val = port.read();
+      //   waitingCount++;
+      //    println("waitingCount: ",waitingCount);
+      //   if (waitingCount >=200) {//break out if there is an error
+      //     val = 1;
+      //     waitingCount = 0;
+      //   }
+      //   if (val == 1) {
+      //     //waitingCount = 0;
+      //     waitingCount = 0;
+      // //    println("Val = ",val);
+      //     port.clear(); //Clear the buffer
+      //     break;
+      //   }
+      // }
       val = port.read();
     }
   }

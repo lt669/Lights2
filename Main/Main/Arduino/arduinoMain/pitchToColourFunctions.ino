@@ -35,49 +35,49 @@ void setCues(){
 //  cueArray[19] = 1140000;
 //  cueArray[20] = 1216000;
 
-  // cueArray[0] = 0;
-  // cueArray[1] = 68;
-  // cueArray[2] = 180;
-  // cueArray[3] = 240;
-  // cueArray[4] = 300;
-  // cueArray[5] = 408;
-  // cueArray[6] = 496;
-  // cueArray[7] = 564;
-  // cueArray[8] = 624;
-  // cueArray[9] = 708;
-  // cueArray[10] = 768;
-  // cueArray[11] = 830;
-  // cueArray[12] = 856;
-  // cueArray[13] = 916;
-  // cueArray[14] = 930;
-  // cueArray[15] = 955;
-  // cueArray[16] = 1000;
-  // cueArray[17] = 1036;
-  // cueArray[18] = 1100;
-  // cueArray[19] = 1140;
-  // cueArray[20] = 1216;
-
   cueArray[0] = 0; //0:00 Backlights White
-  cueArray[1] = 5; //0:05 Spots fade in
-  cueArray[2] = 35;//0:35 Wall lights only
-  cueArray[3] = 40;//0:40 Wall lights White, Singers Glow
-  cueArray[4] = 45;//0:45 Wall lights same, Singers Map Pitch
-  cueArray[5] = 50;//0:50 Side lights glow
-  cueArray[6] = 55;//0:55 Light 7 and 2 map pitch, rest white
-  cueArray[7] = 60;//1:00 Fronts off, all singers dim white
-  cueArray[8] = 65;//1:05 All Off
-  cueArray[9] = 70;//1:10 Surrounding lights fade in 9 seconds
- cueArray[10] = 111;//1:51 All lights map pitch in pairs
- cueArray[11] = 161;//2:41 Left side white, right red
- cueArray[12] = 166;//2:46 Left side green, right white
- cueArray[13] = 171;//2:57 All light purple
- cueArray[14] = 176;//3:02 Fade out surrounding lights
- cueArray[15] = 201;//3:21 Spots dim white
- cueArray[16] = 206;//3:25 Spots off
- cueArray[17] = 211;//3:30 Fronts Glow
- cueArray[18] = 216;//3:35 Surounding lights face singers
- cueArray[19] = 221;//3:40 Suroundings off, singers dim white
- cueArray[20] = 226;//3:45 Fucking Done Mate
+  cueArray[1] = 68; //1:08 Spots fade in
+  cueArray[2] = 180; //3:00 Wall lights ONLY
+  cueArray[3] = 240; //4:00 Wall lights White, Singers Glow
+  cueArray[4] = 300; //5:00 Wall lights same, Singers Map Pitch
+  cueArray[5] = 408; //6:48 Side lights glow
+  cueArray[6] = 496; //8:16 Light 7 and 2 map pitch, rest of singer white, surroundings off
+  cueArray[7] = 564; //9:24 Fronts off, all singers dim white
+  cueArray[8] = 624; //10:24 All Off (Very dim singers)
+  cueArray[9] = 708; //11:48 Surrounding lights fade in 9 seconds
+  cueArray[10] = 768; //12:48 All lights map pitch in pairs 
+  cueArray[11] = 830; //13:50 Left side white, right red
+  cueArray[12] = 856; //14:16 Left side green, right white
+  cueArray[13] = 916; //15:16 All light purple
+  cueArray[14] = 930; //15:30 Fade out surrounding lights
+  cueArray[15] = 955; //15:55 Spots dim white
+  cueArray[16] = 1000; //16:40 Spots off
+  cueArray[17] = 1036; //17:16 Fronts Glow
+  cueArray[18] = 1100; //18:20 Surounding lights face singers
+  cueArray[19] = 1140; //19:36 Suroundings off, singers dim white
+  cueArray[20] = 1216; //20:16 Done Mate
+
+ //  cueArray[0] = 0; //0:00 Backlights White
+ //  cueArray[1] = 5; //0:05 Spots fade in
+ //  cueArray[2] = 35;//0:35 Wall lights only
+ //  cueArray[3] = 40;//0:40 Wall lights White, Singers Glow
+ //  cueArray[4] = 45;//0:45 Wall lights same, Singers Map Pitch
+ //  cueArray[5] = 50;//0:50 Side lights glow
+ //  cueArray[6] = 55;//0:55 Light 7 and 2 map pitch, rest white
+ //  cueArray[7] = 60;//1:00 Fronts off, all singers dim white
+ //  cueArray[8] = 65;//1:05 All Off
+ //  cueArray[9] = 70;//1:10 Surrounding lights fade in 9 seconds
+ // cueArray[10] = 111;//1:51 All lights map pitch in pairs
+ // cueArray[11] = 161;//2:41 Left side white, right red
+ // cueArray[12] = 166;//2:46 Left side green, right white
+ // cueArray[13] = 171;//2:57 All light purple
+ // cueArray[14] = 176;//3:02 Fade out surrounding lights
+ // cueArray[15] = 201;//3:21 Spots dim white
+ // cueArray[16] = 206;//3:25 Spots off
+ // cueArray[17] = 211;//3:30 Fronts Glow
+ // cueArray[18] = 216;//3:35 Surounding lights face singers
+ // cueArray[19] = 221;//3:40 Suroundings off, singers dim white
+ // cueArray[20] = 226;//3:45 Done Mate
 
 //  cueArray[0] = 0;
 //  cueArray[1] = 1;
@@ -220,8 +220,8 @@ void mapHSB(int freq, int count, int count2/*, int HUE[14], int SAT[14], int BRI
     int tempSat =  (int)map(freq, minPitch[count2], maxPitch[count2], 0, 100 /*100*/);
     int tempBri = (int)map(freq, minPitch[count2], maxPitch[count2], 0, 70 /*70*/);
 
-    sat[count] =  map(tempSat, 0, 360, 0, 360 /*100*/);
-    bri[count] =  map(tempBri, 0, 360, 0, 360 /*70*/);
+    sat[count] = 70;// map(tempSat, 0, 360, 0, 360 /*100*/);
+    bri[count] =  70;// map(tempBri, 0, 360, 0, 360 /*70*/);
 
 
 //  /*-------FOR TESTING ONLY-------*/
