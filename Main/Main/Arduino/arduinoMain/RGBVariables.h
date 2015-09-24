@@ -31,7 +31,7 @@ int greenArray[13];
 int blueArray[13];
 int whiteArray[7];
 int dimmerArray[13];
-int shutterArray[7];
+int shutterArray[13];
 
 //circlesCopy variables
 int hue[12];

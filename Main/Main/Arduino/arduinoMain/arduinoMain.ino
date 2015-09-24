@@ -57,14 +57,7 @@ void loop() {
       in[1] = Serial.parseInt(); //pitch
       in[2] = Serial.parseInt(); //duration
       in[3] = Serial.parseInt(); //state
-
-
-
      // in[4] = Serial.parseInt();//Run function (FOR TESTING ONLY!)
- //     Serial.write(1); //Tell processing we're done receiving data
-   
-
-    //Serial.read(); //CLLEAR THE INPUT BUFFER???
 
     if(testing == true /*false*/){
       //Serial.write(0);
@@ -142,7 +135,6 @@ void loop() {
       writeToLargeLights(1,rgb0);
       writeToSmallLights(6,rgb6);
     }
-
      else if (function == 2) {
       //spin(1, in[0], in[1], in[2]);//Light 2
 
@@ -198,10 +190,6 @@ void loop() {
   /*------------------------------PROGRAM BEGIN------------------------------*/
 
   if (testing == false) {
-    // if(inputState == 1){
-    //   state += 1;
-    // }
-
     if (state == 0) { //Count how long the program runs before processing starts
       last = millis();
       Serial.print("last: ");
@@ -220,20 +208,12 @@ void loop() {
          // pitchToColourCalc(fre3, 5, 2, rgb6); //Singer spots map pitch
           //pitchToColourCalc(fre2, 0, 0, rgb1); //Singer spots map pitch
 
-        setRotation(5, 212, 80, 100); //Set the position of the backlights
-        setRotation(6, 212, 80, 100);
+        setRotation(5, 149, 80, 100); //Set the position of the backlights
+        setRotation(6, 191, 80, 100);
 
         slowBrightnessCounter(150,200);// Backlights slowly fade on
-        setRGB(rgb1,0,0,0,brightness); //TESTER!!!!!!!!
         setRGB(rgb4,0,0,0,brightness);
         setRGB(rgb5,0,0,0,brightness);
-
-      //   fadeCounter++;
-      //   if(fadeCounter >= 70){
-      //     fadeCounter = 0;
-      //   singleLightFade(rgb1,1,200,0);
-      //   setRGB(rgb1,0,0,0,rgb1[0]);
-      // }
 
       } else if (timer > cueArray[1] && timer < cueArray[2]) {     /*-------------FADE IN SINGERS-------------*/
         if(timer < cueArray[1] + 1){
@@ -242,11 +222,8 @@ void loop() {
         }
         sendData = false;
 
-          //pitchToColourCalc(fre4, 1, 4, rgb1); //Singer spots map pitch
-
         fadeCounter++;
-        // slowBrightnessCounter(400,100);// Singers slowly fade in
-        // setRGB(rgb6,brightness,brightness,brightness,0);
+        // Singers slowly fade in
         if(fadeCounter >= 70){
           fadeCounter = 0;
         
@@ -325,9 +302,7 @@ void loop() {
         }
         sendData = false;
 
-         //glowBrightnessCounter(170,100,50);
         glowBrightnessCounter(110,100,20);
-       // setRGB(rgb1, 0, 0, 0, brightness);
         setRGB(rgb6, brightness, brightness, brightness, 0); //Singer spotlights glow
         setRGB(rgb7, brightness, brightness, brightness, 0);
         setRGB(rgb8, brightness, brightness, brightness, 0);
@@ -342,9 +317,7 @@ void loop() {
         }
         sendData = true;
 
-        //Serial.println("cue[4]");
         //Continue above + sideLights throb white
-
         pitchToColourCalc(fre1, 6, 0, rgb6); //Singer spots map pitch
         if (timer > cueArray[4] + 5) {
           pitchToColourCalc(fre2, 7, 1, rgb7);
@@ -362,11 +335,7 @@ void loop() {
         if(timer < cueArray[5] + 1){
           brightness = 0; //Reset variables
         }
-
         sendData = true;
-
-        //Continue above + sideLights throb white
-       // pitchToColourCalc(fre3, 5, 2, rgb6); 
 
         pitchToColourCalc(fre1, 5, 0, rgb6); //Singer spots map pitch
         pitchToColourCalc(fre2, 6, 1, rgb7);
@@ -380,7 +349,7 @@ void loop() {
         setRGB(rgb0,0,0,0,brightness);
         setRGB(rgb1,0,0,0,brightness);
 
-      } else if (timer > cueArray[6] && timer < cueArray[7]) { //!!!!!!!!!!!!!!!!!TEST THIS FUNCTION FOR MOVEMENT!!!!!!!!!!!!!!!!!
+      } else if (timer > cueArray[6] && timer < cueArray[7]) {
         if(timer < cueArray[6] + 1){
           brightness = 0; //Reset variables
         }
@@ -488,44 +457,33 @@ void loop() {
       } else if (timer > cueArray[10] && timer < cueArray[11]) {
 
         sendData = true;
-      //  Serial.println("cue[10]");
 
-        // pitchToColourCalc(fre6, 0, 6, rgb0); //Lights map pitch in pairs one at a time
-        // pitchToColourCalc(fre6, 11, 6, rgb11);
-
-        pitchToColourCalc(fre1, 0, 0, rgb1); //Lights map pitch in pairs one at a time
-        pitchToColourCalc(fre6, 6, 5, rgb6);
-
-
-        //pitchToColourCalc(fre6, 1, 6, rgb1); //TEST
+        pitchToColourCalc(fre6, 0, 5, rgb0); //Lights map pitch in pairs one at a time
+        pitchToColourCalc(fre6, 11, 6, rgb11);
 
         if (timer >= cueArray[10] + 9) {
-          // pitchToColourCalc(fre5, 4, 5, rgb4);
-          // pitchToColourCalc(fre5, 10, 5, rgb10);
-
-        pitchToColourCalc(fre1, 0, 0, rgb1); //Lights map pitch in pairs one at a time
-        pitchToColourCalc(fre3, 6, 2, rgb6);
-
+          pitchToColourCalc(fre5, 2, 5, rgb2);
+          pitchToColourCalc(fre5, 10, 5, rgb10);
         }
 
         if (timer >= cueArray[10] + 18) {
-          pitchToColourCalc(fre4, 2, 4, rgb4);
-          pitchToColourCalc(fre4, 9, 4, rgb9);
+          pitchToColourCalc(fre4, 4, 3, rgb4);
+          pitchToColourCalc(fre4, 9, 3, rgb9);
         }
 
         if (timer >= cueArray[10] + 27) {
-          pitchToColourCalc(fre3, 5, 3, rgb5);
-          pitchToColourCalc(fre3, 8, 3, rgb8);
+          pitchToColourCalc(fre3, 5, 2, rgb5);
+          pitchToColourCalc(fre3, 8, 2, rgb8);
         }
 
         if (timer >= cueArray[10] + 36) {
-          pitchToColourCalc(fre2, 3, 2, rgb3);
-          pitchToColourCalc(fre2, 7, 2, rgb7);
+          pitchToColourCalc(fre2, 3, 1, rgb3);
+          pitchToColourCalc(fre2, 7, 1, rgb7);
         }
 
         if (timer >= cueArray[10] + 45) {
-          pitchToColourCalc(fre1, 1, 1, rgb1);
-          pitchToColourCalc(fre1, 6, 1, rgb6);
+          pitchToColourCalc(fre1, 1, 0, rgb1);
+          pitchToColourCalc(fre1, 6, 0, rgb6);
         }
 
       } else if (timer > cueArray[11] && timer < cueArray[12]) {
@@ -759,36 +717,3 @@ void loop() {
 
   }
 }
-
-
-
-// pitchToColourCalc(fre1, 9, 0, rgb9, /*compareRGB9,*/ hue, sat, bri);
-// //pitchToColourDisplay(rgb9, compareRGB9, displayRGB9);
-
-//Continously output to lights
-//writeToLights(2, rgb9 /*displayRGB9*/);
-
-//}
-
-
-
-
-// void circlesCopy() {
-//   //NOTE:Test lights will not have movement, so use hardcoded addresses
-//   for (int i = 0; i < 8; i++) {
-//     //Map the frequency and duration the same way it is in Processing - Circles
-//     hue[i] = int(map(fre1, minPitch[i], maxPitch[i], 0, 360));
-//     sat[i] =  int(map(fre1, minPitch[i], maxPitch[i], 0, 100));
-//     bri[i] = int(map(fre1, minPitch[i], maxPitch[i], 0, 70));
-//   }
-
-//   //Convert HSB to RGB
-
-//   H2R_HSBtoRGB(hue[0], sat[0], bri[0], rgb1);
-
-//   //Send to appropriate lights
-//   DmxMaster.write(redL1, rgb1[0]);
-//   DmxMaster.write(greenL1, rgb1[1]);
-//   DmxMaster.write(blueL1, rgb1[2]);
-
-// }

@@ -54,7 +54,7 @@ public void setup() {
   minim = new Minim(this);
   //Mac
   player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
-  player.play();
+//  player.play();
 
   PART1 = new textFileReader("Part1.txt");
   PART2 = new textFileReader("Part2.txt");

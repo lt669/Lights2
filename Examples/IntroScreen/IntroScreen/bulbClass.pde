@@ -20,7 +20,7 @@ class bulbClass {
 
 
   //Physics variables
-  float g = -0.005;
+  float g = -0.03;
   float a;
   float angle = HALF_PI/4;
   float v;
@@ -119,7 +119,11 @@ class bulbClass {
         //      ellipse(topX, topY, 200, 200);
         //White
         noStroke();
+        if(DONE == false){
         fill(255, 0, 0, flash);
+        } else if (DONE == true){
+        fill(0, 255, 0, flash);
+        }
         ellipse(topX, topY + 20, flashSize - (i*5), flashSize-(i*5));
         //        fill(0, 0, 0, 50);
         //        ellipse(topX, topY + 20, flashSize-20, flashSize-20);
