@@ -1,9 +1,9 @@
 //Mac
-// int canX = 900;
-// int canY = 500;
+int canX = 900;
+int canY = 500;
 
-int canX = 2048;
-int canY = 768;
+// int canX = 2048;
+// int canY = 768;
 
 //MovieMaker
 int fps = 60;
@@ -75,26 +75,26 @@ void setCues(){
   cueArray[19] = 1176000;
   cueArray[20] = 1216000;
 
-  //   cueArray[0] = 0 - 20000;
-  // cueArray[1] = 10000 - 20000;
-  // cueArray[2] = 20000 - 20000;
-  // cueArray[3] = 30000 - 20000;
-  // cueArray[4] = 40000 - 20000;
-  // cueArray[5] = 50000 - 20000;
-  // cueArray[6] = 60000 - 20000;
-  // cueArray[7] = 70000 - 20000;
-  // cueArray[8] = 80000 - 20000;
-  // cueArray[9] = 90000 - 20000;
-  // cueArray[10] = 100000 - 20000;
-  // cueArray[11] = 110000 - 20000;
-  // cueArray[12] = 120000 - 20000;
-  // cueArray[13] = 130000 - 20000;
-  // cueArray[14] = 140000 - 20000;
-  // cueArray[15] = 150000 - 20000;
-  // cueArray[16] = 160000 - 20000;
-  // cueArray[17] = 170000 - 20000;
-  // cueArray[18] = 180000 - 20000;
-  // cueArray[19] = 190000 - 20000;
-  // cueArray[20] = 1000000 - 20000;
+  //  cueArray[0] = 0 - 40000;
+  //  cueArray[1] = 20000 - 40000;
+  //  cueArray[2] = 40000 - 40000;
+  //  cueArray[3] = 60000;
+  //  cueArray[4] = 80000;
+  //  cueArray[5] = 100000;
+  //  cueArray[6] = 120000;
+  //  cueArray[7] = 140000;
+  //  cueArray[8] = 160000;
+  //  cueArray[9] = 180000;
+  // cueArray[10] = 200000;
+  // cueArray[11] = 220000;
+  // cueArray[12] = 240000;
+  // cueArray[13] = 260000;
+  // cueArray[14] = 280000;
+  // cueArray[15] = 300000;
+  // cueArray[16] = 320000;
+  // cueArray[17] = 340000;
+  // cueArray[18] = 360000;
+  // cueArray[19] = 380000;
+  // cueArray[20] = 400000;
 }
 /*---------------CUES---------------*/ 

@@ -206,7 +206,7 @@ void draw() {
   if (choice < 4) {
     //Fades out parts of the screen
     noStroke();
-    fill(BGhue, BGsat, BGbri, 10);
+    fill(BGhue, BGsat, BGbri, 5);
     rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
   } else if (choice == 4 || choice == 5 || choice == 6) {
     //    noStroke();
@@ -243,7 +243,7 @@ void draw() {
   //Run PD function
   //PD();
 
-   recordSketch();
+   //recordSketch();
 }
 
 void graphicsOrder(){
@@ -369,7 +369,7 @@ void graphicsOrder(){
      if(timer < cueArray[14]+2000){
      setFader();
    }
-     graphicChooser[0] = 10; //New graphic choise
+     graphicChooser[0] = 3; //Spots with order
     } else if(timer > cueArray[16] && timer < cueArray[18]){
      if(timer < cueArray[16]+2000){
      setFader();
@@ -402,7 +402,7 @@ void setFader(){
 
 void recordSketch(){
 
-  if(timer /*millis()*/ < cueArray[20] + 10000){
+  if(timer /*millis()*/ < cueArray[20] + 30000){
 
 //videoExport2.saveFrame();
     

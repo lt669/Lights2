@@ -50,19 +50,19 @@ class Cir {
     float incX = 0;
     float incY = 0;
 
-    if (select == 3 || select == 4) {
+    if (select == 3 || select == 4) { //Splatter
       movement = 2;
-      sizeMultiplier = 1;
+      sizeMultiplier = 2;
       incX = random(-(size*sizeMultiplier)*movement, (size*sizeMultiplier)*movement);
       incY = random(-(size*sizeMultiplier)*movement, (size*sizeMultiplier)*movement);
-    } else if (select == 5) {
-      movement = 1;
-      sizeMultiplier = 1;
+    } else if (select == 5) { //Diagonal
+      movement = 2;
+      sizeMultiplier = 2;
       incX = random(-(size)*movement, size*movement);
       incY = random(-(size)*movement, size*movement);
     } else if (select == 6) {
       int randomMovement = round(random(3));
-
+      sizeMultiplier = 2;
       if (randomMovement == 0) {
         incX = size*sizeMultiplier;
         incY = size*sizeMultiplier;
@@ -126,7 +126,7 @@ class Cir {
     if (choice == 1) {
       noStroke();
       fill(bright + colorFlux, sizeBri, Brightness, Brightness);
-      ellipse(posX, posY, size*sizeMultiplier*4, size*sizeMultiplier*4);
+      ellipse(posX, posY, size*sizeMultiplier*2, size*sizeMultiplier*2);
     } else if (choice == 2) {
       noStroke();
       fill(bright + colorFlux, sizeBri, Brightness, Brightness);
@@ -135,7 +135,7 @@ class Cir {
       //strokeWeight(1);
       stroke(bright + colorFlux, Saturation, Brightness, 100 - Brightness);
       fill(0, 0, BGbri, Saturation); //Setting last value to 0 makes the circles centres transparent 
-      ellipse(posX, posY, size*sizeMultiplier*4, size*sizeMultiplier*4);
+      ellipse(posX, posY, size*sizeMultiplier*2, size*sizeMultiplier*2);
     }
   }
 

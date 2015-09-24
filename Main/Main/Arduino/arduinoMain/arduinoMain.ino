@@ -26,8 +26,8 @@ void setup() {
 
         brightness = 0;
 
-      setRGB(rgb0, 0, 0, 0, 0);
-      setRGB(rgb1, 0, 0, 255, 0); //!!!!!!!!!!!!!!! REMOVE BLUE !!!!!!!!!!!!!!!
+      setRGB(rgb0, 0, 0, 0, 100); //Front lights on to see the conductor
+      setRGB(rgb1, 0, 0, 0, 0);
       setRGB(rgb2, 0, 0, 0, 0);
       setRGB(rgb3, 0, 0, 0, 0);
       setRGB(rgb4, 0, 0, 0, 0);
@@ -39,8 +39,8 @@ void setup() {
       setRGB(rgb10, 0, 0, 0, 0);
       setRGB(rgb11, 0, 0, 0, 0);
 
-      setRotation(1, 0, 0, 0);
-      setRotation(2, 0, 0, 0);
+      setRotation(1, 45, 30, 0);
+      setRotation(2, 128, 30, 0);
       setRotation(3, 0, 0, 0);
       setRotation(4, 0, 0, 0);
       setRotation(5, 0, 0, 0);
@@ -58,7 +58,6 @@ void loop() {
       in[2] = Serial.parseInt(); //duration
       in[3] = Serial.parseInt(); //state
 
-      //Serial.write(0); //DONT SEND MORE DATA
 
 
      // in[4] = Serial.parseInt();//Run function (FOR TESTING ONLY!)
@@ -491,14 +490,22 @@ void loop() {
         sendData = true;
       //  Serial.println("cue[10]");
 
-        pitchToColourCalc(fre6, 0, 6, rgb0); //Lights map pitch in pairs one at a time
-        pitchToColourCalc(fre6, 11, 6, rgb11);
+        // pitchToColourCalc(fre6, 0, 6, rgb0); //Lights map pitch in pairs one at a time
+        // pitchToColourCalc(fre6, 11, 6, rgb11);
+
+        pitchToColourCalc(fre1, 0, 0, rgb1); //Lights map pitch in pairs one at a time
+        pitchToColourCalc(fre6, 6, 5, rgb6);
+
 
         //pitchToColourCalc(fre6, 1, 6, rgb1); //TEST
 
         if (timer >= cueArray[10] + 9) {
-          pitchToColourCalc(fre5, 4, 5, rgb4);
-          pitchToColourCalc(fre5, 10, 5, rgb10);
+          // pitchToColourCalc(fre5, 4, 5, rgb4);
+          // pitchToColourCalc(fre5, 10, 5, rgb10);
+
+        pitchToColourCalc(fre1, 0, 0, rgb1); //Lights map pitch in pairs one at a time
+        pitchToColourCalc(fre3, 6, 2, rgb6);
+
         }
 
         if (timer >= cueArray[10] + 18) {

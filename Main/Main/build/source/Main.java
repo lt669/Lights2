@@ -228,7 +228,7 @@ public void draw() {
   if (choice < 4) {
     //Fades out parts of the screen
     noStroke();
-    fill(BGhue, BGsat, BGbri, 10);
+    fill(BGhue, BGsat, BGbri, 5);
     rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
   } else if (choice == 4 || choice == 5 || choice == 6) {
     //    noStroke();
@@ -265,7 +265,7 @@ public void draw() {
   //Run PD function
   //PD();
 
-   recordSketch();
+   //recordSketch();
 }
 
 public void graphicsOrder(){
@@ -391,7 +391,7 @@ public void graphicsOrder(){
      if(timer < cueArray[14]+2000){
      setFader();
    }
-     graphicChooser[0] = 10; //New graphic choise
+     graphicChooser[0] = 3; //Spots with order
     } else if(timer > cueArray[16] && timer < cueArray[18]){
      if(timer < cueArray[16]+2000){
      setFader();
@@ -829,19 +829,19 @@ class Cir {
     float incX = 0;
     float incY = 0;
 
-    if (select == 3 || select == 4) {
+    if (select == 3 || select == 4) { //Splatter
       movement = 2;
-      sizeMultiplier = 1;
+      sizeMultiplier = 2;
       incX = random(-(size*sizeMultiplier)*movement, (size*sizeMultiplier)*movement);
       incY = random(-(size*sizeMultiplier)*movement, (size*sizeMultiplier)*movement);
-    } else if (select == 5) {
-      movement = 1;
-      sizeMultiplier = 1;
+    } else if (select == 5) { //Diagonal
+      movement = 2;
+      sizeMultiplier = 2;
       incX = random(-(size)*movement, size*movement);
       incY = random(-(size)*movement, size*movement);
     } else if (select == 6) {
       int randomMovement = round(random(3));
-
+      sizeMultiplier = 2;
       if (randomMovement == 0) {
         incX = size*sizeMultiplier;
         incY = size*sizeMultiplier;
@@ -905,7 +905,7 @@ class Cir {
     if (choice == 1) {
       noStroke();
       fill(bright + colorFlux, sizeBri, Brightness, Brightness);
-      ellipse(posX, posY, size*sizeMultiplier*4, size*sizeMultiplier*4);
+      ellipse(posX, posY, size*sizeMultiplier*2, size*sizeMultiplier*2);
     } else if (choice == 2) {
       noStroke();
       fill(bright + colorFlux, sizeBri, Brightness, Brightness);
@@ -914,7 +914,7 @@ class Cir {
       //strokeWeight(1);
       stroke(bright + colorFlux, Saturation, Brightness, 100 - Brightness);
       fill(0, 0, BGbri, Saturation); //Setting last value to 0 makes the circles centres transparent 
-      ellipse(posX, posY, size*sizeMultiplier*4, size*sizeMultiplier*4);
+      ellipse(posX, posY, size*sizeMultiplier*2, size*sizeMultiplier*2);
     }
   }
 
@@ -954,11 +954,11 @@ class Cir {
 }
 
 //Mac
-// int canX = 900;
-// int canY = 500;
+int canX = 900;
+int canY = 500;
 
-int canX = 2048;
-int canY = 768;
+// int canX = 2048;
+// int canY = 768;
 
 //MovieMaker
 int fps = 60;
@@ -1008,49 +1008,49 @@ int count; //Prevent screen from fading multiple times
 /*---------------CUES---------------*/
 int[] cueArray = new int[31];
 public void setCues(){
-  cueArray[0] = 0;
-  cueArray[1] = 68000;
-  cueArray[2] = 180000;
-  cueArray[3] = 240000;
-  cueArray[4] = 300000;
-  cueArray[5] = 408000;
-  cueArray[6] = 496000;
-  cueArray[7] = 564000;
-  cueArray[8] = 624000;
-  cueArray[9] = 708000;
-  cueArray[10] = 768000;
-  cueArray[11] = 830000;
-  cueArray[12] = 856000;
-  cueArray[13] = 916000;
-  cueArray[14] = 930000;
-  cueArray[15] = 955000;
-  cueArray[16] = 1000000;
-  cueArray[17] = 1036000;
-  cueArray[18] = 1100000;
-  cueArray[19] = 1176000;
-  cueArray[20] = 1216000;
+  // cueArray[0] = 0;
+  // cueArray[1] = 68000;
+  // cueArray[2] = 180000;
+  // cueArray[3] = 240000;
+  // cueArray[4] = 300000;
+  // cueArray[5] = 408000;
+  // cueArray[6] = 496000;
+  // cueArray[7] = 564000;
+  // cueArray[8] = 624000;
+  // cueArray[9] = 708000;
+  // cueArray[10] = 768000;
+  // cueArray[11] = 830000;
+  // cueArray[12] = 856000;
+  // cueArray[13] = 916000;
+  // cueArray[14] = 930000;
+  // cueArray[15] = 955000;
+  // cueArray[16] = 1000000;
+  // cueArray[17] = 1036000;
+  // cueArray[18] = 1100000;
+  // cueArray[19] = 1176000;
+  // cueArray[20] = 1216000;
 
-  //   cueArray[0] = 0 - 20000;
-  // cueArray[1] = 10000 - 20000;
-  // cueArray[2] = 20000 - 20000;
-  // cueArray[3] = 30000 - 20000;
-  // cueArray[4] = 40000 - 20000;
-  // cueArray[5] = 50000 - 20000;
-  // cueArray[6] = 60000 - 20000;
-  // cueArray[7] = 70000 - 20000;
-  // cueArray[8] = 80000 - 20000;
-  // cueArray[9] = 90000 - 20000;
-  // cueArray[10] = 100000 - 20000;
-  // cueArray[11] = 110000 - 20000;
-  // cueArray[12] = 120000 - 20000;
-  // cueArray[13] = 130000 - 20000;
-  // cueArray[14] = 140000 - 20000;
-  // cueArray[15] = 150000 - 20000;
-  // cueArray[16] = 160000 - 20000;
-  // cueArray[17] = 170000 - 20000;
-  // cueArray[18] = 180000 - 20000;
-  // cueArray[19] = 190000 - 20000;
-  // cueArray[20] = 1000000 - 20000;
+   cueArray[0] = 0 - 40000;
+   cueArray[1] = 20000 - 40000;
+   cueArray[2] = 40000 - 40000;
+   cueArray[3] = 60000;
+   cueArray[4] = 80000;
+   cueArray[5] = 100000;
+   cueArray[6] = 120000;
+   cueArray[7] = 140000;
+   cueArray[8] = 160000;
+   cueArray[9] = 180000;
+  cueArray[10] = 200000;
+  cueArray[11] = 220000;
+  cueArray[12] = 240000;
+  cueArray[13] = 260000;
+  cueArray[14] = 280000;
+  cueArray[15] = 300000;
+  cueArray[16] = 320000;
+  cueArray[17] = 340000;
+  cueArray[18] = 360000;
+  cueArray[19] = 380000;
+  cueArray[20] = 400000;
 }
 /*---------------CUES---------------*/ 
 class archClass{
