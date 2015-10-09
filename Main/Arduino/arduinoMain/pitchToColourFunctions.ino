@@ -23,33 +23,8 @@ Light 11: 097 - 099
 Light 12: 100 - 102
 */
 
-//#include "RGBVariables.h"
-//#include "pitchToColourFunctions.h"
-
 /*------------------------------Set Cues------------------------------*/
 void setCues(){
-//  cueArray[0] = 0;
-//  cueArray[1] = 68000;
-//  cueArray[2] = 180000;
-//  cueArray[3] = 240000;
-//  cueArray[4] = 300000;
-//  cueArray[5] = 408000;
-//  cueArray[6] = 496000;
-//  cueArray[7] = 564000;
-//  cueArray[8] = 624000;
-//  cueArray[9] = 708000;
-//  cueArray[10] = 768000;
-//  cueArray[11] = 830000;
-//  cueArray[12] = 856000;
-//  cueArray[13] = 916000;
-//  cueArray[14] = 930000;
-//  cueArray[15] = 955000;
-//  cueArray[16] = 1000000;
-//  cueArray[17] = 1036000;
-//  cueArray[18] = 1100000;
-//  cueArray[19] = 1140000;
-//  cueArray[20] = 1216000;
-
   cueArray[0] = 0; //0:00 Backlights White
   cueArray[1] = 68; //1:08 Spots fade in
   cueArray[2] = 180; //3:00 Wall lights ONLY
@@ -72,49 +47,6 @@ void setCues(){
   cueArray[19] = 1140; //19:36 Suroundings off, singers dim white
   cueArray[20] = 1216; //20:16 Done Mate
 
- //  cueArray[0] = 0; //0:00 Backlights White
- //  cueArray[1] = 5; //0:05 Spots fade in
- //  cueArray[2] = 35;//0:35 Wall lights only
- //  cueArray[3] = 40;//0:40 Wall lights White, Singers Glow
- //  cueArray[4] = 45;//0:45 Wall lights same, Singers Map Pitch
- //  cueArray[5] = 50;//0:50 Side lights glow
- //  cueArray[6] = 55;//0:55 Light 7 and 2 map pitch, rest white
- //  cueArray[7] = 60;//1:00 Fronts off, all singers dim white
- //  cueArray[8] = 65;//1:05 All Off
- //  cueArray[9] = 70;//1:10 Surrounding lights fade in 9 seconds
- // cueArray[10] = 111;//1:51 All lights map pitch in pairs
- // cueArray[11] = 161;//2:41 Left side white, right red
- // cueArray[12] = 166;//2:46 Left side green, right white
- // cueArray[13] = 171;//2:57 All light purple
- // cueArray[14] = 176;//3:02 Fade out surrounding lights
- // cueArray[15] = 201;//3:21 Spots dim white
- // cueArray[16] = 206;//3:25 Spots off
- // cueArray[17] = 211;//3:30 Fronts Glow
- // cueArray[18] = 216;//3:35 Surounding lights face singers
- // cueArray[19] = 221;//3:40 Suroundings off, singers dim white
- // cueArray[20] = 226;//3:45 Done Mate
-
-//  cueArray[0] = 0;
-//  cueArray[1] = 1;
-//  cueArray[2] = 2;
-//  cueArray[3] = 3;
-//  cueArray[4] = 4;
-//  cueArray[5] = 5;
-//  cueArray[6] = 6;
-//  cueArray[7] = 7;
-//  cueArray[8] = 8;
-//  cueArray[9] = 9;
-//  cueArray[10] = 10;
-//  cueArray[11] = 11;
-//  cueArray[12] = 12;
-//  cueArray[13] = 13;
-//  cueArray[14] = 14;
-//  cueArray[15] = 15;
-//  cueArray[16] = 16;
-//  cueArray[17] = 17;
-//  cueArray[18] = 18;
-//  cueArray[19] = 19;
-//  cueArray[20] = 20;
 }
 /*------------------------------Set Cues------------------------------*/
 

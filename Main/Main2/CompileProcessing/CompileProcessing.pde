@@ -1,3 +1,9 @@
+/*
+This code was used to read data from the singers text files, send that data to the
+arduino and to trigger the beggining of the arduino code by clicking on the red button that
+appears when the program is run.
+*/
+
 import processing.video.*;
 Movie myMovie;
 import ddf.minim.*;

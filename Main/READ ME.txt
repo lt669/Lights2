@@ -1,0 +1,9 @@
+READ ME
+
+The code in both main files were written for Processing 2.2.1
+
+Main: Contains code for producing the original graphics.
+
+Main2: Contains code for triggering the Arduino code and sending the appropriate data to the Arduino
+
+Arduino: Contains Arduino code

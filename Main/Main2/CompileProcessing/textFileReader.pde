@@ -1,4 +1,12 @@
-//Text file reader
+/*
+This class is used to read through a given text file and store the three
+main pieces of data into an array.
+Functions include:
+ - Reading thorugh text file
+ - Calculating maximum and minumim pitch and duration
+ - Returning pitch and duration data to be used for other classes
+ - Sending data to arduino through serial communication
+*/\
 class textFileReader {
   String[] text;
   String file; 
@@ -87,30 +95,9 @@ class textFileReader {
       String durationS = str(singerInfo[2][z]);
       String stateS = str(state); //Takes global variable 'state'
 
-
-    //  val = port.read();
-    //  if(val == 1){
-        println("SEND: ",inTAG);
+       println("SEND: ",inTAG);
        port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
-    //  }
-      // while (val != 1) {
-      //   port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
-      // //  println("Waiting...",waitingCount);
-      //   val = port.read();
-      //   waitingCount++;
-      //    println("waitingCount: ",waitingCount);
-      //   if (waitingCount >=200) {//break out if there is an error
-      //     val = 1;
-      //     waitingCount = 0;
-      //   }
-      //   if (val == 1) {
-      //     //waitingCount = 0;
-      //     waitingCount = 0;
-      // //    println("Val = ",val);
-      //     port.clear(); //Clear the buffer
-      //     break;
-      //   }
-      // }
+
       val = port.read();
     }
   }

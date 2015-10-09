@@ -1,3 +1,11 @@
+/*
+This class uses curvedVectors to produce string/arch type shapes. The final pattern produced depends on the length
+of these curvedVectors, which is determined by taking the 'duration' data from a corresponding text file.
+
+The colour of the shapes are determined the location of the 'head' of the shape relative to the x-axis. This produces
+a sort of colour wall that becomes more apparent as the program is left to run.
+*/
+
 class squigleClass {
 
   float posX;
@@ -53,9 +61,8 @@ class squigleClass {
   }
 
   void calcShape(int inputPoints, int lvl, int restartX, int restartY) {
-    //    println("inputPoints: ", inputPoints);
     points = round(map(inputPoints, minDuration, maxDuration, 10, 70)); //Make the chain longer
-    noteON = lvl;
+    noteON = lvl; //Determines whether the singer is singing or not
     numberOfPoints[1] = numberOfPoints[0];
     numberOfPoints[0] = points;
     //After ever 100 counts, randomise movement
@@ -87,26 +94,18 @@ class squigleClass {
 
       if (randMove ==0) {
         float p = random(-5, 5);
-        //      xDirection += sin(TWO_PI*count/10)*count + p;
-        //      yDirection += 2;
         xDirection += cos((TWO_PI/divide)*count/10)*curve; 
         yDirection += sin((TWO_PI/divide)*count/10)*curve;
       } else if (randMove ==1) {
         float p = random(-5, 5);
-        //      xDirection += sin(TWO_PI*count/10)*count + p;
-        //      yDirection -= 2;  
         xDirection -= cos((TWO_PI/divide)*count/10)*curve; 
         yDirection += sin((TWO_PI/divide)*count/10)*curve;
       } else if (randMove ==2) {
         float p = random(-5, 5);
-        //      xDirection += 2;
-        //      yDirection += sin(TWO_PI*count/10)*count + p;
         xDirection += cos((TWO_PI/divide)*count/10)*curve; 
         yDirection -= sin((TWO_PI/divide)*count/10)*curve;
       } else if (randMove ==3) {
         float p = random(-5, 5);
-        //      xDirection -= 2;
-        //      yDirection += sin(TWO_PI*count/10)*count + p;
         xDirection -= cos((TWO_PI/divide)*count/10)*curve; 
         yDirection -= sin((TWO_PI/divide)*count/10)*curve;
       }
@@ -135,11 +134,9 @@ class squigleClass {
     }
   }
 
-  //Function that increases the size of the array and stores values
-  void largerArray() {
-    //Increase number of points in array
-
-      //If the last array used was the smaller one, copy data to new array
+  void largerArray() {//Function that increases the size of the array and stores values
+    
+    //If the last array used was the smaller one, copy data to new array
     if (smallerUsed == true) {
       xArray = new float[points +1]; 
       yArray = new float[points +1]; 
@@ -147,7 +144,7 @@ class squigleClass {
       arrayCopy(newXArray, 0, xArray, 0, numberOfPoints[1]); 
       arrayCopy(newYArray, 0, yArray, 0, numberOfPoints[1]);
 
-      //If a load of new points have been added, make them equal to the last point with a value thats not 0
+      //If a load of new points have been added, make them equal to the last point with a value that's not 0
       for (int i=numberOfPoints[1]; i<points; i++) {
         if (numberOfPoints[1]>0) {
           xArray[i] = xArray[(numberOfPoints[1]-1)];
@@ -278,9 +275,7 @@ class squigleClass {
     }
     //  println("colorBright ", colorBright);
     if (choice == 4) {
-      //      map(xDirection, 0, canX, 0, 360);
-      //      map(yDirection, 0, canX, 0, 360);
-      stroke(/*xDirection*/ xColour, /*yDirection*/ 100, 100);
+      stroke(xColour, 100, 100);
       strokeWeight(1);
       fill(0, 0, 0, 0);
       beginShape(); 
@@ -314,8 +309,6 @@ class squigleClass {
       backCount = 0;
       //  int xColour = round(map(xDirection, 0, canX, 0, 360));
       noStroke();
-      //stroke(xColour, xColour, 100); 
-      //strokeWeight(2);
       fill(xColour, 100, 100, 50);
       beginShape(); 
       if (largerUsed == true) {
@@ -372,19 +365,6 @@ class squigleClass {
     } else if (yDirection >= canY) {
       yDirection = canY;
     }
-
-    //        //Calculate whether the points have 'gone through a wall'
-    //     if(xDirection > canX){
-    //      xDirection -= canX; 
-    //     } else if (xDirection < 0){
-    //      xDirection += canX; 
-    //     }
-    //     
-    //     if(yDirection > canY){
-    //       yDirection -= canY;
-    //     } else if (yDirection < 0){
-    //       yDirection += canY;
-    //     }
   }
 
   void setRange(int MinPitch, int MaxPitch, int MinDuration, int MaxDuration) {

@@ -1,3 +1,12 @@
+/*
+Author: Lewis Thresh
+Last Modified: 09/10/2015
+
+Description: After setup, there is a large chunk of code used for testing which can be ignored.
+             The program code is a series of if statements which sends DMX signals to the lighting
+             rig depending on how much time has passed.
+*/
+
 #include <HSBColor.h>
 #include <RGBConverter.h>
 #include <DmxMaster.h>
@@ -5,9 +14,6 @@
 //Self written headers
 #include "DMXAddresses.h"
 #include "RGBVariables.h"
-
-//#include <pitchToColourFunctions.h>
-//#include "pitchToColourFunctions.c"
 
 boolean testing;
 
@@ -26,25 +32,33 @@ void setup() {
 
         brightness = 0;
 
-      setRGB(rgb0, 0, 0, 0, 100); //Front lights on to see the conductor
+      setRGB(rgb0, 0, 0, 0, 0); //Front lights on to see the conductor
       setRGB(rgb1, 0, 0, 0, 0);
       setRGB(rgb2, 0, 0, 0, 0);
       setRGB(rgb3, 0, 0, 0, 0);
       setRGB(rgb4, 0, 0, 0, 0);
       setRGB(rgb5, 0, 0, 0, 0);
-      setRGB(rgb6, 0, 0, 0, 0);
-      setRGB(rgb7, 0, 0, 0, 0);
-      setRGB(rgb8, 0, 0, 0, 0);
-      setRGB(rgb9, 0, 0, 0, 0);
-      setRGB(rgb10, 0, 0, 0, 0);
-      setRGB(rgb11, 0, 0, 0, 0);
+      setRGB(rgb6, 255, 255, 255, 0);
+      setRGB(rgb7, 255, 255, 255, 0);
+      setRGB(rgb8, 255, 255, 255, 0);
+      setRGB(rgb9, 255, 255, 255, 0);
+      setRGB(rgb10, 255, 255, 255, 0);
+      setRGB(rgb11, 255, 255, 255, 0);
 
-      setRotation(1, 45, 30, 0);
-      setRotation(2, 128, 30, 0);
-      setRotation(3, 0, 0, 0);
-      setRotation(4, 0, 0, 0);
-      setRotation(5, 0, 0, 0);
-      setRotation(6, 0, 0, 0);
+      // setRGB(rgb6, 0, 0, 0, 0); //To use before show starts
+      // setRGB(rgb7, 0, 0, 0, 0);
+      // setRGB(rgb8, 0, 0, 0, 0);
+      // setRGB(rgb9, 0, 0, 0, 0);
+      // setRGB(rgb10, 0, 0, 0, 0);
+      // setRGB(rgb11, 0, 0, 0, 0);
+
+      setRotation(1, 113, 50, 0);
+      setRotation(2, 60, 50, 0);
+      setRotation(3, 85, 0, 0);
+      setRotation(3, 85, 0, 0);
+      setRotation(4, 85, 0, 0);
+      setRotation(5, 85, 0, 0);
+      setRotation(6, 85, 0, 0);
 
 }
 
@@ -97,9 +111,9 @@ void loop() {
     //state = 1; //If there is contact between programs
     }
   //function = 1; //Testing only
+
+  /*-------------------------------TESTING BEGINS-------------------------------*/
   if (testing == true) {
-
-
     if(state == 1){
       DmxMaster.write(redArray[2],255);
       DmxMaster.write(greenArray[2], 0);
@@ -107,15 +121,9 @@ void loop() {
       DmxMaster.write(whiteArray[2], 0);
       DmxMaster.write(dimmerArray[2], 255);
       DmxMaster.write(shutterArray[2], 255);
-    } else {
 
-      DmxMaster.write(redArray[2],0);
-      DmxMaster.write(greenArray[2], 255);
-      DmxMaster.write(blueArray[2], 0);
-      DmxMaster.write(whiteArray[2], 0);
-      DmxMaster.write(dimmerArray[2], 255);
-      DmxMaster.write(shutterArray[2], 255);
-
+      setRotation(1, in[0], 50, 0);
+      setRotation(2, in[1], 50, 0);
     }
 
 
@@ -125,15 +133,18 @@ void loop() {
       // setRGB(rgb0,in[0],in[1],in[2],0);
       // writeToLargeLights(0,rgb0);
 
+      setRotation(1, 120, 50, 0);
+      setRotation(2, 50, 50, 0);
+
 
       //glowBrightnessCounter(170,200,100);
-      slowBrightnessCounter(170,200);
+      // slowBrightnessCounter(170,200);
 
-      setRGB(rgb0,0,0,0,brightness);
-      setRGB(rgb6,brightness,brightness,brightness,brightness);
+      // setRGB(rgb0,0,0,0,brightness);
+      // setRGB(rgb6,brightness,brightness,brightness,brightness);
 
-      writeToLargeLights(1,rgb0);
-      writeToSmallLights(6,rgb6);
+      // writeToLargeLights(1,rgb0);
+      // writeToSmallLights(6,rgb6);
     }
      else if (function == 2) {
       //spin(1, in[0], in[1], in[2]);//Light 2
@@ -187,6 +198,8 @@ void loop() {
     }
   }
 
+  /*-------------------------------TESTING ENDS-------------------------------*/
+
   /*------------------------------PROGRAM BEGIN------------------------------*/
 
   if (testing == false) {
@@ -202,23 +215,49 @@ void loop() {
       if (timer > cueArray[0] && timer < cueArray[1]) { //Fade in backlights
         if(timer < cueArray[0] + 1){
           brightness = 0; //Reset variables
-        }
-        sendData = false;
-        
-         // pitchToColourCalc(fre3, 5, 2, rgb6); //Singer spots map pitch
-          //pitchToColourCalc(fre2, 0, 0, rgb1); //Singer spots map pitch
 
-        setRotation(5, 149, 80, 100); //Set the position of the backlights
-        setRotation(6, 191, 80, 100);
+          setRGB(rgb0, 0, 0, 0, 0); //Front lights on to see the conductor
+          setRGB(rgb1, 0, 0, 0, 0);
+          setRGB(rgb2, 0, 0, 0, 0);
+          setRGB(rgb3, 0, 0, 0, 0);
+          setRGB(rgb4, 0, 0, 0, 0);
+          setRGB(rgb5, 0, 0, 0, 0);
+          setRGB(rgb6, 0, 0, 0, 0);
+          setRGB(rgb7, 0, 0, 0, 0);
+          setRGB(rgb8, 0, 0, 0, 0);
+          setRGB(rgb9, 0, 0, 0, 0);
+          setRGB(rgb10, 0, 0, 0, 0);
+          setRGB(rgb11, 0, 0, 0, 0);
+          }
+          sendData = false;
 
-        slowBrightnessCounter(150,200);// Backlights slowly fade on
-        setRGB(rgb4,0,0,0,brightness);
-        setRGB(rgb5,0,0,0,brightness);
+          setRGB(rgb6, 0, 0, 0, 0);
+          setRGB(rgb7, 0, 0, 0, 0);
+          setRGB(rgb8, 0, 0, 0, 0);
+          setRGB(rgb9, 0, 0, 0, 0);
+          setRGB(rgb10, 0, 0, 0, 0);
+          setRGB(rgb11, 0, 0, 0, 0);
+
+
+          setRGB(rgb0, 0, 0, 0, 0); //SET FRONT BACK TO 0
+          setRGB(rgb1, 0, 0, 0, 0);
+          setRotation(1, 128, 10, 100); //Set the position of the backlights
+          setRotation(2, 45, 10, 100);
+
+
+          setRotation(5, 149, 50, 100); //Set the position of the backlights
+          setRotation(6, 191, 50, 100);
+
+          slowBrightnessCounter(70,200);// Backlights slowly fade on
+          setRGB(rgb4,0,0,0,brightness);
+          setRGB(rgb5,0,0,0,brightness);
 
       } else if (timer > cueArray[1] && timer < cueArray[2]) {     /*-------------FADE IN SINGERS-------------*/
         if(timer < cueArray[1] + 1){
           brightness = 0; //Reset variables
           fadeCounter;
+
+
         }
         sendData = false;
 
@@ -227,27 +266,27 @@ void loop() {
         if(fadeCounter >= 70){
           fadeCounter = 0;
         
-         singleLightFade(rgb6, 1, 100, 0);
+         singleLightFade(rgb6, 1, 150, 0);
          setRGB(rgb6,rgb6[0],rgb6[0],rgb6[0],0);
 
         if (timer >= cueArray[1] + 5) {
-          singleLightFade(rgb7,1,100,0);
+          singleLightFade(rgb7,1,150,0);
           setRGB(rgb7,rgb7[0],rgb7[0],rgb7[0],0);
         }
         if (timer >= cueArray[1] + 10) {
-          singleLightFade(rgb8,1,100,0);
+          singleLightFade(rgb8,1,150,0);
           setRGB(rgb8,rgb8[0],rgb8[0],rgb8[0],0);
         }
         if (timer >= cueArray[1] + 15) {
-          singleLightFade(rgb9,1,100,0);
+          singleLightFade(rgb9,1,150,0);
           setRGB(rgb9,rgb9[0],rgb9[0],rgb9[0],0);
         }
         if (timer >= cueArray[1] + 20) {
-          singleLightFade(rgb10,1,100,0);
+          singleLightFade(rgb10,1,150,0);
           setRGB(rgb10,rgb10[0],rgb10[0],rgb10[0],0);
         }
         if (timer >= cueArray[1] + 25) {
-          singleLightFade(rgb11,1,100,0);
+          singleLightFade(rgb11,1,150,0);
           setRGB(rgb11,rgb11[0],rgb11[0],rgb11[0],0);
         }
       }                                  /*-------------FADE IN SINGERS-------------*/
@@ -280,7 +319,7 @@ void loop() {
         setRGB(rgb10, rgb10[0], rgb10[0], rgb10[0], 0);
         setRGB(rgb11, rgb11[0], rgb11[0], rgb11[0], 0);
 
-        setRotation(3, 233, 70, 0); //Set position of wall lights
+        setRotation(3, 225, 60, 0); //Set position of wall lights
         setRotation(4, 106, 70, 0);
 
         setRGB(rgb2, 0, 0, 0, 200); //Set colours to white
@@ -358,7 +397,7 @@ void loop() {
         pitchToColourCalc(fre1, 6, 0, rgb6); //Only Soprano map pitch
         pitchToColourCalc(fre1,1,0,rgb1); //Map front left to sporano pitch
         //movingLight(1, move0, 50, 240, 212, 128, 50000); //Left front light 
-        setRotation(2,128,128,230);
+        setRotation(2,0,10,230);
 
         //setRGB(rgb1, 0, 255, 0, 0); // CHANGE THIS TO MAP PITCH
         
@@ -389,7 +428,7 @@ void loop() {
 
         setRGB(rgb1, 0, 0, 0, 0);  //Set front left back to position and off
         setRGB(rgb0, 0, 0, 0, 0); //Also set right right off
-        setRotation(2, 45, 50, 0);
+        setRotation(2, 45, 10, 0);
 
         setRGB(rgb4, 0, 0, 0, 100); //Dim backlights
         setRGB(rgb5, 0, 0, 0, 100);
@@ -445,13 +484,13 @@ void loop() {
         if (timer >= cueArray[9] + 27) { //Fade in right front
           //slowBright(0, rgb0, 400);
           setRGB(rgb0,0,0,0,rgb0[3] + 1);
-          setRotation(1, 128, 128, 200);
+          setRotation(1, 0, 10, 200);
         }
 
         if (timer >= cueArray[9] + 36) { //Fade in left front
           //slowBright(1, rgb1, 400);
           setRGB(rgb1,0,0,0,rgb1[3] + 1);
-          setRotation(2, 45, 128, 200);
+          setRotation(2, 0, 10, 200);
         }
 
       } else if (timer > cueArray[10] && timer < cueArray[11]) {
@@ -510,8 +549,8 @@ void loop() {
           setRGB(rgb11, 200 - brightness, 0, 0, 0);
         
 
-        setRotation(1, 128, 50, 0); //Front lights face each other
-        setRotation(2, 45, 50, 0);
+        setRotation(1, 128, 20, 0); //Front lights face each other
+        setRotation(2, 45, 20, 0);
 
       } else if (timer > cueArray[12] && timer < cueArray[13]) { //Swap colours around
         if(timer < cueArray[12] + 1){
@@ -539,6 +578,7 @@ void loop() {
       } else if (timer > cueArray[13] && timer < cueArray[14]) { // All Lights go nice purply colour
         sendData = false;
 
+        
         setRGB(rgb0, 177, 0, 200, 0);
         setRGB(rgb1, 177, 0, 200, 0);
         setRGB(rgb2, 177, 0, 200, 0);
@@ -552,10 +592,16 @@ void loop() {
         setRGB(rgb10, 177, 0, 200, 0);
         setRGB(rgb11, 177, 0, 200, 0);
 
-        setRotation(0, 128, 128, 230); //Front and wall lights face upwards
-        setRotation(1, 128, 128, 230);
+        setRotation(1, 128, 128, 230); //Front and wall lights face upwards
         setRotation(2, 128, 128, 230);
         setRotation(3, 128, 128, 230);
+        setRotation(4, 128, 128, 230);
+        setRotation(5, 149, 50, 100); //Set the position of the backlights
+        setRotation(6, 191, 50, 100);
+
+      
+
+
       } else if (timer > cueArray[14] && timer < cueArray[15]) { //Fades lights out one at a time
         sendData = false;
 
@@ -634,6 +680,9 @@ void loop() {
         }
         sendData = false;
 
+        setRotation(1, 128, 10, 230); //Wall lights back to position
+        setRotation(2, 45, 10, 230);
+
         /*RUN THIS FOR THE NEXT ONE TWO*/
         slowBrightnessCounter(170, 200);
         setRGB(rgb0,0,0,0,brightness);
@@ -645,7 +694,7 @@ void loop() {
           brightness = 0; //Reset variables
         }
 
-        setRotation(3, 233, 50, 230); //Wall lights back to position
+        setRotation(3, 225, 60, 230); //Wall lights back to position
         setRotation(4, 106, 50, 230);
         setRotation(2, 64, 50, 230); //Front lights face singers
         setRotation(1, 106, 50, 230);
@@ -680,14 +729,47 @@ void loop() {
         setRGB(rgb11, 50, 50, 50, 0);
 
       }
-      else if (timer > cueArray[20]) { //Fade singers out
+      else if (timer > cueArray[20] && timer < cueArray[20] + 15) { //Fade singers out
         sendData = false;
-        setRGB(rgb6, 0, 0, 0, 0);
-        setRGB(rgb7, 0, 0, 0, 0);
-        setRGB(rgb8, 0, 0, 0, 0);
-        setRGB(rgb9, 0, 0, 0, 0);
-        setRGB(rgb10, 0, 0, 0, 0);
-        setRGB(rgb11, 0, 0, 0, 0);
+
+        fadeCounter++;
+        if(fadeCounter > 50){
+        fadeCounter = 0;
+
+        singleLightFade(rgb6,-1,50,0);
+        singleLightFade(rgb7,-1,50,0);
+        singleLightFade(rgb8,-1,50,0);
+        singleLightFade(rgb9,-1,50,0);
+        singleLightFade(rgb10,-1,50,0);
+        singleLightFade(rgb11,-1,50,0);
+        }
+        setRGB(rgb6, rgb6[0], rgb6[0], rgb6[0], 0);
+        setRGB(rgb7, rgb7[0], rgb7[0], rgb7[0], 0);
+        setRGB(rgb8, rgb8[0], rgb8[0], rgb8[0], 0);
+        setRGB(rgb9, rgb9[0], rgb9[0], rgb9[0], 0);
+        setRGB(rgb10, rgb10[0], rgb10[0], rgb10[0], 0);
+        setRGB(rgb11, rgb11[0], rgb11[0], rgb11[0], 0);
+
+        // setRGB(rgb6, 0, 0, 0, 0);
+        // setRGB(rgb7, 0, 0, 0, 0);
+        // setRGB(rgb8, 0, 0, 0, 0);
+        // setRGB(rgb9, 0, 0, 0, 0);
+        // setRGB(rgb10, 0, 0, 0, 0);
+        // setRGB(rgb11, 0, 0, 0, 0);
+      } else if (timer > cueArray[20] + 15){
+      sendData = false;
+      setRGB(rgb0, 0, 0, 0, 200); //Front lights on to see the conductor
+      setRGB(rgb1, 0, 0, 0, 200);
+      setRGB(rgb2, 0, 0, 0, 200);
+      setRGB(rgb3, 0, 0, 0, 200);
+      setRGB(rgb4, 0, 0, 0, 200);
+      setRGB(rgb5, 0, 0, 0, 200);
+      setRGB(rgb6, 200, 200, 200, 0);
+      setRGB(rgb7, 200, 200, 200, 0);
+      setRGB(rgb8, 200, 200, 200, 0);
+      setRGB(rgb9, 200, 200, 200, 0);
+      setRGB(rgb10, 200, 200, 200, 0);
+      setRGB(rgb11, 200, 200, 200, 0);
       }
     }
 
@@ -704,7 +786,7 @@ void loop() {
     writeToSmallLights(8, rgb7);
     writeToSmallLights(9, rgb8);
     writeToSmallLights(10, rgb9);
-    writeToSmallLights(11, rgb10); //APPARENTLY LIGHT 10 CH101 - 104 FUCKS SHT UP!?!?!?!
+    writeToSmallLights(11, rgb10);
     writeToSmallLights(12, rgb11);
 
 
@@ -713,7 +795,7 @@ void loop() {
   }
 
 
-    /*------------------------------PROGRAM BEGIN------------------------------*/
+    /*------------------------------PROGRAM ENDS------------------------------*/
 
   }
 }

@@ -1,9 +1,17 @@
-//Text file reader
+/*
+This class is used to read through a given text file and store the three
+main pieces of data into an array.
+Functions include:
+ - Reading thorugh text file
+ - Calculating maximum and minumim pitch and duration
+ - Returning pitch and duration data to be used for other classes
+ - Sending data to arduino through serial communication
+*/
 class textFileReader {
   String[] text;
   String file; 
   int [][] singerInfo;
-  int[] secondArray = new int[2]; // place to compare seconds values
+  int[] secondArray = new int[2]; // Place to compare seconds values
   int x = 0;
   int z = 0;
   int seconds;
@@ -20,16 +28,15 @@ class textFileReader {
   int h = 0;
 
   int val; //Flag sent by Arduino
-  int waitingCount = 0;
+  int waitingCount = 0; //Used to time out sending data to arduino
 
   //Constructor
   textFileReader(String iFile) {
     file = iFile;
   }
 
-  void read() {
+  void read() {//Reads through a text file
     text = loadStrings(file); 
-    //    println("text: ", text.length);
     singerInfo = new int[3][text.length]; //1.Start time 2.Frequency 3.Note duration ms
     for (int i=0; i< (text.length/3); i++) {
       for (int j=0; j<3; j++) {
@@ -43,10 +50,8 @@ class textFileReader {
   //Measure time passed and send new values from the arrays
   void timer(int TAG) {
     if (z < text.length - 1) {
-      //      println("Length: ", text.length);
-      //      println("Millis: "+millis()+" Next Millis: " + singerInfo[0][z+1] + " SecondPasses: " + secondPassed);
       //Initialise counters
-      //      millis = millis() - last;
+      //millis = millis() - last;
 
       seconds = round(timer /*millis()*//1000);
 
@@ -79,16 +84,18 @@ class textFileReader {
     //Send data to arduino when new data is needed
     if (NEXT == true) {
 
-      println("TAG: "+inTAG+" pitch: "+singerInfo[1][z]+" duration: "+singerInfo[2][z]+" state: "+state);
+      println("TAG: "+inTAG+" pitch: "+singerInfo[1][z]+" duration: "+singerInfo[2][z]+" state: "+state); //For checking only
+      
+      //Turn all integers into a string
       String tagS = str(inTAG);
       String pitchS = str(singerInfo[1][z]);
       String durationS = str(singerInfo[2][z]);
       String stateS = str(state); //Takes global variable 'state'
 
       while (val != 1) {
-        port.write(""+tagS+","+pitchS+","+durationS+","+stateS);
+        port.write(""+tagS+","+pitchS+","+durationS+","+stateS); //Send string to arduino where it is broken down
         //println("Waiting...");
-        val = port.read();
+        val = port.read(); //Wait for arduino to send a 1
         waitingCount++;
         println("waitingCount: ",waitingCount);
         if (waitingCount >=20) {//break out if there is an error
@@ -105,9 +112,7 @@ class textFileReader {
 
   void rangeCalc() { //Calculates the maximum & minimum pitch and duration within the text file
     //Max Pitch
-    // println("text.Length",text.length/3); // Divide 3 as file contains ALL the information
-    for (int i=0; i<text.length/3; i++) {
-      // println("Every Pitch: "+singerInfo[1][i]+"["+i+"]");
+    for (int i=0; i<text.length/3; i++) { // Divide 3 as file contains ALL three pieces of information
       if (singerInfo[1][i] > maxPitch) {
         maxPitch = singerInfo[1][i];
       }
@@ -188,14 +193,4 @@ class textFileReader {
     println("x: ", x);
   }
 }
-
-//void getTextLength(){
-// return text.length; 
-//}
-
-//void toArduino() {
-//  port.write("<");
-//  port.write(singerInfo); 
-//  port.write(">");
-//}
 

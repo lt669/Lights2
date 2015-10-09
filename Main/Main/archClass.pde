@@ -1,9 +1,15 @@
+/*
+This class produces three arches with circels on either side representing each singer. Each of the singers
+circles change colour depending on the singers pitch and the arches between them are a combination of both
+colours. This is used to represent dissonance in the piece of music.
+*/
+
 class archClass{
 
-	float xStartPos, yStartPos, xEndPos, yEndPos, size, yStartInitial, yEndInitial, xStartInitial, xEndInitial;
+	float xStartPos, yStartPos, xEndPos, yEndPos, size, yStartInitial, yEndInitial, xStartInitial, xEndInitial; //Initial positions
 	int extraHeight;
-	int minPitch1, minPitch2, maxPitch1, maxPitch2, pitch1, pitch2;
-	int [] pitchCompare1 = new int [2];
+	int minPitch1, minPitch2, maxPitch1, maxPitch2, pitch1, pitch2; //Ranges recieved from text files
+	int [] pitchCompare1 = new int [2]; //Used for gradual colour changes
 	int [] pitchCompare2 = new int [2];
 	int colourGlide = 1;
 	boolean NEXT1, NEXT2;
@@ -29,7 +35,7 @@ class archClass{
 
 		size = iSize;
 
-		reverb1 = new reverbRings(xStartPos,yStartPos);
+		reverb1 = new reverbRings(xStartPos,yStartPos); //Extra idea that was not used
 		reverb2 = new reverbRings(xEndPos,yEndPos);
 
 		yStartPosition[1] = iYStartPos;
@@ -44,10 +50,11 @@ class archClass{
 
 void drawArch(){
 
+	//Height of arches flicers to produce colour pattern
 	extraHeight = int(random(0,30));
 
-	movementCounter++;
-	if(movementCounter >= 30){
+	movementCounter++; //Moves the circles around
+	if(movementCounter >= 30){ //Calculates new positions
 		movementCounter = 0;
 	xStartPosition[1] = xStartPosition[0];
 	xStartPosition[0] = int(random(0,100));
@@ -58,7 +65,7 @@ void drawArch(){
 	yEndPosition[0] = int(random(0,100));
 	}
 
-	if (xStartPosition[0] > xStartPosition[1]){
+	if (xStartPosition[0] > xStartPosition[1]){//Slowly moves circle to new position
 		xStartPos+= 0.1;
 		if(xStartPos >= xStartInitial + 10){
 			xStartPos = xStartInitial + 10;
@@ -109,7 +116,7 @@ void drawArch(){
 	colorMode(HSB,360,100,100,100);
 	float midPoint = xEndPos - (xEndPos-xStartPos)/2;
 
-	if(pitchCompare1[0] > pitchCompare1[1]){
+	if(pitchCompare1[0] > pitchCompare1[1]){ //Circluar colour calculator
 		pitch1 -= colourGlide;
 		if(pitch1 <= 0){
 			pitch1 = 360;
@@ -132,11 +139,6 @@ void drawArch(){
 			pitch2 = 0;
 		}
 	}
-
-	// int bri1 = int(map(pitch1,0,360,0,100));
-	// int bri2 = int(map(pitch1,0,360,0,100));
-	// int sat1 = int(map(pitch1,0,360,0,100));
-	// int sat2 = int(map(pitch1,0,360,0,100));
 
 	int bri1 = 70;
 	int bri2 = 70;
@@ -183,7 +185,7 @@ void drawArch(){
 	curveVertex(xStartPos, yStartPos);
 	endShape(CLOSE);
 
-		//Draw circles
+	//Draw circles
 	stroke(pitch1,bri1,sat1);
 	fill(pitch1,bri1,sat1,0);
 	ellipse(xStartPos, yStartPos, size, size);
@@ -192,18 +194,9 @@ void drawArch(){
 	stroke(pitch2,bri2,sat2);
 	fill(pitch2,bri2,sat2,0);
 	ellipse(xEndPos, yEndPos, size, size);
-
-
-	// if(NEXT1 == true || alpha1 != 0){
-	// 	reverb1.drawRings();
-	// }
-	// if(NEXT2 == true || alpha2 != 0){
-	// 	reverb2.drawRings();
-	// }
-
 }
 
-class reverbRings{
+class reverbRings{//Idea that was never used
 
 float xPos, yPos;
 int r = 0;
@@ -235,11 +228,6 @@ int alpha = 100;
     endShape(CLOSE);
 	}
 
-}
-
-void reverbRings(int xPos, int yPos, int r, int alpha){
-
-}
 
 void setRange(int MinPitch1, int MaxPitch1, int MinPitch2, int MaxPitch2) {
     minPitch1 = MinPitch1;

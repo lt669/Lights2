@@ -1,17 +1,22 @@
+/*
+* Author: Lewis Thresh
+* Last Modified: 09/10/2015
+* Copyright: All code and included .pde files were written by the author for the University of York Audio Lab
+
+This code was used to produce a video which was used for the final event. There are parts of this code that
+are not used to produce the graphics themselves but were used to aid the creation of the final product.
+*/
+
 import org.puredata.processing.PureData;
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 import processing.serial.*;
 import codeanticode.gsvideo.*;
 //import com.hamoid.*;
+
 Serial port;
 
-//Quicktime Variables
-//VideoExport videoExport2;
-//GSMovieMaker video;
 boolean recordVideo, stopVideo;
-//import processing.sound.*;
-//SoundFile file;
 
 //Playing Audio File
 Minim minim;
@@ -22,9 +27,6 @@ AudioPlayer player;
 //Office Screen
 //int canX = 1650;
 //int canY = 600;
-
-//int squigleCanX = canX;
-//int squigleCanY = canY;
 
 //Set up classes
 squigleClass sq1;
@@ -45,7 +47,6 @@ archClass arch1;
 archClass arch2;
 archClass arch3;
 
-
 textFileReader PART1;
 textFileReader PART2;
 textFileReader PART3;
@@ -56,10 +57,14 @@ textFileReader PART6;
 reverbRings reverb1;
 reverbRings reverb2;
 
-PureData pd;
-PGraphics Circles;
-PGraphics Squigles;
 
+//For exporting data to PureData
+PureData pd;
+
+//Extra screen for fade (named circles as it was origionally used for a specific part of the Circles class)
+PGraphics Circles;
+
+//Screen fade and graphics choosing variables
 int alpha;
 boolean alphaDONE;
 boolean just;
@@ -68,23 +73,18 @@ boolean fadedDONE;
 
 void setup() {
 
-  //Setup video rendering
-  // video = new GSMovieMaker(this,canX,canY,"ProcessingVideo.mov", GSMovieMaker.THEORA, GSMovieMaker.MEDIUM, fps);
-  // video.setQueueSize(50,10);
-  // video.start();
-
-  //Initialise Port to send serial data to arduino
+  /*---------Initialise Port to send serial data to arduino---------*/
   // port = new Serial(this, "/dev/cu.usbmodem411", 9600); 
   // port.bufferUntil('\n');
+  /*----------------------------------------------------------------*/
 
-  // videoExport2 = new VideoExport(this, "/Users/Lewis/Desktop/export.mp4");
-  // videoExport2.setQuality(70);
-  // videoExport2.setFrameRate(60);
+
   //Create PGraphics
   Circles = createGraphics(canX, canY);
-  //Squigles = createGraphics(squigleCanX, squigleCanY);
 
   minim = new Minim(this);
+
+  /*---------------------For playing audio file with graphics---------------------*/
   //PC
   //  player = minim.loadFile("C:/Users/lt669/Desktop/music/music(verb).mp3");
   //  player.play();
@@ -92,13 +92,15 @@ void setup() {
   //Mac
    // player = minim.loadFile("/Users/Lewis/Desktop/music(verb).mp3");
    // player.play();
+   /*-----------------------------------------------------------------------------*/
 
 
-  //Setup PD patch
+  /*--------------------------------Setup PD patch--------------------------------*/
 //   pd = new PureData(this, 44100, 0, 2); //6 outputs
 //   //  pd.openPatch("/Users/Lewis/Developer/Lights_Project/Lights/Main/Main/patch.pd");  
 //   pd.openPatch("patch.pd");
 //   pd.start();
+  /*------------------------------------------------------------------------------*/
 
   //Load cues into array
   setCues();
@@ -127,10 +129,6 @@ void setup() {
   PART5.rangeCalc();
   PART6.rangeCalc();
   
-  //Send the length of each text file o the arduino
-//  port.write("PART1 Length");
-//  port.write(PART1.getTextLength());
-
   //Circle Objects
   singer1 = new Cir(canX/4, canY/4, 0, 0);
   singer2 = new Cir(canX/2, canY/4, 0, 0);
@@ -180,9 +178,6 @@ void setup() {
   //Send start bang to PD
   // pd.sendFloat("bang",startBang);
 
-  //Initialise cues array
-  //cueArray[] = new int[]
-
   size(canX, canY);
   colorMode(HSB, 360, 100, 100);
   background(0, 0, 100);
@@ -192,13 +187,13 @@ void setup() {
 }
 
 void draw() {
-  //reDraw = false;
 
-  timer = (loopCounter/25)*1000; //In milliseconds
+  timer = (loopCounter/25)*1000; //This is used instead of millis() in for exporting to video accurately  (in milliseconds)
   println("Timer: ",timer);
 
-  colorMode(HSB, 360, 100, 100, 100);
+  colorMode(HSB, 360, 100, 100, 100); // set Colour mode to use hue, saturation and brightness
 
+  //Once previous background has faded, change the graphics background colour appropriately
   if (alphaDONE == true) {
     background(BGhue, BGsat, BGbri);
   }
@@ -208,10 +203,8 @@ void draw() {
     noStroke();
     fill(BGhue, BGsat, BGbri, 5);
     rect(random((0-canX/4), canX), random((0-canY/4), canY), canX/4, canY/4);
-  } else if (choice == 4 || choice == 5 || choice == 6) {
-    //    noStroke();
-    //    fill(BGhue, BGsat, BGbri, 5);
-    //    rect(0, 0, canX, canY);
+  } else if (choice >= 4 && choice <= 6) {
+    // Don't do anything
   } else {
     background(BGhue, BGsat, BGbri);
   }
@@ -223,133 +216,132 @@ void draw() {
   PART5.timer(5);
   PART6.timer(6);
 
-  //graphicsOrder(); //Listens for cues and changes graphics accordingly
-  graphicsOrder2();
+  //graphicsOrder(); //Listens for cues and changes graphics accordingly IN REAL TIME
+  graphicsOrder2();  //Listens for cues and changes graphics accordingly FOR VIDEO RENDERING ONLY!
   graphicChoice(); //Sets all settings for each graphic
+
+  //Run each class (the classes themselves decide whether anything should be drawn or not)
   runCircleClass();
   runSquigleClass();
   runArchClass();
-  halfScreen();
   screenFader();
 
-  //Cue Reader
-  if(millis() == cueArray[cueAddress]){
-    println("Cue ["+cueAddress+"}");
-    x++;
-  }
 
   loopCounter++; //Increase loopCounter
 
-  //Run PD function
+  /*------Run PD function------*/
   //PD();
+  /*---------------------------*/
 
+  /*------Run screen recording function------*/
    //recordSketch();
+  /*-----------------------------------------*/
 }
 
-void graphicsOrder(){
-   if(millis() < cueArray[2]){
-     graphicChooser[0] = 11; //New graphic choise
+void graphicsOrder(){ //For real time only
+   if(millis() < cueArray[2]){ //Checks whether timer is less than the next cue
+     graphicChooser[0] = 11; //New graphic choice
     } else if(millis() > cueArray[2] && millis() < cueArray[4]){
        if(millis() < cueArray[2]+100){
         setFader();
    }
-
-    graphicChooser[0] = 1; //New graphic choise
+    graphicChooser[0] = 1;
     } else if(millis() > cueArray[4] && millis() < cueArray[5]){
      if(millis() < cueArray[4]+100){
      setFader();
    }
-     graphicChooser[0] = 3; //New graphic choise
+     graphicChooser[0] = 3;
     } else if(millis() > cueArray[5] && millis() < cueArray[6]){
      if(millis() < cueArray[5]+100){
      setFader();
    }
-     graphicChooser[0] = 4; //New graphic choise
+     graphicChooser[0] = 4;
     } else if(millis() > cueArray[6] && millis() < cueArray[7]){
      if(millis() < cueArray[6]+100){
      setFader();
    }
-     graphicChooser[0] = 11; //New graphic choise
+     graphicChooser[0] = 11;
     } else if(millis() > cueArray[7] && millis() < cueArray[9]){
      if(millis() < cueArray[7]+100){
      setFader();
    }
-     graphicChooser[0] = 7; //New graphic choise
+     graphicChooser[0] = 7;
     } else if(millis() > cueArray[9] && millis() < cueArray[10]){
      if(millis() < cueArray[9]+100){
      setFader();
    }
-     graphicChooser[0] = 2; //New graphic choise
+     graphicChooser[0] = 2;
     } else if(millis() > cueArray[10] && millis() < cueArray[11]){
      if(millis() < cueArray[10]+100){
      setFader();
    }
-     graphicChooser[0] = 3; //New graphic choise else if(millis() > cueArray[11] && millis() < cueArray[12]){
+     graphicChooser[0] = 3;
+     else if(millis() > cueArray[11] && millis() < cueArray[12]){
      if(millis() < cueArray[11]+100){
      setFader();
    }
-     graphicChooser[0] = 9; //New graphic choise
+     graphicChooser[0] = 9;
     } else if(millis() > cueArray[12] && millis() < cueArray[13]){
      if(millis() < cueArray[12]+100){
      setFader();
    }
-     graphicChooser[0] = 10; //New graphic choise
+     graphicChooser[0] = 10;
     } else if(millis() > cueArray[13] && millis() < cueArray[16]){
      if(millis() < cueArray[13]+200){
      setFader();
    }
-     graphicChooser[0] = 6; //New graphic choise
+     graphicChooser[0] = 6;
     } else if(millis() > cueArray[16] && millis() < cueArray[18]){
      if(millis() < cueArray[16]+100){
      setFader();
    }
-     graphicChooser[0] = 7; //New graphic choise
+     graphicChooser[0] = 7;
     } else if(millis() > cueArray[18] && millis() < cueArray[19]){
      if(millis() < cueArray[18]+100){
      setFader();
    }
-     graphicChooser[0] = 11; //New graphic choise
+     graphicChooser[0] = 11;
     } else if(millis() > cueArray[19] && millis() < cueArray[20]){
      if(millis() < cueArray[19]+100){
      setFader();
    }
-     graphicChooser[0] = 1; //New graphic choise
+     graphicChooser[0] = 1;
     } else if(millis() > cueArray[20]){
      if(millis() < cueArray[20]+100){
      setFader();
    }
-     graphicChooser[0] = 11; //New graphic choise
+     graphicChooser[0] = 11;
     }
   }
 
   void graphicsOrder2(){
-   if(timer < cueArray[2]){
-     graphicChooser[0] = 11; //New graphic choise
+   if(timer < cueArray[2]){ //Check to see whether loop counter is less than the next cue
+     graphicChooser[0] = 11; //New graphic choice
     } else if(timer > cueArray[2] && timer < cueArray[4]){
        if(timer < cueArray[2]+2000){
         setFader();
    }
-      graphicChooser[0] = 1; //New graphic choise
+      graphicChooser[0] = 1;
     } else if(timer > cueArray[4] && timer < cueArray[6]){
      if(timer < cueArray[4]+2000){
      setFader();
    }
-     graphicChooser[0] = 2; //New graphic choise
+     graphicChooser[0] = 2;
     } else if(timer > cueArray[6] && timer < cueArray[7]){
      if(timer < cueArray[6]+2000){
      setFader();
    }
-     graphicChooser[0] = 11; //New graphic choise
+     graphicChooser[0] = 11;
     } else if(timer > cueArray[7] && timer < cueArray[8]){
      if(timer < cueArray[7]+2000){
      setFader();
    }
-     graphicChooser[0] = 7; //New graphic choise
+     graphicChooser[0] = 7;
     } else if(timer > cueArray[8] && timer < cueArray[10]){
      if(timer < cueArray[8]+2000){
      setFader();
    }
-     graphicChooser[0] = 8; //New graphic choise
+     graphicChooser[0] = 8;
     } else if(timer > cueArray[10] && timer < cueArray[11]){
      if(timer < cueArray[10]+2000){
      setFader();
@@ -359,87 +351,77 @@ void graphicsOrder(){
      if(timer < cueArray[11]+2000){
      setFader();
    }
-     graphicChooser[0] = 9; //New graphic choise
+     graphicChooser[0] = 9;
     } else if(timer > cueArray[13] && timer < cueArray[14]){
      if(timer < cueArray[13]+2000){
      setFader();
    }
-     graphicChooser[0] = 11; //New graphic choise
+     graphicChooser[0] = 11;
     } else if(timer > cueArray[14] && timer < cueArray[16]){
      if(timer < cueArray[14]+2000){
      setFader();
    }
-     graphicChooser[0] = 3; //Spots with order
+     graphicChooser[0] = 3;
     } else if(timer > cueArray[16] && timer < cueArray[18]){
      if(timer < cueArray[16]+2000){
      setFader();
    }
-     graphicChooser[0] = 8; //New graphic choise
+     graphicChooser[0] = 8;
     } else if(timer > cueArray[18] && timer < cueArray[19]){
      if(timer < cueArray[18]+2000){
      setFader();
    }
-     graphicChooser[0] = 11; //New graphic choise
+     graphicChooser[0] = 11;
     } else if(timer > cueArray[19] && timer < cueArray[20]){
      if(timer < cueArray[19]+2000){
      setFader();
    }
-     graphicChooser[0] = 2; //New graphic choise
+     graphicChooser[0] = 2;
     } else if(timer > cueArray[20]){
      if(timer < cueArray[20]+2000){
      setFader();
    }
-     graphicChooser[0] = 11; //New graphic choise
+     graphicChooser[0] = 11;
     }
   }
 
 
 
-void setFader(){
+void setFader(){ //Starts the screen fading function
       fadedDONE = false;
       just = true;
 }
 
-void recordSketch(){
-
-  if(timer /*millis()*/ < cueArray[20] + 30000){
-
-//videoExport2.saveFrame();
-    
+void recordSketch(){ //Saves each frame to a folder to be rendered to a video using ffmpeg
+  if(timer /*millis()*/ < cueArray[20] + 30000){    
     saveFrame("/Users/Lewis/Desktop/Images25fpsMac/sketch-#######.png");
-    // loadPixels();
-    // video.addFrame(pixels);
-    // println("Number of queued frames : " + video.getQueuedFrames());
-    // println("Number of dropped frames: " + video.getDroppedFrames());
   } else {
-    //video.finish();
     println("Done Recording");
   }
 
 }
 
-void screenFader(){
+void screenFader(){ //Fades the screen using a PGraphic in order to switch between graphics
    if (fadedDONE == false) {
-    if (just == true) {
+    if (just == true) { //If function has been called for the first time after a new graphic has been selected
       alpha = 1;
     }
     just = false;
 
-    if (alphaDONE == false) {
+    if (alphaDONE == false) { //If screen isnt fully transparant, increase transparentsy
       alpha += 1;
     }
 
-    if (alpha >= 100) {
+    if (alpha >= 100) {//When screen has been faded
       alphaDONE = true;
-      //graphicChooser += 1 /* round(random(1, 7))*/;
-      graphicChooser[1] = graphicChooser[0];
+      graphicChooser[1] = graphicChooser[0]; //Remembers which graphic was on last
     }
 
-    if (alphaDONE == true) {
+    if (alphaDONE == true) {//Start fading in the new graphics
       alpha -= 1;
     }
 
-    if (alpha < 0) {
+    if (alpha < 0) {//reset everything for the next time
       fadedDONE = true;
       alphaDONE = false;
       alpha = -2;
@@ -458,19 +440,15 @@ void screenFader(){
 }
 
 void mousePressed() {
-  //just = true;
   check = 1;
   redraw();
-  //port.write('A');
-  //  pd.sendFloat("stopBang",stopBang);
 }
 
 void mouseReleased() {
   check = 0;
 }
 
-void graphicChoice() {
-  //println("GraphicsChooser: ",graphicChooser[1]);
+void graphicChoice() {//graphicsChooser value determines what should be drawn on the screen as well as colours modes
   if (graphicChooser[1] == 1) { //Spots
     choice = 1; //Solid
     select = 5; //Diagonal
@@ -506,6 +484,7 @@ void graphicChoice() {
     select = 4;
   }
 
+    //Set background to black (this was made perminent after testing white backgrounds)
     BGhue = 0;
     BGsat = 0;
     BGbri = 0;
@@ -514,56 +493,10 @@ void graphicChoice() {
   } else {
      colorBright = 2;
   }
-  // if (select == 3) { //Black BG, flat colours
-  //   BGhue = 0;
-  //   BGsat = 0;
-  //   BGbri = 0;
-  //   colorBright = 1;
-  // } else if (select == 4) { //Black BG, bright colours
-  //   BGhue = 0;
-  //   BGsat = 0;
-  //   BGbri = 0;
-  //   colorBright = 2;
-  // } else if (select == 5) { //White BG, flat colours
-  //   BGhue = 0;
-  //   BGsat = 0;
-  //   BGbri = 100;
-  //   colorBright = 1;
-  // } else if (select == 6) { //White BG, bright colours
-  //   BGhue = 0;
-  //   BGsat = 0;
-  //   BGbri = 100;
-  //   colorBright = 2;
-  // }
 }
 
-void halfScreen(){
-
-  if(choice == 7){
-    //LeftSide
-    noStroke();
-    fill(0,0,100);
-    rect(0,0,canX/2,canY);
-    //RightSide
-    noStroke();
-    fill(0,100,70);
-    rect(canX/2,0,canX/2,canY);
-  } else if(choice == 8){
-    //LeftSide
-    noStroke();
-    fill(108,94,30);
-    rect(0,0,canX/2,canY);
-    //RightSide
-    noStroke();
-    fill(0,0,100);
-    rect(canX/2,0,canX/2,canY);
-  }
-}
-
-void keyPressed() {
-
+void keyPressed() {//This is used for testing with a user input only, this is not needed to be understood
   select = Character.digit(key, 10);
-  
   setFader();
   //state = select;
   println("Select: ", select);
@@ -573,7 +506,6 @@ void keyPressed() {
     state++;
     graphicChooser[0] += 1;//select;
   }
-
   if(select == 1){
     state--;
     graphicChooser[0] -= 1;//select;
@@ -585,15 +517,13 @@ void keyReleased() {
   pressed = false;
 }
 
-void runCircleClass() {
+void runCircleClass() {//Runs all the circle objects
 
-  // background(-1);
-
-  singer1.setBright(PART1.getPitch());
+  singer1.setBright(PART1.getPitch());              //Pass appropriate data to object
   singer1.setSize(PART1.getDuration());
   singer1.setSecondPassed(PART1.getSecondPassed());
   singer1.setNext(PART1.getNext());
-  singer1.drawCir(canX/4, canY/4);
+  singer1.drawCir(canX/4, canY/4);                  //Draw the circle using the data
 
   singer2.setBright(PART2.getPitch());
   singer2.setSize(PART2.getDuration());
@@ -624,16 +554,11 @@ void runCircleClass() {
   singer6.setSecondPassed(PART6.getSecondPassed());
   singer6.setNext(PART6.getNext());
   singer6.drawCir(canX*3/4, canY*3/4);
-
-  //  float imgX = random(-5, 5);
-  //  float imgY = random(-5, 5);
 }
 
-void runSquigleClass() {
+void runSquigleClass() {//Runs all squigle objects
 
-
-
-  sq1.calcShape(PART1.getDuration(), PART1.getLvl(), canX/4, canY/4);
+  sq1.calcShape(PART1.getDuration(), PART1.getLvl(), canX/4, canY/4); //Pass in appropriate data to objects
   sq1.edgeCheck();
   sq1.drawShape();
 
@@ -658,17 +583,10 @@ void runSquigleClass() {
   sq6.edgeCheck();
 }
 
-void runReverbClass(){
+void PD() {//Used to send data to PD (Commented out to avoid error if user does not have appropriate libraries)
 
-
-  reverb1.drawRings(PART1.getNext());
-
-}
-
-void PD() {
-
-  pd.sendFloat("frequency1", (float)PART1.getPitch());
-  pd.sendFloat("lvl1", PART1.getLvl());
+  // pd.sendFloat("frequency1", (float)PART1.getPitch());
+  // pd.sendFloat("lvl1", PART1.getLvl());
 
   // pd.sendFloat("frequency2", (float)PART2.getPitch());
   // pd.sendFloat("lvl2", PART2.getLvl());
@@ -686,8 +604,26 @@ void PD() {
   // pd.sendFloat("lvl6", PART6.getLvl());
 }
 
-void runRectangles() {
 
+
+void runArchClass(){ //Runs Archs class (dissonance part of the piece)
+  if(choice == 6){//Only runs if graphicsChooser sets choice = 6
+  arch1.getNext(PART1.getNext(),PART2.getNext());
+  arch2.getNext(PART3.getNext(),PART4.getNext());
+  arch3.getNext(PART5.getNext(),PART6.getNext());
+
+  arch1.getPitch(PART1.getPitch(),PART2.getPitch());
+  arch2.getPitch(PART3.getPitch(),PART4.getPitch());
+  arch3.getPitch(PART5.getPitch(),PART6.getPitch());
+
+  arch1.drawArch();
+  arch2.drawArch();
+  arch3.drawArch();
+  }
+}
+
+/*------------------------------TEST FUNCTIONS ONLY - NOT USED IN FINAL EVENT------------------------------*/
+void runRectangles() {
   colorMode(HSB, 360, 100, 100);
   int colour1 = int(map(PART1.getPitch(), PART1.getMinPitch(), PART1.getMaxPitch(), 0, 360));
   int colour2 = int(map(PART2.getPitch(), PART2.getMinPitch(), PART2.getMaxPitch(), 0, 360));
@@ -714,23 +650,6 @@ void runRectangles() {
   drawRect(colour6, 100, 100, 70, 10);
 }
 
-void runArchClass(){
-  if(choice == 6){
-
-  arch1.getNext(PART1.getNext(),PART2.getNext());
-  arch2.getNext(PART3.getNext(),PART4.getNext());
-  arch3.getNext(PART5.getNext(),PART6.getNext());
-
-  arch1.getPitch(PART1.getPitch(),PART2.getPitch());
-  arch2.getPitch(PART3.getPitch(),PART4.getPitch());
-  arch3.getPitch(PART5.getPitch(),PART6.getPitch());
-
-  arch1.drawArch();
-  arch2.drawArch();
-  arch3.drawArch();
-  }
-}
-
 void drawRect(int col, int posX, int posY, int size, int tran) {
   int colour = col;
 
@@ -752,6 +671,5 @@ void drawRect(int col, int posX, int posY, int size, int tran) {
   fill(colour, 100, 100, tran);
   rect(posX, posY, size, size);
 }
-
-
+/*------------------------------TEST FUNCTIONS ONLY - NOT USED IN FINAL EVENT------------------------------*/
 

@@ -5,7 +5,7 @@
 
 
 
-void glowBrightnessCounter(int fadeSpeed, int maxBright, int minBright){
+void glowBrightnessCounter(int fadeSpeed, int maxBright, int minBright){//Makes Lights glow at a set rate
     fadeCounter++;
     if (fadeCounter >= fadeSpeed) {
       fadeCounter = 0;
@@ -25,7 +25,7 @@ void glowBrightnessCounter(int fadeSpeed, int maxBright, int minBright){
   }
 }
 
-void slowBrightnessCounter(int fadeSpeed, int maxBright){
+void slowBrightnessCounter(int fadeSpeed, int maxBright){ //Starts at value and then increases
   fadeCounter++;
     if (fadeCounter >= fadeSpeed) {
       fadeCounter = 0;
